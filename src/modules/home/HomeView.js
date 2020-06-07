@@ -1,121 +1,190 @@
 import React from 'react';
 import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
   ImageBackground,
+  StyleSheet,
+  TouchableOpacity,
+  View,
 } from 'react-native';
+import { Icon } from 'react-native-elements';
 
-import { fonts, colors } from '../../styles';
 import { Text } from '../../components/StyledText';
+import { colors, fonts } from '../../styles';
+import ArchitectureIcon from '../../../assets/icons/construction.svg';
+import CivilIcon from '../../../assets/icons/worker.svg';
+import CarpenterIcon from '../../../assets/icons/toolbox.svg';
+import MasonIcon from '../../../assets/icons/mason.svg';
+import ElectricianIcon from '../../../assets/icons/electrician.svg';
+import WelderIcon from '../../../assets/icons/welder.svg';
+import PlumberIcon from '../../../assets/icons/pipeline.svg';
+import TilesStoneIcon from '../../../assets/icons/floor.svg';
+import HomeDecorIcon from '../../../assets/icons/furniture.svg';
 
-export default function HomeScreen({ isExtended, setIsExtended }) {
-  // const rnsUrl = 'https://reactnativestarter.com';
-  // const handleClick = () => {
-  //   Linking.canOpenURL(rnsUrl).then(supported => {
-  //     if (supported) {
-  //       Linking.openURL(rnsUrl);
-  //     } else {
-  //       console.log(`Don't know how to open URI: ${rnsUrl}`);
-  //     }
-  //   });
-  // };
+export default class HomeScreen extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      more: false,
+    };
+  }
 
-  return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require('../../../assets/images/background.png')}
-        style={styles.bgImage}
-        resizeMode="cover"
-      >
-        <View style={styles.section}>
-          <Text size={20} white>
-            Home
-          </Text>
-        </View>
-        <View style={styles.section}>
-          <Text color="#19e7f7" size={15}>
-            The smartest Way to build your mobile app
-          </Text>
-          <Text size={30} bold white style={styles.title}>
-            React Native Starter
-          </Text>
-        </View>
-        <View style={[styles.section, styles.sectionLarge]}>
-          <Text color="#19e7f7" hCenter size={15} style={styles.description}>
-            {' '}
-            A powerful starter project that bootstraps development of your
-            mobile application and saves you $20 000*
-          </Text>
-          <View style={styles.priceContainer}>
-            <View style={{ flexDirection: 'row' }}>
-              <Text white bold size={50} style={styles.price}>
-                {isExtended ? '$199.95' : '$49.95'}
-              </Text>
+  toggleMore = () => {
+    this.setState(state => ({
+      more: !state.more,
+    }));
+  };
+
+  render() {
+    const { more } = this.state;
+    const { navigation } = this.props;
+    return (
+      <View style={styles.container}>
+        <ImageBackground
+          source={require('../../../assets/images/background.png')}
+          style={styles.bgImage}
+          resizeMode="cover"
+        >
+          <View>
+            <View style={styles.row}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('arch')}
+                style={styles.item}
+              >
+                <ArchitectureIcon />
+                <Text style={styles.itemText}>Architecture</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('civil')}
+                style={styles.item}
+              >
+                <CivilIcon />
+                <Text style={styles.itemText}>Civil Engineer</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('mason')}
+                style={styles.item}
+              >
+                <MasonIcon />
+                <Text style={styles.itemText}>Mason (with Labour)</Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity
-              style={styles.priceLink}
-              onPress={() =>
-                isExtended ? setIsExtended(false) : setIsExtended(true)
-              }
-            >
-              <Text white size={14}>
-                {isExtended
-                  ? 'Multiple Applications License'
-                  : 'Single Application License'}
-              </Text>
-            </TouchableOpacity>
+            <View style={styles.row}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('carpenter')}
+                style={styles.item}
+              >
+                <CarpenterIcon />
+                <Text style={styles.itemText}>Carpenter</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('electrician')}
+                style={styles.item}
+              >
+                <ElectricianIcon />
+                <Text style={styles.itemText}>Electrician</Text>
+              </TouchableOpacity>
+              {!more ? (
+                <TouchableOpacity onPress={this.toggleMore} style={styles.item}>
+                  <Icon
+                    name="grid"
+                    type="simple-line-icon"
+                    color="white"
+                    size={30}
+                  />
+                  <Text style={styles.itemText}>More</Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('plumber')}
+                  style={styles.item}
+                >
+                  <PlumberIcon />
+                  <Text style={styles.itemText}>Plumber</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+            {more && (
+              <View style={styles.row}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('painter')}
+                  style={styles.item}
+                >
+                  <Icon name="format-paint" color="white" size={30} />
+                  <Text style={styles.itemText}>Painter</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('welder')}
+                  style={styles.item}
+                >
+                  <WelderIcon />
+                  <Text style={styles.itemText}>Welder</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('tiles')}
+                  style={styles.item}
+                >
+                  <TilesStoneIcon />
+                  <Text style={styles.itemText}>Tiles / Stone / Flooring</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+            {more && (
+              <View style={styles.row}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('home-decor')}
+                  style={styles.item}
+                >
+                  <HomeDecorIcon />
+                  <Text style={styles.itemText}>Home Decoration</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.item} />
+                <TouchableOpacity onPress={this.toggleMore} style={styles.item}>
+                  <Icon
+                    name="arrow-up"
+                    type="simple-line-icon"
+                    color="white"
+                    size={28}
+                  />
+                  <Text style={styles.itemText}>Less</Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
-        </View>
-      </ImageBackground>
-    </View>
-  );
+        </ImageBackground>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'space-around',
+    backgroundColor: colors.white,
+    paddingTop: 0,
   },
   bgImage: {
     flex: 1,
     marginHorizontal: -20,
   },
-  section: {
+  row: {
+    flexDirection: 'row',
+    paddingHorizontal: 25,
+    marginTop: 10,
+  },
+  item: {
     flex: 1,
-    paddingHorizontal: 20,
-    justifyContent: 'center',
+    height: 'auto',
+    paddingVertical: 10,
     alignItems: 'center',
-  },
-  sectionLarge: {
-    flex: 2,
     justifyContent: 'space-around',
+    marginHorizontal: 5,
   },
-  sectionHeader: {
-    marginBottom: 8,
-  },
-  priceContainer: {
-    alignItems: 'center',
-  },
-  description: {
-    padding: 15,
-    lineHeight: 25,
-  },
-  titleDescription: {
-    color: '#19e7f7',
+  itemText: {
+    color: colors.white,
+    fontFamily: fonts.primary,
     textAlign: 'center',
-    fontFamily: fonts.primaryRegular,
-    fontSize: 15,
+    height: 40,
   },
-  title: {
-    marginTop: 30,
-  },
-  price: {
-    marginBottom: 5,
-  },
-  priceLink: {
-    borderBottomWidth: 1,
-    borderBottomColor: colors.primary,
+  itemImage: {
+    height: 35,
   },
 });

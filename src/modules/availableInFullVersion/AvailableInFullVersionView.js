@@ -10,6 +10,7 @@ import {
 
 import { fonts, colors } from '../../styles';
 import { Button } from '../../components';
+import { Icon } from 'react-native-elements';
 
 export default function AvailableInFullVersionScreen(props) {
   const rnsUrl = 'https://reactnativestarter.com';
@@ -28,33 +29,21 @@ export default function AvailableInFullVersionScreen(props) {
       source={require('../../../assets/images/background.png')}
       style={styles.container}
     >
-      <Image
-        source={require('../../../assets/images/RNS_nerd.png')}
-        style={styles.nerdImage}
-      />
+      <Icon name="gears" type="font-awesome" size={150} color="#00000666" />
 
       <View style={styles.textContainer}>
-        <Text style={styles.availableText}>Available</Text>
+        <Text style={styles.availableText}>Currently</Text>
         <Text style={styles.availableText}>in</Text>
-        <Text style={styles.availableText}>Full Version</Text>
+        <Text style={styles.availableText}>Development</Text>
       </View>
 
       <View style={styles.buttonsContainer}>
         <Button
           large
-          secondary
-          rounded
-          style={styles.button}
-          caption="Purchase Now"
-          onPress={() => handleClick()}
-        />
-
-        <Button
-          large
           bordered
           rounded
           style={styles.button}
-          caption="Later"
+          caption="Home"
           onPress={() => props.navigation.goBack()}
         />
       </View>
@@ -69,10 +58,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     paddingVertical: 50,
     justifyContent: 'space-around',
-  },
-  nerdImage: {
-    width: 80,
-    height: 80,
   },
   availableText: {
     color: colors.white,

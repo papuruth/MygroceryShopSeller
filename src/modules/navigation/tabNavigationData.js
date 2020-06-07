@@ -16,26 +16,26 @@ const tabNavigationData = [
     component: HomeScreen,
     icon: iconHome,
   },
-  {
-    name: 'Calendar',
-    component: CalendarScreen,
-    icon: iconCalendar,
-  },
-  {
-    name: 'Grids',
-    component: GridsScreen,
-    icon: iconGrids,
-  },
-  {
-    name: 'Pages',
-    component: PagesScreen,
-    icon: iconPages,
-  },
-  {
-    name: 'Components',
-    component: ComponentsScreen,
-    icon: iconComponents,
-  },
+//   {
+//     name: 'Calendar',
+//     component: CalendarScreen,
+//     icon: iconCalendar,
+//   },
+//   {
+//     name: 'Grids',
+//     component: GridsScreen,
+//     icon: iconGrids,
+//   },
+//   {
+//     name: 'Pages',
+//     component: PagesScreen,
+//     icon: iconPages,
+//   },
+//   {
+//     name: 'Components',
+//     component: ComponentsScreen,
+//     icon: iconComponents,
+//   },
 ];
 
 export default tabNavigationData;
