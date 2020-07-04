@@ -92,6 +92,7 @@ const drawerData = [
 const Drawer = createDrawerNavigator();
 
 function CustomDrawerContent(props) {
+
   return (
     <DrawerContentScrollView {...props} style={{ padding: 0 }}>
       <View style={styles.drawerHeader}>
@@ -110,7 +111,7 @@ function CustomDrawerContent(props) {
           </View>
         </View>
         <View style={styles.buttonContainer}>
-          <Button bordered rounded caption="Login" icon={iconLogin} />
+          <Button bordered rounded caption="Login" icon={iconLogin} onPress={() => { props.navigation.navigate('login') }}/>
           <Button bordered rounded caption="Signup" icon={iconSignup} />
         </View>
       </View>

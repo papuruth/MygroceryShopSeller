@@ -10,6 +10,7 @@ import AvailableInFullVersion from '../availableInFullVersion/AvailableInFullVer
 import { colors, fonts } from '../../styles';
 import GalleryScreen from '../gallery/GalleryViewContainer';
 import TabNavigator from './MainTabNavigator';
+import LoginView from '../home/Login'
 
 
 
@@ -219,6 +220,18 @@ const StackNavigationData = [
     name: 'Settings',
     path: 'setting',
     component: AvailableInFullVersion,
+    headerLeft: headerLeftComponent,
+    headerBackground: { source: headerBackground },
+    headerTitleStyle: {
+      fontFamily: fonts.primaryRegular,
+      color: colors.white,
+      fontSize: 18,
+    },
+  },
+  {
+    name: 'Login',
+    path: 'login',
+    component: LoginView,
     headerLeft: headerLeftComponent,
     headerBackground: { source: headerBackground },
     headerTitleStyle: {
