@@ -13,7 +13,7 @@ import { colors, fonts } from '../styles';
 
 const borderRadius = 40;
 
-export default function RNSButton(props) {
+export default function Button(props) {
   const caption = props.caption && props.caption.toUpperCase();
   let icon;
   if (props.icon) {
