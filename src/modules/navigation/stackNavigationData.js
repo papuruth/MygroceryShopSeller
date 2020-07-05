@@ -5,6 +5,7 @@ import AvailableInFullVersion from '../availableInFullVersion/AvailableInFullVer
 import RegisterScreen from '../register/RegisterViewContainer';
 import TabNavigator from './MainTabNavigator';
 import LoginView from '../login/LoginViewContainer';
+import GalleryScreen from '../gallery/GalleryView';
 
 const headerLeftComponent = props => (
   <TouchableOpacity

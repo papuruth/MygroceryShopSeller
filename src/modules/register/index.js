@@ -14,6 +14,7 @@ import {
 import { RNCamera } from 'react-native-camera';
 import { CheckBox, Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import Lightbox from 'react-native-lightbox';
 import { Dropdown, Button } from '../../components';
 import { Lang } from './lang';
 
@@ -202,12 +203,13 @@ const styles = StyleSheet.create({
     top: 0,
   },
   docPreviewContainer: {
+    width: 200,
     paddingTop: 10,
     paddingLeft: 10,
   },
   docPreview: {
-    width: 60,
-    height: 60,
+    flex: 1,
+    height: 200,
   },
 });
 
@@ -445,7 +447,6 @@ export default class RegisterScreen extends Component {
   };
 
   openCammera = () => {
-    console.log('camera opened');
     this.setState({
       openCamera: true,
     });
@@ -684,7 +685,9 @@ export default class RegisterScreen extends Component {
               </View>
               {docUri !== null && (
                 <View style={styles.docPreviewContainer}>
-                  <Image style={styles.docPreview} source={{ uri: docUri }} />
+                  <Lightbox>
+                    <Image style={styles.docPreview} source={{ uri: docUri }} />
+                  </Lightbox>
                 </View>
               )}
             </View>
