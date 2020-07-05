@@ -1,26 +1,17 @@
 import React from 'react';
 import { Image, TouchableOpacity } from 'react-native';
-import AvailableInFullVersion from '../availableInFullVersion/AvailableInFullVersionViewContainer';
-// import ProfileScreen from '../profile/ProfileViewContainer';
-// import ArticleScreen from '../article/ArticleViewContainer';
-// import ChatScreen from '../chat/ChatViewContainer';
-// import MessagesScreen from '../chat/MessagesViewContainer';
-// import ChartsScreen from '../charts/ChartsViewContainer';
-// import AuthScreen from '../auth/AuthViewContainer';
 import { colors, fonts } from '../../styles';
-import GalleryScreen from '../gallery/GalleryViewContainer';
+import AvailableInFullVersion from '../availableInFullVersion/AvailableInFullVersionViewContainer';
+import RegisterScreen from '../register/RegisterViewContainer';
 import TabNavigator from './MainTabNavigator';
 
-
-
-const headerLeftComponent = props => {
+const headerLeftComponent = (props) => {
   return (
     <TouchableOpacity
       onPress={props.onPress}
       style={{
         paddingLeft: 10,
-      }}
-    >
+      }}>
       <Image
         source={require('../../../assets/images/icons/arrow-back.png')}
         resizeMode="contain"
@@ -226,7 +217,19 @@ const StackNavigationData = [
       color: colors.white,
       fontSize: 18,
     },
-  }
+  },
+  {
+    name: 'Register',
+    path: 'register',
+    component: RegisterScreen,
+    headerLeft: headerLeftComponent,
+    headerBackground: { source: headerBackground },
+    headerTitleStyle: {
+      fontFamily: fonts.primaryRegular,
+      color: colors.white,
+      fontSize: 18,
+    },
+  },
 ];
 
 export default StackNavigationData;

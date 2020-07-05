@@ -111,7 +111,7 @@ function CustomDrawerContent(props) {
         </View>
         <View style={styles.buttonContainer}>
           <Button bordered rounded caption="Login" icon={iconLogin} />
-          <Button bordered rounded caption="Signup" icon={iconSignup} />
+          <Button bordered rounded caption="Signup" icon={iconSignup} onPress={() => props.navigation.navigate('register')} />
         </View>
       </View>
       <View style={styles.divider} />

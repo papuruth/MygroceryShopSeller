@@ -3,7 +3,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
-import reducer from './reducer';
+import rootReducer from '../redux/root-reducer';
 
 const enhancers = [
   applyMiddleware(
@@ -17,11 +17,10 @@ const enhancers = [
 ];
 
 /* eslint-disable no-undef */
-const composeEnhancers =
-  (__DEV__ &&
-    typeof window !== 'undefined' &&
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
-  compose;
+const composeEnhancers = (__DEV__
+    && typeof window !== 'undefined'
+    && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__)
+  || compose;
 /* eslint-enable no-undef */
 
 const enhancer = composeEnhancers(...enhancers);
@@ -32,6 +31,6 @@ const persistConfig = {
   blacklist: [],
 };
 
-const persistedReducer = persistReducer(persistConfig, reducer);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = createStore(persistedReducer, {}, enhancer);
 export const persistor = persistStore(store);

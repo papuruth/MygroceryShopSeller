@@ -1,10 +1,18 @@
 {
-  "trailingComma": "all",
+  "arrowParens": "always",
+  "bracketSpacing": true,
+  "jsxBracketSameLine": true,
+  "jsxSingleQuote": false,
   "semi": true,
   "singleQuote": true,
-  "bracketSpacing": true,
-  "jsxBracketSameLine": false,
   "tabWidth": 2,
-  "endOfLine": "lf",
-  "parser": "flow"
+  "trailingComma": "all",
+  "overrides": [
+    {
+      "files": "*.md",
+      "options": {
+        "singleQuote": false
+      }
+    }
+  ]
 }

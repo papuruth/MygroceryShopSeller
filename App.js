@@ -1,13 +1,20 @@
-import { Provider } from 'react-redux';
-import React from 'react';
-import { View, ActivityIndicator, StyleSheet } from 'react-native';
-import { PersistGate } from 'redux-persist/integration/react';
 import { NavigationContainer } from '@react-navigation/native';
+import React from 'react';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import AppView from './src/modules/AppViewContainer';
+import { persistor, store } from './src/store';
 import { colors } from './src/styles';
 
-import { store, persistor } from './src/redux/store';
-
-import AppView from './src/modules/AppViewContainer';
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
+});
 
 export default function App() {
   return (
@@ -28,12 +35,3 @@ export default function App() {
     </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-  },
-});

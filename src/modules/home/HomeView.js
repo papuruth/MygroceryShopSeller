@@ -6,6 +6,7 @@ import {
   View,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import PropTypes from 'prop-types';
 
 import { Text } from '../../components/StyledText';
 import { colors, fonts } from '../../styles';
@@ -18,6 +19,40 @@ import WelderIcon from '../../../assets/icons/welder.svg';
 import PlumberIcon from '../../../assets/icons/pipeline.svg';
 import TilesStoneIcon from '../../../assets/icons/floor.svg';
 import HomeDecorIcon from '../../../assets/icons/furniture.svg';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.white,
+    paddingTop: 0,
+  },
+  bgImage: {
+    flex: 1,
+    marginHorizontal: -20,
+  },
+  row: {
+    flexDirection: 'row',
+    paddingHorizontal: 25,
+    marginTop: 10,
+  },
+  item: {
+    flex: 1,
+    height: 'auto',
+    paddingVertical: 10,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    marginHorizontal: 5,
+  },
+  itemText: {
+    color: colors.white,
+    fontFamily: fonts.primary,
+    textAlign: 'center',
+    height: 40,
+  },
+  itemImage: {
+    height: 35,
+  },
+});
 
 export default class HomeScreen extends React.PureComponent {
   constructor(props) {
@@ -155,36 +190,6 @@ export default class HomeScreen extends React.PureComponent {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.white,
-    paddingTop: 0,
-  },
-  bgImage: {
-    flex: 1,
-    marginHorizontal: -20,
-  },
-  row: {
-    flexDirection: 'row',
-    paddingHorizontal: 25,
-    marginTop: 10,
-  },
-  item: {
-    flex: 1,
-    height: 'auto',
-    paddingVertical: 10,
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    marginHorizontal: 5,
-  },
-  itemText: {
-    color: colors.white,
-    fontFamily: fonts.primary,
-    textAlign: 'center',
-    height: 40,
-  },
-  itemImage: {
-    height: 35,
-  },
-});
+HomeScreen.propTypes = {
+  navigation: PropTypes.oneOfType([PropTypes.object]).isRequired,
+};

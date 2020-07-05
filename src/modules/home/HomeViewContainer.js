@@ -1,7 +1,6 @@
-import { compose, withState } from 'recompose';
-
+import { connect } from 'react-redux';
 import HomeScreen from './HomeView';
 
-export default compose(withState('isExtended', 'setIsExtended', false))(
-  HomeScreen,
-);
+const mapStateToProps = _state => ({});
+
+export default connect(mapStateToProps)(HomeScreen);
