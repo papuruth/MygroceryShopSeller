@@ -4,6 +4,7 @@ import { colors, fonts } from '../../styles';
 import AvailableInFullVersion from '../availableInFullVersion/AvailableInFullVersionViewContainer';
 import RegisterScreen from '../register/RegisterViewContainer';
 import TabNavigator from './MainTabNavigator';
+import LoginView from '../home/Login'
 
 const headerLeftComponent = (props) => {
   return (
@@ -219,6 +220,18 @@ const StackNavigationData = [
     },
   },
   {
+    name: 'Login',
+    path: 'login',
+    component: LoginView,
+    headerLeft: headerLeftComponent,
+    headerBackground: { source: headerBackground },
+    headerTitleStyle: {
+      fontFamily: fonts.primaryRegular,
+      color: colors.white,
+      fontSize: 18,
+    },
+  },
+  {
     name: 'Register',
     path: 'register',
     component: RegisterScreen,
@@ -229,7 +242,7 @@ const StackNavigationData = [
       color: colors.white,
       fontSize: 18,
     },
-  },
+  }
 ];
 
 export default StackNavigationData;

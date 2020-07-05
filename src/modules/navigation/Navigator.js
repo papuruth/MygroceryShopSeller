@@ -37,56 +37,56 @@ const drawerData = [
     path: 'home',
     icon: iconHome,
   },
-//   {
-//     name: 'Architecture',
-//     path: 'arch',
-//     icon: iconArchitect,
-//   },
-//   {
-//     name: 'Civil Engineer',
-//     path: 'civil',
-//     icon: iconCivil,
-//   },
-//   {
-//     name: 'Mason',
-//     path: 'mason',
-//     icon: iconMason,
-//   },
-//   {
-//     name: 'Carpenter',
-//     path: 'carpenter',
-//     icon: iconCarpenter,
-//   },
-//   {
-//     name: 'Electrician',
-//     path: 'electrician',
-//     icon: iconElectrician,
-//   },
-//   {
-//     name: 'Plumber',
-//     path: 'plumber',
-//     icon: iconPlumber,
-//   },
-//   {
-//     name: 'Painter',
-//     path: 'painter',
-//     icon: iconPainter,
-//   },
-//   {
-//     name: 'Welder',
-//     path: 'welder',
-//     icon: iconWelder,
-//   },
-//   {
-//     name: 'Tiles / Stones / Flooring',
-//     path: 'tiles',
-//     icon: iconTiles,
-//   },
-//   {
-//     name: 'Home Decoration',
-//     path: 'home-decor',
-//     icon: iconHomeDecor,
-//   },
+  //   {
+  //     name: 'Architecture',
+  //     path: 'arch',
+  //     icon: iconArchitect,
+  //   },
+  //   {
+  //     name: 'Civil Engineer',
+  //     path: 'civil',
+  //     icon: iconCivil,
+  //   },
+  //   {
+  //     name: 'Mason',
+  //     path: 'mason',
+  //     icon: iconMason,
+  //   },
+  //   {
+  //     name: 'Carpenter',
+  //     path: 'carpenter',
+  //     icon: iconCarpenter,
+  //   },
+  //   {
+  //     name: 'Electrician',
+  //     path: 'electrician',
+  //     icon: iconElectrician,
+  //   },
+  //   {
+  //     name: 'Plumber',
+  //     path: 'plumber',
+  //     icon: iconPlumber,
+  //   },
+  //   {
+  //     name: 'Painter',
+  //     path: 'painter',
+  //     icon: iconPainter,
+  //   },
+  //   {
+  //     name: 'Welder',
+  //     path: 'welder',
+  //     icon: iconWelder,
+  //   },
+  //   {
+  //     name: 'Tiles / Stones / Flooring',
+  //     path: 'tiles',
+  //     icon: iconTiles,
+  //   },
+  //   {
+  //     name: 'Home Decoration',
+  //     path: 'home-decor',
+  //     icon: iconHomeDecor,
+  //   },
 ];
 
 const Drawer = createDrawerNavigator();
@@ -97,8 +97,7 @@ function CustomDrawerContent(props) {
       <View style={styles.drawerHeader}>
         <View style={styles.avatarContainer}>
           <TouchableHighlight
-            onPress={() => props.navigation.navigate('profile')}
-          >
+            onPress={() => props.navigation.navigate('profile')}>
             <Image
               style={styles.avatar}
               source={require('../../../assets/images/drawer/user.png')}
@@ -110,8 +109,24 @@ function CustomDrawerContent(props) {
           </View>
         </View>
         <View style={styles.buttonContainer}>
-          <Button bordered rounded caption="Login" icon={iconLogin} />
-          <Button bordered rounded caption="Signup" icon={iconSignup} onPress={() => props.navigation.navigate('register')} />
+          <Button
+            bordered
+            rounded
+            caption="Login"
+            icon={iconLogin}
+            onPress={() => {
+              props.navigation.navigate('login');
+            }}
+          />
+          <Button
+            bordered
+            rounded
+            caption="Signup"
+            icon={iconSignup}
+            onPress={() => {
+              props.navigation.navigate('register');
+            }}
+          />
         </View>
       </View>
       <View style={styles.divider} />
@@ -148,8 +163,7 @@ export default function App() {
         backgroundColor: '#3C38B1',
         width: '85%',
       }}
-      drawerContent={props => <CustomDrawerContent {...props} />}
-    >
+      drawerContent={(props) => <CustomDrawerContent {...props} />}>
       <Drawer.Screen name="Homes" component={NavigatorView} />
     </Drawer.Navigator>
   );
