@@ -4,25 +4,24 @@ import { colors, fonts } from '../../styles';
 import AvailableInFullVersion from '../availableInFullVersion/AvailableInFullVersionViewContainer';
 import RegisterScreen from '../register/RegisterViewContainer';
 import TabNavigator from './MainTabNavigator';
-import LoginView from '../home/Login'
+import LoginView from '../login/LoginViewContainer';
 
-const headerLeftComponent = (props) => {
-  return (
-    <TouchableOpacity
-      onPress={props.onPress}
+const headerLeftComponent = props => (
+  <TouchableOpacity
+    onPress={props.onPress}
+    style={{
+      paddingLeft: 10,
+    }}
+  >
+    <Image
+      source={require('../../../assets/images/icons/arrow-back.png')}
+      resizeMode="contain"
       style={{
-        paddingLeft: 10,
-      }}>
-      <Image
-        source={require('../../../assets/images/icons/arrow-back.png')}
-        resizeMode="contain"
-        style={{
-          height: 20,
-        }}
-      />
-    </TouchableOpacity>
-  );
-};
+        height: 20,
+      }}
+    />
+  </TouchableOpacity>
+);
 
 const headerBackground = require('../../../assets/images/topBarBg.png');
 
@@ -242,7 +241,7 @@ const StackNavigationData = [
       color: colors.white,
       fontSize: 18,
     },
-  }
+  },
 ];
 
 export default StackNavigationData;
