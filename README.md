@@ -28,7 +28,3 @@ yarn run:android
 ```
 
 That's it! Cool, right?
-
-## License
-
-[Mozilla Public License 2.0](LICENSE)
