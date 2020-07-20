@@ -1,6 +1,6 @@
 {
   "parser": "babel-eslint",
-  "extends": ["airbnb"],
+  "extends": ["airbnb", "prettier"],
   "env": {
     "jest": true
   },
@@ -9,9 +9,10 @@
     "camelcase": "off",
     "global-require": "off",
     "no-console": "off",
+    "no-undef": "off",
+    "max-len": ["error", { "code": 300 }],
     "implicit-arrow-linebreak": "off",
     "jsx-a11y/label-has-associated-control": "off",
-    "react/jsx-props-no-spreading": "off",
     "import/prefer-default-export": "off",
     "no-underscore-dangle": "off",
     "react/destructuring-assignment": "off",

@@ -1,36 +1,30 @@
-import { applyMiddleware, createStore, compose } from 'redux';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import { applyMiddleware, compose, createStore } from 'redux';
+import { sessionService } from 'redux-react-native-session';
+import createSagaMiddleware from 'redux-saga';
 import thunkMiddleware from 'redux-thunk';
-import { createLogger } from 'redux-logger';
+import { persistStore, persistReducer } from 'redux-persist';
+import AsyncStorage from '@react-native-community/async-storage';
 import rootReducer from '../redux/root-reducer';
+import sagas from '../redux/root-saga';
 
-const enhancers = [
-  applyMiddleware(
-    thunkMiddleware,
-    createLogger({
-      collapsed: true,
-      // eslint-disable-next-line no-undef
-      predicate: () => __DEV__,
-    }),
-  ),
-];
-
-/* eslint-disable no-undef */
-const composeEnhancers = (__DEV__
-    && typeof window !== 'undefined'
-    && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__)
-  || compose;
-/* eslint-enable no-undef */
-
-const enhancer = composeEnhancers(...enhancers);
+const sagaMiddleware = createSagaMiddleware();
+const middlewares = [sagaMiddleware, thunkMiddleware];
 
 const persistConfig = {
   key: 'root',
-  storage,
-  blacklist: [],
+  storage: AsyncStorage,
+  blacklist: ['loaderReducer'],
 };
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-export const store = createStore(persistedReducer, {}, enhancer);
-export const persistor = persistStore(store);
+
+const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(...middlewares)));
+
+const persistor = persistStore(store);
+
+sagaMiddleware.run(sagas);
+sessionService.initSessionService(store);
+
+export { store, persistor };

@@ -1,9 +1,9 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Platform, StyleSheet, UIManager, View } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import AppView from './src/modules/AppViewContainer';
+import Navigator from './src/containers/App';
 import { persistor, store } from './src/store';
 import { colors } from './src/styles';
 
@@ -16,22 +16,31 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function App() {
-  return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <PersistGate
-          loading={
-            // eslint-disable-next-line react/jsx-wrap-multilines
-            <View style={styles.container}>
-              <ActivityIndicator color={colors.red} />
-            </View>
-          }
-          persistor={persistor}
-        >
-          <AppView />
-        </PersistGate>
-      </NavigationContainer>
-    </Provider>
-  );
+export default class App extends React.PureComponent {
+  componentDidMount() {
+    if (Platform.OS === 'android') {
+      if (UIManager.setLayoutAnimationEnabledExperimental) {
+        UIManager.setLayoutAnimationEnabledExperimental(true);
+      }
+    }
+  }
+
+  render() {
+    return (
+      <Provider store={store}>
+        <NavigationContainer>
+          <PersistGate
+            loading={(
+              <View style={styles.container}>
+                <ActivityIndicator color={colors.red} />
+              </View>
+            )}
+            persistor={persistor}
+          >
+            <Navigator onNavigationStateChange={() => {}} uriPrefix="/app" />
+          </PersistGate>
+        </NavigationContainer>
+      </Provider>
+    );
+  }
 }

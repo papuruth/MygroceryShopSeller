@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-import userReducer from '../user/userReducer';
-import gallery from '../../modules/gallery/GalleryState';
+import { sessionReducer } from 'redux-react-native-session';
+import userReducer from '../user/UserReducer';
+import loaderReducer from '../loaderService/LoaderReducer'
 
 export default combineReducers({
+  session: sessionReducer,
   userReducer,
-  gallery,
+  loaderReducer,
 });

@@ -1,4 +1,4 @@
-const blueVersion = {
+const COLORS = {
   primary: '#555CC4',
   primaryLight: '#829BF8',
   primaryGradientStart: '#4f44b6',
@@ -18,6 +18,17 @@ const blueVersion = {
   black: '#000000',
   green: '#6DD0A3',
   yellow: '#ffc247',
+  PRIMARY: '#1abc9c',
+    WHITE: '#ffffff',
+    GREEN: '#0da935',
+    LIGHTGRAY: '#C7C7C7',
+    DARKGRAY: '#5E5E5E',
+    CGRAY: '#33393c',
+    PURPLE: '#6659b6',
+    BLUE: '#25a8df',
+    LIGHTERGRAY: '#dbdbdb',
+    ALMOSTWHITE: '#f0f0f0',
+    ERROR: '#f21818',
 };
 
-export default blueVersion;
+export default COLORS;

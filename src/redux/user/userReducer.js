@@ -1,29 +1,52 @@
-import { userConstants } from './userConstants';
+import { USER_CONSTANTS } from './UserConstants';
 
 const initialState = {
   isLoggedIn: false,
-  loading: false,
+  signUpData: {},
+  signUpStatus: false,
+  signUpError: {},
+  locations: [],
+  locationError: {}
 };
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
-    case userConstants.USER_AUTH_REQUEST:
+    case USER_CONSTANTS.USER_AUTH_SUCCESS:
       return {
         ...state,
-        loading: true,
+        isLoggedIn: action.payload.status,
       };
-    case userConstants.USER_AUTH_SUCCESS:
+    case USER_CONSTANTS.USER_AUTH_FAILURE:
       return {
         ...state,
-        loading: false,
-        isLoggedIn: true,
-      };
-    case userConstants.USER_AUTH_FAILURE:
-      return {
-        ...state,
-        loading: false,
         loginError: action.error,
       };
+      case USER_CONSTANTS.USER_REGISTER_REQUEST:
+        return {
+          ...state,
+          signUpError: {},
+        };
+      case USER_CONSTANTS.USER_REGISTER_SUCCESS:
+        console.log(action)
+        return {
+          ...state,
+          signUpStatus: action.payload.status,
+        };
+      case USER_CONSTANTS.USER_REGISTER_FAILURE:
+        return {
+          ...state,
+          signUpError: action.error,
+        };
+        case USER_CONSTANTS.GET_LOCATION_SUCCESS:
+          return {
+            ...state,
+            locations: action.payload.data,
+          };
+        case USER_CONSTANTS.GET_LOCATION_FAILURE:
+          return {
+            ...state,
+            locationError: action.error,
+          };
     default:
       return { ...state };
   }
