@@ -1,12 +1,14 @@
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import React from 'react';
-import { Image, Text, TouchableHighlight, View, StyleSheet } from 'react-native';
+import { Image, Text, TouchableHighlight, View, StyleSheet, Alert } from 'react-native';
 import PropTypes from 'prop-types';
+import { sessionService } from 'redux-react-native-session';
 import APP_CONSTANTS from '../utils/appConstants/AppConstants';
 import { Button } from '../utils/reusableComponents';
+import Storage from '../utils/Storage';
 
 const {
-  IMAGES: { iconHome },
+  IMAGES: { iconHome,iconBooking },
 } = APP_CONSTANTS;
 
 const styles = StyleSheet.create({
@@ -61,11 +63,11 @@ drawerData = [
     path: 'home',
     icon: iconHome,
   },
-  //   {
-  //     name: 'Architecture',
-  //     path: 'arch',
-  //     icon: iconArchitect,
-  //   },
+  {
+    name: 'Bookings',
+    path: 'bookings',
+    icon: iconBooking,
+  }
   //   {
   //     name: 'Civil Engineer',
   //     path: 'civil',
@@ -115,9 +117,23 @@ drawerData = [
 
 export default function RenderDrawer(props) {
   const {
-    IMAGES: { iconUser, iconLogin, iconSignup, iconSettings },
+    IMAGES: { iconUser, iconLogin, iconLogout, iconSignup, iconSettings },
   } = APP_CONSTANTS;
-  const {navigation} = props;
+  const { navigation, authenticated, user } = props;
+  console.log("sdfghj",user)
+  const handleLogout = async () => {
+    await sessionService.deleteSession();
+    await sessionService.deleteUser();
+    await Storage.clearStorage();
+    Alert.alert(
+      'Success',
+      'You have logged out successfully!',
+      [
+        { text: 'OK', onPress: () => navigation.navigate('home') }
+      ],
+      { cancelable: false }
+    );
+  }
   return (
     <DrawerContentScrollView {...props} style={{ padding: 0 }}>
       <View style={styles.drawerHeader}>
@@ -126,32 +142,45 @@ export default function RenderDrawer(props) {
             <Image style={styles.avatar} source={iconUser} />
           </TouchableHighlight>
           <View style={{ paddingLeft: 15 }}>
-            <Text style={styles.userName}>John Doe</Text>
-            <Text style={{ color: '#4BC1FD' }}>Johndoe@gmail.com</Text>
+            <Text style={styles.userName}>{user.name?user.name:"Construct"}</Text>
+            <Text style={{ color: '#4BC1FD' }}>{user.username}</Text>
           </View>
         </View>
-        <View style={styles.buttonContainer}>
-          <Button
-            bordered
-            rounded
-            caption="Login"
-            icon={iconLogin}
-            onPress={() => {
-              navigation.navigate('login');
-            }}
-          />
-          <Button
-            bordered
-            rounded
-            caption="Signup"
-            icon={iconSignup}
-            onPress={() => {
-              navigation.navigate('register');
-            }}
-          />
-        </View>
+        {!authenticated ? (
+          <View style={styles.buttonContainer}>
+            <Button
+              bordered
+              rounded
+              caption="Login"
+              icon={iconLogin}
+              onPress={() => {
+                navigation.navigate('login');
+              }}
+            />
+            <Button
+              bordered
+              rounded
+              caption="Signup"
+              icon={iconSignup}
+              onPress={() => {
+                navigation.navigate('register');
+              }}
+            />
+          </View>
+        ) : (
+          <View style={styles.buttonContainer}>
+            <Button
+              bordered
+              rounded
+              caption="Logout"
+              icon={iconLogout}
+              onPress={handleLogout}
+            />
+          </View>
+        )}
       </View>
       <View style={styles.divider} />
+      {console.log("rtyuiop",drawerData)}
       {drawerData.map((item, idx) => (
         <DrawerItem
           key={`drawer_item-${idx + 1}`}
@@ -180,4 +209,6 @@ export default function RenderDrawer(props) {
 
 RenderDrawer.propTypes = {
   navigation: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  authenticated: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  user: PropTypes.oneOfType([PropTypes.object]).isRequired
 }

@@ -1,4 +1,4 @@
-import { USER_CONSTANTS } from './UserConstants';
+import { USER_CONSTANTS } from './userConstants';
 
 const initialState = {
   isLoggedIn: false,
@@ -27,7 +27,6 @@ export default function userReducer(state = initialState, action) {
           signUpError: {},
         };
       case USER_CONSTANTS.USER_REGISTER_SUCCESS:
-        console.log(action)
         return {
           ...state,
           signUpStatus: action.payload.status,

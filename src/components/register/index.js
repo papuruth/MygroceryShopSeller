@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import { Image, Keyboard, ScrollView, StyleSheet, View, Alert } from 'react-native';
 import { Input } from 'react-native-elements';
 import { loaderStartAction } from '../../redux/loaderService/LoaderAction';
-import { getLocationAction, userSignupAction } from '../../redux/user/UserAction';
+import { getLocationAction, userSignupAction } from '../../redux/user/userAction';
 import { colors } from '../../styles';
 import APP_CONSTANTS from '../../utils/appConstants/AppConstants';
 import { checkEmpty } from '../../utils/commonFunctions';
@@ -243,7 +243,7 @@ export default class RegisterScreen extends Component {
         'Success',
         'Registration is successfull',
         [
-          { text: 'OK', onPress: () => navigation.navigate('home') }
+          { text: 'OK', onPress: () => navigation.navigate('login') }
         ],
         { cancelable: false }
       );

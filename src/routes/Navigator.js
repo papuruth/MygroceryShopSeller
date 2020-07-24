@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 
 export default class App extends React.PureComponent {
   render() {
-    const { loaderService } = this.props;
+    const { loaderService, authenticated, user } = this.props;
     return (
       <>
         <Drawer.Navigator
@@ -31,7 +31,7 @@ export default class App extends React.PureComponent {
             backgroundColor: '#3C38B1',
             width: '85%',
           }}
-          drawerContent={(props) => <RenderDrawer {...props} />}
+          drawerContent={(props) => <RenderDrawer {...props} authenticated={authenticated} user={user} />}
         >
           <Drawer.Screen name="Homes" component={NavigatorView} />
         </Drawer.Navigator>

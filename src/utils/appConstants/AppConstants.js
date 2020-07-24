@@ -29,6 +29,7 @@ const APP_CONSTANTS = {
     iconHomeDecor: require('../../assets/icons/homeDecor.png'),
     iconSettings: require('../../assets/images/drawer/settings.png'),
     iconLogin: require('../../assets/icons/login.png'),
+    iconLogout: require('../../assets/icons/iconLogout.png'),
     iconSignup: require('../../assets/icons/signup.png'),
     iconUser: require('../../assets/images/drawer/user.png'),
     iconMenu: require('../../assets/images/drawer/menu.png'),
@@ -38,6 +39,7 @@ const APP_CONSTANTS = {
     loginIcon: require('../../assets/icons/loginIcon.jpeg'),
     cameraIcon: require('../../assets/icons/camera.png'),
     regIcon: require('../../assets/icons/loginIcon.jpeg'),
+    iconBooking: require('../../assets/images/drawer/bookingIcon.png')
   },
   RegisterForm: {
     name: 'Name',

@@ -243,6 +243,19 @@ const StackNavigationData = [
       fontSize: 18,
     },
   },
+  {
+    name: 'Bookings',
+    path: 'bookings',
+    component: AvailableInFullVersion,
+    headerLeft: headerLeftComponent,
+    headerBackground: { source: headerBackground },
+    headerTitleStyle: {
+      fontFamily: fonts.primaryRegular,
+      color: colors.white,
+      fontSize: 18,
+    },
+  },
+
 ];
 
 export default StackNavigationData;

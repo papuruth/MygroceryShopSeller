@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
+import { Image, StyleSheet, Text, TextInput, TouchableHighlight, View, Alert } from 'react-native';
+import PropTypes from 'prop-types';
 import { Icon } from 'react-native-elements';
+import { loginAction } from '../../redux/user/userAction'
 import APP_CONSTANTS from '../../utils/appConstants/AppConstants';
+import { loaderStartAction } from '../../redux/loaderService/LoaderAction';
+import { equalityChecker } from '../../utils/commonFunctions';
 
 const styles = StyleSheet.create({
   container: {
@@ -67,6 +71,29 @@ export default class LoginView extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    console.log("dsfdhgj", this.props)
+    const { isLoggedIn, navigation, loginError } = this.props
+    if (isLoggedIn) {
+      navigation.navigate('home')
+    } if (!equalityChecker(loginError, prevProps.loginError) && !isLoggedIn) {
+      const { response: { error } } = loginError;
+      Alert.alert('Failure', `Login failed: ${error}`);
+    }
+    return null;
+  }
+
+  handleSubmit = () => {
+    // e.preventDefault();
+    console.log(this.state);
+    const { phone, password } = this.state;
+    if (phone && password) {
+      const { dispatch } = this.props;
+      dispatch(loginAction({ username: phone, password }));
+      dispatch(loaderStartAction());
+    }
+  }
+
   render() {
     const {
       IMAGES: { loginIcon },
@@ -79,16 +106,29 @@ export default class LoginView extends Component {
         </View>
         <View style={styles.inputContainer}>
           <Icon style={styles.inputIcon} name="person" aria-hidden="true" />
-          <TextInput style={styles.inputs} placeholder="Phone Number" value={phone} underlineColorAndroid="transparent" onChangeText={(value) => this.setState({ phone: value })} />
+          <TextInput
+            style={styles.inputs}
+            placeholder="Phone Number"
+            value={phone}
+            underlineColorAndroid="transparent"
+            onChangeText={(value) => this.setState({ phone: value })} 
+          />
         </View>
 
         <View style={styles.inputContainer}>
           <Icon style={styles.inputIcon} name="lock" />
-          <TextInput style={styles.inputs} placeholder="Password" value={password} secureTextEntry underlineColorAndroid="transparent" onChangeText={(value) => this.setState({ password: value })} />
+          <TextInput 
+            style={styles.inputs}
+            placeholder="Password"
+            value={password}
+            secureTextEntry
+            underlineColorAndroid="transparent"
+            onChangeText={(value) => this.setState({ password: value })}
+          />
         </View>
 
         <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]}>
-          <Text style={styles.loginText}>Login</Text>
+          <Text style={styles.loginText} onPress={this.handleSubmit}>Login</Text>
         </TouchableHighlight>
 
         <TouchableHighlight style={styles.buttonContainer}>
@@ -98,3 +138,10 @@ export default class LoginView extends Component {
     );
   }
 }
+
+LoginView.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  loginError: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  isLoggedIn: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  navigation: PropTypes.oneOfType([PropTypes.object]).isRequired
+};

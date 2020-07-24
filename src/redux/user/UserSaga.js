@@ -1,8 +1,10 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { USER_CONSTANTS } from './UserConstants';
+import { USER_CONSTANTS } from './userConstants';
 import { LOADER_CONSTANTS } from '../loaderService/LoaderConstants';
 import { postAPIData, getAPIData } from '../../utils/webServiceHandler/Backend';
 import APP_CONSTANTS from '../../utils/appConstants/AppConstants';
+import { sessionService } from 'redux-react-native-session';
+import Storage from '../../utils/Storage';
 
 const success = (type, payload) => ({
   type,
@@ -41,6 +43,42 @@ function* userRegisterSaga(action) {
 export function* userRegisterWatcherSaga() {
   yield takeEvery(USER_CONSTANTS.USER_REGISTER_REQUEST, userRegisterSaga);
 }
+
+const loginService = async ({ data }) => {
+  try {
+    const {
+      URLS: { login },
+    } = APP_CONSTANTS;
+    const response = await postAPIData(login, data);
+    console.log("respone123", response)
+    if (response && response.status) {
+      await sessionService.saveSession(response.data);
+      await sessionService.saveUser(response.data);
+      await Storage.setToken(response.data.accessToken);
+      return { response };
+    }
+    return { response };
+  } catch (error) {
+    return { error };
+  }
+};
+
+function* loginSaga(action) {
+  const { response, error } = yield call(loginService, action.payload);
+  console.log("xvcbvnv", error, response)
+  if (response && response.status) {
+    yield put(yield call(success, USER_CONSTANTS.USER_AUTH_SUCCESS, response));
+    yield put({ type: LOADER_CONSTANTS.LOADER_STOP_REQUEST });
+  } else {
+    yield put(yield call(failure, USER_CONSTANTS.USER_AUTH_FAILURE, response || error));
+    yield put({ type: LOADER_CONSTANTS.LOADER_STOP_REQUEST });
+  }
+}
+
+export function* loginWatcherSaga() {
+  yield takeEvery(USER_CONSTANTS.USER_AUTH_REQUEST, loginSaga);
+}
+
 
 const getLocationService = async () => {
   try {
