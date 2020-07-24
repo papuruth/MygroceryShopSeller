@@ -131,9 +131,9 @@ export default class LoginView extends Component {
           <Text style={styles.loginText} onPress={this.handleSubmit}>Login</Text>
         </TouchableHighlight>
 
-        <TouchableHighlight style={styles.buttonContainer}>
+        {/* <TouchableHighlight style={styles.buttonContainer}>
           <Text>Forgot your password?</Text>
-        </TouchableHighlight>
+        </TouchableHighlight> */}
       </View>
     );
   }

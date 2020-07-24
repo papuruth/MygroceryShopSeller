@@ -8,6 +8,7 @@ import {
 import { Icon } from 'react-native-elements';
 import PropTypes from 'prop-types';
 
+import { Button } from '../../utils/reusableComponents';
 import { Text } from '../../utils/reusableComponents/StyledText';
 import { colors, fonts } from '../../styles';
 import ArchitectureIcon from '../../assets/icons/construction.svg';
@@ -53,6 +54,24 @@ const styles = StyleSheet.create({
   itemImage: {
     height: 35,
   },
+  availableText: {
+    color: colors.white,
+    fontFamily: fonts.primaryRegular,
+    fontSize: 20,
+    marginVertical: 3,
+  },
+  textContainer: {
+    alignItems: 'center',
+  },
+  buttonsContainer: {
+    alignItems: 'center',
+    alignSelf: 'stretch',
+  },
+  button: {
+    alignSelf: 'stretch',
+    marginBottom: 20,
+  }
+
 });
 
 export default class HomeScreen extends React.PureComponent {
@@ -67,13 +86,16 @@ export default class HomeScreen extends React.PureComponent {
     this.setState(state => ({
       more: !state.more,
     }));
-  };
+   };
 
-  render() {
+   render() {
     const { more } = this.state;
-    const { navigation } = this.props;
-    const {IMAGES: {background}} = APP_CONSTANTS
-    return (
+    const { navigation, user, authenticated } = this.props;
+    const { IMAGES: { background } } = APP_CONSTANTS
+    return(
+      <>
+        {
+    user !== "ROLE_EMPLOYEE" && !authenticated ? (
       <View style={styles.container}>
         <ImageBackground
           source={background}
@@ -137,7 +159,7 @@ export default class HomeScreen extends React.PureComponent {
                   <PlumberIcon />
                   <Text style={styles.itemText}>Plumber</Text>
                 </TouchableOpacity>
-              )}
+                )}
             </View>
             {more && (
               <View style={styles.row}>
@@ -188,10 +210,26 @@ export default class HomeScreen extends React.PureComponent {
           </View>
         </ImageBackground>
       </View>
-    );
+    ) : (
+      <ImageBackground source={background} style={styles.container}>
+        <Icon name="gears" type="font-awesome" size={150} color="#00000666" />
+
+        <View style={styles.textContainer}>
+          <Text style={styles.availableText}>Please</Text>
+          <Text style={styles.availableText}>Complete your profile to activate your account</Text>
+        </View>
+
+        <View style={styles.buttonsContainer}>
+          <Button large bordered rounded style={styles.button} caption="Go to Profile" onPress={() => navigation.navigate('profile')} />
+        </View>
+      </ImageBackground>
+    )}
+      </>
+    )
   }
 }
 
 HomeScreen.propTypes = {
   navigation: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  // user: PropTypes.oneOfType([PropTypes.object]).isRequired
 };
