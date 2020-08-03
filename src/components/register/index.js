@@ -2,7 +2,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment-with-locales-es6';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { Image, Keyboard, ScrollView, StyleSheet, View, Alert } from 'react-native';
+import { Alert, Image, Keyboard, ScrollView, StyleSheet, View } from 'react-native';
 import { Input } from 'react-native-elements';
 import { loaderStartAction } from '../../redux/loaderService/LoaderAction';
 import { getLocationAction, userSignupAction } from '../../redux/user/userAction';
@@ -11,7 +11,6 @@ import APP_CONSTANTS from '../../utils/appConstants/AppConstants';
 import { checkEmpty } from '../../utils/commonFunctions';
 import { Button } from '../../utils/reusableComponents';
 import DropDown from '../../utils/reusableComponents/Dropdown';
-import Axios from 'axios';
 
 const styles = StyleSheet.create({
   container: {
@@ -234,7 +233,6 @@ export default class RegisterScreen extends Component {
   componentDidUpdate(prevProps) {
     const {signUpError, signUpStatus, navigation} = this.props;
     if (!checkEmpty(signUpError) && signUpError !== prevProps.signUpError) {
-      console.log(signUpError);
       const { response } = signUpError;
       Alert.alert('Error', response.message || "Some error occured",[{ text: 'OK'}],{ cancelable: false });
     }
@@ -249,6 +247,7 @@ export default class RegisterScreen extends Component {
       );
     }
   }
+  
   show = (mode) => {
     this.setState({
       show: true,
@@ -356,7 +355,7 @@ export default class RegisterScreen extends Component {
   };
 
   registerUser = () => {
-    const result = true;
+    const result = this.validateFields();
     if (result === true) {
       const { nameValue, mobileValue, dateOfBirthValue, location, ageValue, emailValue, passwordValue } = this.state;
       const userRegBody = {
@@ -365,7 +364,9 @@ export default class RegisterScreen extends Component {
         email: emailValue,
         password: passwordValue,
         age: Number(ageValue),
-        role: ['emp'],
+        roles: ['emp'],
+        address: {},
+        employeeData: {},
         locationId: location,
         dob: dateOfBirthValue,
       };

@@ -43,7 +43,6 @@ export const getAPIData = async (url) => {
  * @description function for POST type API
  */
 export const postAPIData = async (url, data) => {
-  console.log(data, checkConnectivity());
   const {
     APP_MESSAGES: { NOINTERNET },
   } = APP_CONSTANTS;

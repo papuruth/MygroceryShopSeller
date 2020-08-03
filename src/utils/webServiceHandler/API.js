@@ -5,7 +5,6 @@ const api = axios.create();
 
 api.interceptors.request.use(async (config) => {
   const token = await storage.getToken();
-
   const headers = {
     ...config.headers,
     Accept: 'application/json',

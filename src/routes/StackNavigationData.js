@@ -6,6 +6,7 @@ import LoginView from '../components/login/LoginViewContainer';
 import RegisterScreen from '../components/register/RegisterViewContainer';
 import APP_CONSTANTS from '../utils/appConstants/AppConstants';
 import TabNavigator from './MainTabNavigator';
+import Profile from '../containers/Profile';
 
 const {
   IMAGES: { headerBackground, arrowBack },
@@ -15,7 +16,8 @@ const headerLeftComponent = (props) => (
     onPress={props.onPress}
     style={{
       paddingLeft: 10,
-    }}>
+    }}
+  >
     <Image
       source={arrowBack}
       resizeMode="contain"
@@ -162,7 +164,7 @@ const StackNavigationData = [
   {
     name: 'Profile',
     path: 'profile',
-    component: AvailableInFullVersion,
+    component: Profile,
     headerLeft: headerLeftComponent,
     headerBackground: { source: headerBackground },
     headerTitleStyle: {

@@ -6,6 +6,7 @@ const APP_CONSTANTS = {
     signUp: `${ENV.API_HOST}/signup`,
     login: `${ENV.API_HOST}/signin`,
     location: `${ENV.API_HOST}/location/getall`,
+    userDetails: `${ENV.API_HOST}/user/getbyusername`
   },
   APP_MESSAGES: {
     NOINTERNET: 'You are disconnected! Please connect to Internet',
@@ -32,6 +33,7 @@ const APP_CONSTANTS = {
     iconLogout: require('../../assets/icons/iconLogout.png'),
     iconSignup: require('../../assets/icons/signup.png'),
     iconUser: require('../../assets/images/drawer/user.png'),
+    avatar: require('../../assets/images/default-avatar.png'),
     iconMenu: require('../../assets/images/drawer/menu.png'),
     background: require('../../assets/images/background.png'),
     headerBackground: require('../../assets/images/topBarBg.png'),

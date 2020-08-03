@@ -17,7 +17,7 @@ export default {
   },
   getToken: async () => {
     try {
-      const value = await AsyncStorage.getItem('@storage_Key');
+      const value = await AsyncStorage.getItem(storageKeys.token);
       return value;
     } catch (e) {
       return null;

@@ -1,10 +1,10 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
-import { USER_CONSTANTS } from './userConstants';
-import { LOADER_CONSTANTS } from '../loaderService/LoaderConstants';
-import { postAPIData, getAPIData } from '../../utils/webServiceHandler/Backend';
-import APP_CONSTANTS from '../../utils/appConstants/AppConstants';
 import { sessionService } from 'redux-react-native-session';
+import { call, put, takeEvery } from 'redux-saga/effects';
+import APP_CONSTANTS from '../../utils/appConstants/AppConstants';
 import Storage from '../../utils/Storage';
+import { getAPIData, postAPIData } from '../../utils/webServiceHandler/Backend';
+import { LOADER_CONSTANTS } from '../loaderService/LoaderConstants';
+import { USER_CONSTANTS } from './userConstants';
 
 const success = (type, payload) => ({
   type,
@@ -25,12 +25,14 @@ const userRegisterService = async ({ data }) => {
     console.log(response)
     return { response };
   } catch (error) {
+    console.log(error);
     return { error };
   }
 };
 
 function* userRegisterSaga(action) {
   const { response, error } = yield call(userRegisterService, action.payload);
+  console.log(response)
   if (response && response.status) {
     yield put(yield call(success, USER_CONSTANTS.USER_REGISTER_SUCCESS, response));
     yield put({ type: LOADER_CONSTANTS.LOADER_STOP_REQUEST });
@@ -106,4 +108,32 @@ function* getLocationSaga(action) {
 
 export function* getLocationWatcherSaga() {
   yield takeEvery(USER_CONSTANTS.GET_LOCATION_REQUEST, getLocationSaga);
+}
+
+const getUserDataService = async () => {
+  try {
+    const {
+      URLS: { userDetails },
+    } = APP_CONSTANTS;
+    const response = await getAPIData(userDetails);
+    console.log(response);
+    return { response };
+  } catch (error) {
+    return { error };
+  }
+};
+
+function* getUserDataSaga() {
+  const { response, error } = yield call(getUserDataService);
+  if (response && response.status) {
+    yield put(yield call(success, USER_CONSTANTS.GET_USER_DATA_SUCCESS, response));
+    yield put({ type: LOADER_CONSTANTS.LOADER_STOP_REQUEST });
+  } else {
+    yield put(yield call(failure, USER_CONSTANTS.GET_USER_DATA_FAILURE, error));
+    yield put({ type: LOADER_CONSTANTS.LOADER_STOP_REQUEST });
+  }
+}
+
+export function* getUserDataWatcherSaga() {
+  yield takeEvery(USER_CONSTANTS.GET_USER_DATA_REQUEST, getUserDataSaga);
 }

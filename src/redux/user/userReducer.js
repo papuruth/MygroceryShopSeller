@@ -2,11 +2,14 @@ import { USER_CONSTANTS } from './userConstants';
 
 const initialState = {
   isLoggedIn: false,
+  loginError: {},
   signUpData: {},
   signUpStatus: false,
   signUpError: {},
   locations: [],
-  locationError: {}
+  locationError: {},
+  userDetails: {},
+  userDetailsError: {},
 };
 
 export default function userReducer(state = initialState, action) {
@@ -21,31 +24,42 @@ export default function userReducer(state = initialState, action) {
         ...state,
         loginError: action.error,
       };
-      case USER_CONSTANTS.USER_REGISTER_REQUEST:
-        return {
-          ...state,
-          signUpError: {},
-        };
-      case USER_CONSTANTS.USER_REGISTER_SUCCESS:
-        return {
-          ...state,
-          signUpStatus: action.payload.status,
-        };
-      case USER_CONSTANTS.USER_REGISTER_FAILURE:
-        return {
-          ...state,
-          signUpError: action.error,
-        };
-        case USER_CONSTANTS.GET_LOCATION_SUCCESS:
-          return {
-            ...state,
-            locations: action.payload.data,
-          };
-        case USER_CONSTANTS.GET_LOCATION_FAILURE:
-          return {
-            ...state,
-            locationError: action.error,
-          };
+    case USER_CONSTANTS.USER_REGISTER_REQUEST:
+      return {
+        ...state,
+        signUpStatus: false,
+        signUpError: {},
+      };
+    case USER_CONSTANTS.USER_REGISTER_SUCCESS:
+      return {
+        ...state,
+        signUpStatus: action.payload.status,
+      };
+    case USER_CONSTANTS.USER_REGISTER_FAILURE:
+      return {
+        ...state,
+        signUpError: action.error,
+      };
+    case USER_CONSTANTS.GET_LOCATION_SUCCESS:
+      return {
+        ...state,
+        locations: action.payload.data,
+      };
+    case USER_CONSTANTS.GET_LOCATION_FAILURE:
+      return {
+        ...state,
+        locationError: action.error,
+      };
+    case USER_CONSTANTS.GET_USER_DATA_SUCCESS:
+      return {
+        ...state,
+        userDetails: action.payload.data ? action.payload.data[0] : {},
+      };
+    case USER_CONSTANTS.GET_USER_DATA_FAILURE:
+      return {
+        ...state,
+        userDetailsError: action.error,
+      };
     default:
       return { ...state };
   }

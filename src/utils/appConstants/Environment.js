@@ -1,4 +1,4 @@
 const ENV = {
-  API_HOST: 'http://construction.ap-south-1.elasticbeanstalk.com',
+  API_HOST: 'https://construction-server.herokuapp.com',
 };
 export default ENV;

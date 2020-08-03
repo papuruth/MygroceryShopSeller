@@ -23,13 +23,12 @@ DerivedData
 project.xcworkspace
 
 # Android/IntelliJ
-#
 build/
 .idea
 .gradle
 local.properties
 *.iml
-!debug.keystore
+android/java_pid37808.hprof
 android/gradle
 # node.js
 #
@@ -60,4 +59,4 @@ jest_coverage
 
 # CocoaPods
 /ios/Pods/
-android/java_pid37808.hprof
+

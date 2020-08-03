@@ -72,7 +72,6 @@ export default class LoginView extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log("dsfdhgj", this.props)
     const { isLoggedIn, navigation, loginError } = this.props
     if (isLoggedIn) {
       navigation.navigate('home')
@@ -84,8 +83,6 @@ export default class LoginView extends Component {
   }
 
   handleSubmit = () => {
-    // e.preventDefault();
-    console.log(this.state);
     const { phone, password } = this.state;
     if (phone && password) {
       const { dispatch } = this.props;
@@ -111,7 +108,12 @@ export default class LoginView extends Component {
             placeholder="Phone Number"
             value={phone}
             underlineColorAndroid="transparent"
-            onChangeText={(value) => this.setState({ phone: value })} 
+            onChangeText={(value) => this.setState({ phone: value })}
+            returnKeyType="next"
+            onSubmitEditing={() => {
+                this.passwordInputRef.focus();
+              }}
+            blurOnSubmit={false}
           />
         </View>
 
@@ -124,11 +126,14 @@ export default class LoginView extends Component {
             secureTextEntry
             underlineColorAndroid="transparent"
             onChangeText={(value) => this.setState({ password: value })}
+            ref={(passwordInput) => {(this.passwordInputRef = passwordInput)}}
+            returnKeyType="done"
+            blurOnSubmit
           />
         </View>
 
-        <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]}>
-          <Text style={styles.loginText} onPress={this.handleSubmit}>Login</Text>
+        <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={this.handleSubmit}>
+          <Text style={styles.loginText}>Login</Text>
         </TouchableHighlight>
 
         {/* <TouchableHighlight style={styles.buttonContainer}>
@@ -142,6 +147,6 @@ export default class LoginView extends Component {
 LoginView.propTypes = {
   dispatch: PropTypes.func.isRequired,
   loginError: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  isLoggedIn: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
   navigation: PropTypes.oneOfType([PropTypes.object]).isRequired
 };

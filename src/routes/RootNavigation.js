@@ -88,20 +88,6 @@ export default function NavigatorView({ navigation }) {
           containerStyle={styles.padRight}
         />
       </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => navigation.navigate('cart')}
-        style={{
-          paddingLeft: 10,
-          marginRight: 10,
-        }}
-      >
-        <CartIcon
-          name="shopping-cart"
-          color="white"
-          size={20}
-          containerStyle={styles.padRight}
-        />
-      </TouchableOpacity>
     </SafeAreaView>
   );
 

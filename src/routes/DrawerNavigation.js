@@ -120,7 +120,6 @@ export default function RenderDrawer(props) {
     IMAGES: { iconUser, iconLogin, iconLogout, iconSignup, iconSettings },
   } = APP_CONSTANTS;
   const { navigation, authenticated, user } = props;
-  console.log("sdfghj",user)
   const handleLogout = async () => {
     await sessionService.deleteSession();
     await sessionService.deleteUser();
@@ -180,7 +179,6 @@ export default function RenderDrawer(props) {
         )}
       </View>
       <View style={styles.divider} />
-      {console.log("rtyuiop",drawerData)}
       {drawerData.map((item, idx) => (
         <DrawerItem
           key={`drawer_item-${idx + 1}`}
@@ -209,6 +207,6 @@ export default function RenderDrawer(props) {
 
 RenderDrawer.propTypes = {
   navigation: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  authenticated: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  authenticated: PropTypes.bool.isRequired,
   user: PropTypes.oneOfType([PropTypes.object]).isRequired
 }
