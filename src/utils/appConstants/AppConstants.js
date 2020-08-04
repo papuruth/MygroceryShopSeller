@@ -41,7 +41,7 @@ const APP_CONSTANTS = {
     loginIcon: require('../../assets/icons/loginIcon.jpeg'),
     cameraIcon: require('../../assets/icons/camera.png'),
     regIcon: require('../../assets/icons/loginIcon.jpeg'),
-    iconBooking: require('../../assets/images/drawer/bookingIcon.png')
+    iconBooking: require('../../assets/images/drawer/bookingIcon1.png')
   },
   RegisterForm: {
     name: 'Name',

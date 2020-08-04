@@ -27,7 +27,7 @@ export default class EditProfile extends PureComponent {
   }
 
   componentDidMount() {
-    const { data } = props;
+    const { data } = this.props;
     const { name, phone, email, address, employeeData } = !checkEmpty(data) ? data : {};
     const { buildingName, city, postalCode, state, street } = !checkEmpty(address) ? address : {};
     const { experience, occupation, aadharFront, aadharBack } = !checkEmpty(employeeData) ? employeeData : {};
