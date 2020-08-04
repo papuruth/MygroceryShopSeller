@@ -53,7 +53,7 @@ export default function userReducer(state = initialState, action) {
     case USER_CONSTANTS.GET_USER_DATA_SUCCESS:
       return {
         ...state,
-        userDetails: action.payload.data ? action.payload.data[0] : {},
+        userDetails: action.payload.data,
       };
     case USER_CONSTANTS.GET_USER_DATA_FAILURE:
       return {

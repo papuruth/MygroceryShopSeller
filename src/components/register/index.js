@@ -367,7 +367,7 @@ export default class RegisterScreen extends Component {
         roles: ['emp'],
         address: {},
         employeeData: {},
-        locationId: location,
+        location,
         dob: dateOfBirthValue,
       };
       const { dispatch } = this.props;
