@@ -4,7 +4,7 @@ import HomeScreen from './HomeView';
 const mapStateToProps = state => {
     const { user,authenticated } = state.session
    return{
-     user:user.roles,
+     user,
      authenticated
    }
 };
