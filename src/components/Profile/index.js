@@ -5,7 +5,7 @@ import { Avatar, Card, Divider, IconButton } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Verified from '../../assets/icons/verified.svg';
 import { loaderStartAction } from '../../redux/loaderService/LoaderAction';
-import { getUserDataAction } from '../../redux/user/userAction';
+import { getUserDataAction, getLocationAction } from '../../redux/user/userAction';
 import { colors } from '../../styles';
 import { checkEmpty, dateTimeFormater } from '../../utils/commonFunctions';
 import EditProfile from './EditProfile';
@@ -20,8 +20,9 @@ export default class Profile extends React.PureComponent {
       section: '',
     };
     const { dispatch } = this.props;
-    dispatch(getUserDataAction());
     dispatch(loaderStartAction());
+    dispatch(getUserDataAction());
+    dispatch(getLocationAction());
   }
 
   componentDidUpdate() {
@@ -62,7 +63,7 @@ export default class Profile extends React.PureComponent {
 
   render() {
     const { refreshing, showEditProfile, section } = this.state;
-    const { userDetails } = this.props;
+    const { userDetails, locations } = this.props;
     const { id, name, email, phone, age, image, location, address, employeeData, dob } = !checkEmpty(userDetails) ? userDetails : {};
     const { experience, jobStartDate, aadharFront, aadharBack, rating, perDayCharge, occupation, verified } = !checkEmpty(employeeData) ? employeeData : {};
     const { buildingName, city, postalCode, state, street } = !checkEmpty(address) ? address : {};
@@ -194,7 +195,7 @@ export default class Profile extends React.PureComponent {
             </Card>
           </View>
         </ScrollView>
-        <EditProfile visible={showEditProfile} section={section} data={userDetails} closeEditProfileHandler={this.closeEditProfileHandler} />
+        <EditProfile visible={showEditProfile} section={section} data={userDetails} locations={locations} closeEditProfileHandler={this.closeEditProfileHandler} />
       </SafeAreaView>
     );
   }
@@ -202,5 +203,6 @@ export default class Profile extends React.PureComponent {
 
 Profile.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  locations: PropTypes.oneOfType([PropTypes.array]).isRequired,
   userDetails: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };

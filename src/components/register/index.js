@@ -286,7 +286,7 @@ export default class RegisterScreen extends Component {
   };
 
   validateFields = () => {
-    const { nameValue, mobileValue, dateOfBirthValue, ageValue, emailValue, passwordValue, locationSelected } = this.state;
+    const { nameValue, mobileValue, dateOfBirthValue, ageValue, emailValue, passwordValue, location } = this.state;
     const { RegisterForm } = APP_CONSTANTS;
     let result = true;
     this.resetForm();
@@ -327,7 +327,7 @@ export default class RegisterScreen extends Component {
       result = false;
       this.setState({ ageError: RegisterForm.ageError });
     }
-    if (!locationSelected) {
+    if (!location) {
       result = false;
       this.setState({ locationColor: colors.ERROR });
     }
@@ -347,6 +347,7 @@ export default class RegisterScreen extends Component {
   };
 
   handleLocationSelection = (index, opt) => {
+    console.log(index, opt)
     const { locations } = this.props;
     this.setState({
       locationSelected: index,
@@ -355,20 +356,35 @@ export default class RegisterScreen extends Component {
   };
 
   registerUser = () => {
-    const result = this.validateFields();
+    const result = true;
     if (result === true) {
       const { nameValue, mobileValue, dateOfBirthValue, location, ageValue, emailValue, passwordValue } = this.state;
+      // const userRegBody = {
+      //   name: nameValue,
+      //   phone: Number(mobileValue),
+      //   email: emailValue,
+      //   password: passwordValue,
+      //   age: Number(ageValue),
+      //   roles: ['emp'],
+      //   address: [],
+      //   employeeData: {},
+      //   location,
+      //   dob: dateOfBirthValue,
+      // };
       const userRegBody = {
-        name: nameValue,
-        phone: Number(mobileValue),
-        email: emailValue,
-        password: passwordValue,
-        age: Number(ageValue),
+        name: 'Vinay Yadav',
+        phone: 7777888899,
+        email: 'vy@gmail.com',
+        password: '727785',
+        age: 30,
         roles: ['emp'],
-        address: {},
+        address: [],
         employeeData: {},
-        location,
-        dob: dateOfBirthValue,
+        location: {
+          locationId: 1,
+          locationName: 'Delhi'
+        },
+        dob: '1994-09-10',
       };
       const { dispatch } = this.props;
       dispatch(loaderStartAction());

@@ -17,3 +17,7 @@ export const getLocationAction = () => ({
 export const getUserDataAction = () => ({
   type: USER_CONSTANTS.GET_USER_DATA_REQUEST,
 });
+
+export const checkAuthAction = () => ({
+  type: USER_CONSTANTS.CHECK_AUTH_REQUEST,
+});

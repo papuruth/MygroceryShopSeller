@@ -1,10 +1,10 @@
 import React from 'react';
-import ModalDropdown from 'react-native-modal-dropdown';
+import { Text, TouchableHighlight, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
-import { View, Text, TouchableHighlight } from 'react-native';
-
 import { colors } from '../../styles';
+import ModalDropdown from './ModalDropdown';
+
+
 
 class DropDown extends React.Component {
   static defaultProps = {
@@ -41,6 +41,7 @@ class DropDown extends React.Component {
       onSelect,
       style,
       borderColor,
+      height,
       selectedIndex,
       placeholder,
     } = this.props;
@@ -69,7 +70,7 @@ class DropDown extends React.Component {
         renderRow={text => this._renderRow(text, color)}
         onSelect={onSelect}
       >
-        <View style={[styles.container, { borderColor }]}>
+        <View style={[styles.container, { borderColor, height }]}>
           <Text style={{ color }}>
             {selectedIndex > -1 && items[selectedIndex]
               ? items[selectedIndex]
@@ -89,13 +90,13 @@ class DropDown extends React.Component {
 
 const styles = {
   container: {
-    height: 40,
-    flex: 1,
+    display: 'flex',
     borderWidth: 1,
     borderColor: colors.primary,
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 10,
+    paddingVertical: 10,
     flexDirection: 'row',
     paddingLeft: 10,
     borderRadius: 5,

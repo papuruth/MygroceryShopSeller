@@ -107,5 +107,47 @@ export const styles = StyleSheet.create({
   editProfileButton: {
     marginLeft: 5,
     marginRight: 5,
-  }
+  },
+  editBasicProfileContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  editImageContainer: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  inputFiledsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+  inputFields: {
+    marginVertical: 5,
+  },
+  dropDownContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginBottom: 20,
+    justifyContent: 'flex-start',
+  },
+  dropDownInnerContainer: {
+    justifyContent: 'flex-start',
+    paddingTop: 10,
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  expTextLabel:{
+    fontWeight: 'bold'
+  },
+  expContainer: {
+    flexDirection: 'row',
+    marginBottom: 20,
+    maxWidth: '100%',
+    justifyContent: 'space-between',
+    paddingTop: 10,
+  },
+  exprInnerContainer: {
+    minWidth: '48%',
+    justifyContent: 'flex-start',
+  },
 });
