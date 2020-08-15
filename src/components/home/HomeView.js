@@ -10,7 +10,7 @@ import { Icon } from 'react-native-elements';
 import PropTypes from 'prop-types';
 
 import { Button } from '../../utils/reusableComponents';
-import  EmployeeBooking  from '../booking/employeeBooking';
+import  EmployeeBooking  from '../booking/bookingContainer';
 import { Text } from '../../utils/reusableComponents/StyledText';
 import { colors, fonts } from '../../styles';
 import ArchitectureIcon from '../../assets/icons/construction.svg';
@@ -213,7 +213,7 @@ export default class HomeScreen extends React.PureComponent {
             </ImageBackground>
           </View>
         ): 
-         authenticated && !user.isVerified ? (
+         authenticated && user.isVerified ? (
            <ImageBackground source={background} style={styles.container}>
              <Icon name="gears" type="font-awesome" size={150} color="#00000666" />
 

@@ -137,3 +137,28 @@ function* getUserDataSaga() {
 export function* getUserDataWatcherSaga() {
   yield takeEvery(USER_CONSTANTS.GET_USER_DATA_REQUEST, getUserDataSaga);
 }
+const bookingDetailsService = async () =>{
+  try{
+    const { 
+      URLS:{ bookingDetails} 
+    } = APP_CONSTANTS;
+    const response = await getAPIData(bookingDetails)
+    console.log("zxcxvbcnv",response)
+    return { response }
+  }catch (error){
+    return error;
+  }
+}
+
+function* bookingDetailsSaga(action) {
+  const { response,error} = yield call(bookingDetailsService,action.payload);
+  if(response && response.status) {
+    yield put(yield call(success,USER_CONSTANTS.BOOKING_DETAIL_SUCCESS,response));
+  }else{
+    yield put (yield call(failure,USER_CONSTANTS.BOOKING_DETAIL_FAILURE,error))
+  }
+}
+
+export function* bookingDetailsWatcherSaga() {
+  yield takeEvery(USER_CONSTANTS.BOOKING_DETAIL_REQUEST,bookingDetailsSaga);
+}

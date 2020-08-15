@@ -9,10 +9,13 @@ const initialState = {
   locations: [],
   locationError: {},
   userDetails: {},
+  bookingDetails: [],
+  bookingDetailsError: {},
   userDetailsError: {},
 };
 
 export default function userReducer(state = initialState, action) {
+
   switch (action.type) {
     case USER_CONSTANTS.USER_AUTH_SUCCESS:
       return {
@@ -60,6 +63,16 @@ export default function userReducer(state = initialState, action) {
         ...state,
         userDetailsError: action.error,
       };
+    case USER_CONSTANTS.BOOKING_DETAIL_SUCCESS:
+      return {
+        ...state,
+        bookingDetails: action.payload.data
+      };
+    case USER_CONSTANTS.BOOKING_DETAIL_FAILURE:
+      return{
+        ...state,
+        bookingDetailsError: action.error
+      }
     default:
       return { ...state };
   }

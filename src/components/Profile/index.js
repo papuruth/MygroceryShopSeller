@@ -79,7 +79,7 @@ export default class Profile extends React.PureComponent {
                   <View style={styles.personalInfo}>
                     <Icon name="account" size={20} />
                     <Text style={styles.personalInfoText}>{name}</Text>
-                    {verified && <Verified style={styles.verifiedUser}/>}
+                    {verified && <Verified style={styles.verifiedUser} />}
                   </View>
                   <View style={styles.personalInfo}>
                     <Icon name="email" size={20} />

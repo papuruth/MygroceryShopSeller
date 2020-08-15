@@ -17,3 +17,8 @@ export const getLocationAction = () => ({
 export const getUserDataAction = () => ({
   type: USER_CONSTANTS.GET_USER_DATA_REQUEST,
 });
+
+export const getBookingDetails = () =>
+  ({
+    type: USER_CONSTANTS.BOOKING_DETAIL_REQUEST
+  })

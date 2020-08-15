@@ -365,7 +365,7 @@ export default class RegisterScreen extends Component {
         password: passwordValue,
         age: Number(ageValue),
         roles: ['emp'],
-        address: {},
+        address: [],
         employeeData: {},
         location,
         dob: dateOfBirthValue,

@@ -1,49 +1,137 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, Text, View,SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { Card, Divider, IconButton } from 'react-native-paper';
 import { Icon } from 'react-native-elements';
-import PropTypes from 'prop-types';
+import PropTypes, { element } from 'prop-types';
+import { ScrollView } from 'react-native-gesture-handler';
 import { colors, fonts } from '../../styles';
 import APP_CONSTANTS from '../../utils/appConstants/AppConstants';
+import { getBookingDetails } from '../../redux/user/userAction';
+import { checkEmpty } from '../../utils/commonFunctions';
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      paddingHorizontal: 30,
-      paddingVertical: 50,
-      justifyContent: 'space-around',
-    },
-    availableText: {
-      color: colors.white,
-      fontFamily: fonts.primaryRegular,
-      fontSize: 20,
-      marginVertical: 3,
-    },
-    textContainer: {
-      alignItems: 'center',
-    }
-  });
+  container: {
+    alignItems: 'center',
+    padding: 10,
+  },
+  availableText: {
+    color: colors.white,
+    fontFamily: fonts.primaryRegular,
+    fontSize: 20,
+    marginVertical: 3,
+  },
+  textContainer: {
+    alignItems: 'center',
+  },
+  bookingCard: {
+    maxHeight: 200,
+    display: 'flex',
+    // padding: 5,
+    flexDirection: 'column',
+    width: '100%',
+    marginBottom: 15,
+  },
+  contentContainer: {
+    display: 'flex',
+    padding: 5,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  dividerStyle: {
+    height: 1,
+    backgroundColor: colors.grey,
+  },
+  bookingInfo: {
+    margin: 5,
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  label: {
+    marginRight: 5,
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+});
 
 export default class Booking extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
     };
+    this.fetchBookings()
   }
 
-   render() {
-    return(
-      <SafeAreaView>
-        <Icon name="gears" type="font-awesome" size={150} color="#00000666" />
+  fetchBookings = () => {
+    const { dispatch } = this.props;
+    dispatch(getBookingDetails())
+  }
 
-        <View style={styles.textContainer}>
-          <Text style={styles.availableText}>Currently, No Booking Available</Text>
-        </View>
+  render() {
+    const { bookingDetails } = this.props
+    console.log("bookingDetails", bookingDetails)
+
+    return (
+      <SafeAreaView style={styles.container}>
+        <ScrollView>
+          {checkEmpty(bookingDetails) ? (
+            <SafeAreaView>
+              <Icon name="gears" type="font-awesome" size={150} color="#00000666" />
+
+              <View style={styles.textContainer}>
+                <Text style={styles.availableText}>Currently, No Booking Available</Text>
+              </View>
+            </SafeAreaView>
+        )
+          : (
+            bookingDetails.map((ele) => (
+              <Card style={styles.bookingCard}>
+                <Card.Title title="Requirement" />
+                <Divider style={styles.dividerStyle} />
+                <View style={styles.contentContainer}>
+                  <Card.Content style={styles.cardContent}>
+                    <View style={styles.bookingInfo}>
+                      <Text style={styles.label}>Booking From:</Text>
+                      <Text style={styles.textContent}>{ele?.bookingFrom}</Text>
+                    </View>
+                    <View style={styles.bookingInfo}>
+                      <Text style={styles.label}>Booking To:</Text>
+                      <Text style={styles.textContent}>{ele?.bookingTo}</Text>
+                    </View>
+                    <View style={styles.bookingInfo}>
+                      <Text style={styles.label}>Days Worked:</Text>
+                      <Text style={styles.textContent}>{ele?.daysWorked}</Text>
+                    </View>
+                    <View style={styles.bookingInfo}>
+                      <Text style={styles.label}>Status:</Text>
+                      <Text style={styles.textContent}>{ele?.status}</Text>
+                    </View>
+                  </Card.Content>
+                  <Card.Content style={styles.cardContent}>
+                    <View style={styles.bookingUserInfo}>
+                      <Text style={styles.label}>Order By:</Text>
+                      <Text style={styles.textContent}>{ele?.user.name}</Text>
+                    </View>
+                    <View style={styles.bookingUserInfo}>
+                      <Text style={styles.label}>Contact no.</Text>
+                      <Text style={styles.textContent}>{ele?.user.phone}</Text>
+                    </View>
+                    <View style={styles.bookingUserInfo}>
+                      <Text style={styles.label}>Address:</Text>
+                      <Text style={styles.textContent}>{ele?.user.address}</Text>
+                    </View>
+                  </Card.Content>
+                </View>
+              </Card>
+            )
+            )
+          )}
+        </ScrollView>
       </SafeAreaView>
     )
   }
 }
 
 Booking.propTypes = {
-  // user: PropTypes.oneOfType([PropTypes.object]).isRequired
+  dispatch: PropTypes.func.isRequired,
+  bookingDetails: PropTypes.oneOfType([PropTypes.object]).isRequired
 };

@@ -6,7 +6,8 @@ const APP_CONSTANTS = {
     signUp: `${ENV.API_HOST}/signup`,
     login: `${ENV.API_HOST}/signin`,
     location: `${ENV.API_HOST}/location/getall`,
-    userDetails: `${ENV.API_HOST}/user/getbyusername`
+    userDetails: `${ENV.API_HOST}/user/getbyusername`,
+    bookingDetails: `${ENV.API_HOST}/booking/getbyusername`
   },
   APP_MESSAGES: {
     NOINTERNET: 'You are disconnected! Please connect to Internet',
