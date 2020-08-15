@@ -22,3 +22,6 @@ export const getBookingDetails = () =>
   ({
     type: USER_CONSTANTS.BOOKING_DETAIL_REQUEST
   })
+export const checkAuthAction = () => ({
+  type: USER_CONSTANTS.CHECK_AUTH_REQUEST,
+});

@@ -5,11 +5,18 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import * as Progress from 'react-native-progress';
 import RenderDrawer from './DrawerNavigation';
 import NavigatorView from './RootNavigation';
-
+import { checkAuthAction } from '../redux/user/userAction';
+import { loaderStartAction } from '../redux/loaderService/LoaderAction';
 
 const Drawer = createDrawerNavigator();
 
 export default class App extends React.PureComponent {
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(loaderStartAction());
+    dispatch(checkAuthAction());
+  }
+
   render() {
     const { loaderService, authenticated, user } = this.props;
     return (
@@ -26,8 +33,7 @@ export default class App extends React.PureComponent {
             backgroundColor: '#3C38B1',
             width: '85%',
           }}
-          drawerContent={(props) => <RenderDrawer {...props} authenticated={authenticated} user={user} />}
-        >
+          drawerContent={(props) => <RenderDrawer {...props} authenticated={authenticated} user={user} />}>
           <Drawer.Screen name="Homes" component={NavigatorView} />
         </Drawer.Navigator>
       </>
@@ -37,6 +43,7 @@ export default class App extends React.PureComponent {
 
 App.propTypes = {
   loaderService: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired,
   authenticated: PropTypes.bool.isRequired,
   user: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
