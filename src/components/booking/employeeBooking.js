@@ -84,6 +84,7 @@ export default class Booking extends React.PureComponent {
         )
           : (
             bookingDetails.map((ele) => (
+              ele.status === "Pending" && (
               <Card style={styles.bookingCard}>
                 <Card.Title title="Requirement" />
                 <Divider style={styles.dividerStyle} />
@@ -122,6 +123,7 @@ export default class Booking extends React.PureComponent {
                   </Card.Content>
                 </View>
               </Card>
+)
             )
             )
           )}

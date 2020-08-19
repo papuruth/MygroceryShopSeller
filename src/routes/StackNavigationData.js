@@ -7,7 +7,7 @@ import RegisterScreen from '../components/register/RegisterViewContainer';
 import APP_CONSTANTS from '../utils/appConstants/AppConstants';
 import TabNavigator from './MainTabNavigator';
 import Profile from '../containers/Profile';
-import Booking from '../components/booking/bookingContainer'
+import {CompleteBooking} from '../components/booking/bookingContainer';
 
 const {
   IMAGES: { headerBackground, arrowBack },
@@ -249,7 +249,7 @@ const StackNavigationData = [
   {
     name: 'Bookings',
     path: 'bookings',
-    component: Booking,
+    component: CompleteBooking,
     headerLeft: headerLeftComponent,
     headerBackground: { source: headerBackground },
     headerTitleStyle: {

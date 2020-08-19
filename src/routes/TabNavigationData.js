@@ -1,6 +1,6 @@
 import HomeScreen from '../components/home/HomeViewContainer';
-import BookingScreen from '../components/availableInFullVersion/AvailableInFullVersionViewContainer'
 import APP_CONSTANTS from '../utils/appConstants/AppConstants';
+import {CompleteBooking} from '../components/booking/bookingContainer';
 
 const {
   IMAGES: { iconHome,iconBooking },
@@ -13,7 +13,7 @@ const tabNavigationData = [
   },
   {
     name: 'Bookings',
-    component: BookingScreen,
+    component: CompleteBooking,
     icon: iconBooking 
   }
 ];
