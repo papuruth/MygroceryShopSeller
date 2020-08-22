@@ -347,10 +347,6 @@ export default class RegisterScreen extends Component {
   };
 
   handleLocationSelection = (index, opt) => {
-<<<<<<< HEAD
-=======
-    console.log(index, opt)
->>>>>>> ad80e3c5991b76e31dd229c8621bc574a754f33d
     const { locations } = this.props;
     this.setState({
       locationSelected: index,

@@ -155,7 +155,6 @@ function* bookingDetailsSaga(action) {
 export function* bookingDetailsWatcherSaga() {
   yield takeEvery(USER_CONSTANTS.BOOKING_DETAIL_REQUEST,bookingDetailsSaga);
 } 
-
 const checkAuthService = async () => {
   try {
     const {

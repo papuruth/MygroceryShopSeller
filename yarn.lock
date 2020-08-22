@@ -1431,6 +1431,7 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.9.tgz#383aca2fb053e3e14405c99cce2d5805df730821"
   integrity sha512-nUtzbiLeXU0K9oVed6rc/WVrjGJwDSL4q1RTDkpZYU4j0FeovfuzcNUIDesD2r728LYfIop+uAgQdm+6qBOCug==
 
+<<<<<<< HEAD
 "@react-native-community/netinfo@^5.9.6":
   version "5.9.6"
   resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-5.9.6.tgz#fab6cd78fe740f9c674b4a93abd77f6bfb90f655"
@@ -1449,6 +1450,8 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-7.3.1.tgz#5438d779b8a442b55821561776ce24fbf5725df3"
   integrity sha512-HFDU6kky0d75M9cCITD/jDY9swwRGLS7IymMfb3CECYTvNZdFBy9pXgtCD3Z/NHmu2MWcf6jtgOmZcByYtMn/A==
 
+=======
+>>>>>>> ad80e3c5991b76e31dd229c8621bc574a754f33d
 "@react-navigation/bottom-tabs@^5.2.6":
   version "5.2.7"
   resolved "https://registry.yarnpkg.com/@react-navigation/bottom-tabs/-/bottom-tabs-5.2.7.tgz#6f3eca9ba323cd9e80dd4ceba1f1c8e84955091f"
@@ -2834,6 +2837,7 @@ clone-deep@^0.2.4:
     lazy-cache "^1.0.3"
     shallow-clone "^0.1.2"
 
+<<<<<<< HEAD
 clone-deep@^2.0.1:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/clone-deep/-/clone-deep-2.0.2.tgz#00db3a1e173656730d1188c3d6aced6d7ea97713"
@@ -2844,6 +2848,8 @@ clone-deep@^2.0.1:
     kind-of "^6.0.0"
     shallow-clone "^1.0.0"
 
+=======
+>>>>>>> ad80e3c5991b76e31dd229c8621bc574a754f33d
 clone@^1.0.2:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
@@ -6370,7 +6376,11 @@ kind-of@^5.0.0:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-5.1.0.tgz#729c91e2d857b7a419a1f9aa65685c4c33f5845d"
   integrity sha512-NGEErnH6F2vUuXDh+OlbcKW7/wOcfdRHaZ7VWtqCztfHri/++YKmP51OdWeGPuqCOba6kk2OTe5d02VmTB80Pw==
 
+<<<<<<< HEAD
 kind-of@^6.0.0, kind-of@^6.0.1, kind-of@^6.0.2:
+=======
+kind-of@^6.0.0, kind-of@^6.0.2:
+>>>>>>> ad80e3c5991b76e31dd229c8621bc574a754f33d
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
@@ -8688,11 +8698,14 @@ react-native-gifted-chat@^0.11.3:
     react-native-parsed-text "https://github.com/EvanBacon/react-native-parsed-text.git"
     uuid "3.3.3"
 
+<<<<<<< HEAD
 react-native-image-picker@^2.3.3:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-2.3.3.tgz#eaacd4a1ed9e9887613be31f0765478ca2f18a51"
   integrity sha512-i/7JDnxKkUGSbFY2i7YqFNn3ncJm1YlcrPKXrXmJ/YUElz8tHkuwknuqBd9QCJivMfHX41cmq4XvdBDwIOtO+A==
 
+=======
+>>>>>>> ad80e3c5991b76e31dd229c8621bc574a754f33d
 react-native-interactable@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-interactable/-/react-native-interactable-1.0.0.tgz#b6dcdff9ec61dfae9233e46e1d673ce8480a4f64"
@@ -9672,6 +9685,7 @@ shallow-clone@^0.1.2:
     lazy-cache "^0.2.3"
     mixin-object "^2.0.1"
 
+<<<<<<< HEAD
 shallow-clone@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/shallow-clone/-/shallow-clone-1.0.0.tgz#4480cd06e882ef68b2ad88a3ea54832e2c48b571"
@@ -9681,6 +9695,8 @@ shallow-clone@^1.0.0:
     kind-of "^5.0.0"
     mixin-object "^2.0.1"
 
+=======
+>>>>>>> ad80e3c5991b76e31dd229c8621bc574a754f33d
 shebang-command@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/shebang-command/-/shebang-command-1.2.0.tgz#44aac65b695b03398968c39f363fee5deafdf1ea"
@@ -10188,6 +10204,7 @@ sumchecker@^1.2.0:
     debug "^2.2.0"
     es6-promise "^4.0.5"
 
+<<<<<<< HEAD
 superstruct@^0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/superstruct/-/superstruct-0.6.2.tgz#c5eb034806a17ff98d036674169ef85e4c7f6a1c"
@@ -10196,6 +10213,8 @@ superstruct@^0.6.2:
     clone-deep "^2.0.1"
     kind-of "^6.0.1"
 
+=======
+>>>>>>> ad80e3c5991b76e31dd229c8621bc574a754f33d
 supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"

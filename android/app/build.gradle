@@ -1,5 +1,8 @@
 apply plugin: "com.android.application"
+<<<<<<< HEAD
 apply plugin: 'com.google.gms.google-services'
+=======
+>>>>>>> ad80e3c5991b76e31dd229c8621bc574a754f33d
 
 import com.android.build.OutputFile
 
