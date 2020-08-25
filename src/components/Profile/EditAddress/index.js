@@ -1,71 +1,147 @@
-import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { SafeAreaView, Text, View, ScrollView } from 'react-native';
-import { Card, Divider, IconButton } from 'react-native-paper';
+import React, { PureComponent } from 'react';
+import { Alert, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { Card, Dialog, Divider, IconButton, Portal } from 'react-native-paper';
+import { loaderStartAction } from '../../../redux/loaderService/LoaderAction';
+import {
+  getAllAddressAction,
+  updateAddressById,
+  getUserDataAction,
+} from '../../../redux/user/userAction';
+import { checkEmpty, equalityChecker } from '../../../utils/commonFunctions';
+import { Button } from '../../../utils/reusableComponents';
 import { styles } from '../styles';
-import { checkEmpty } from '../../../utils/commonFunctions';
+import { RenderAddressEditForm } from './RenderAddressEditForm';
 
 export default class EditAddress extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      visible: false,
+      buildingName: null,
+      city: null,
+      postalCode: null,
+      state: null,
+      street: null,
+      addressId: null,
+      isPrimary: null,
+    };
+    this.fetchAddress();
   }
 
+  componentDidUpdate(prevProps) {
+    const { updateAddress, updateAddressError } = this.props;
+    if (!equalityChecker(updateAddress, prevProps.updateAddress) && updateAddress?.status) {
+      this.hideDialog();
+      Alert.alert('Success', 'Address updated successfully!');
+      this.fetchAddress();
+    }
+
+    if (!equalityChecker(updateAddressError, prevProps.updateAddressError)) {
+      Alert.alert('Error', 'Address update failed!');
+      this.hideDialog();
+    }
+  }
+
+  fetchAddress = () => {
+    const { dispatch } = this.props;
+    dispatch(loaderStartAction());
+    dispatch(getUserDataAction());
+    dispatch(getAllAddressAction());
+  };
+
+  deleteAddress = () => {};
+
+  editAddress = ({ addressId, buildingName, city, postalCode, state, street, isPrimary }) => {
+    this.setState({
+      visible: true,
+      addressId,
+      buildingName,
+      city,
+      postalCode: postalCode.toString(),
+      state,
+      street,
+      isPrimary
+    });
+  };
+
+  hideDialog = () => {
+    this.setState({
+      visible: false,
+    });
+    this.forceUpdate();
+  };
+
+  handleUserInput = (name, value) => {
+    this.setState({
+      [name]: value,
+    });
+  };
+
+  updateAddress = () => {
+    const { addressId, buildingName, city, postalCode, state, street, isPrimary } = this.state;
+    const { dispatch } = this.props;
+    const updatePayload = { addressId, buildingName, city, postalCode, state, street, isPrimary };
+    dispatch(loaderStartAction());
+    dispatch(updateAddressById(addressId, updatePayload));
+  };
+
   render() {
-    const {
-      route: { params },
-    } = this.props;
-    const { address } = params || [];
+    console.log(this.props);
+    const { addressData } = this.props;
+    const { visible, buildingName, city, postalCode, state, street, isPrimary } = this.state;
     return (
       <SafeAreaView style={styles.addressEditContainer}>
         <ScrollView contentContainerStyle={styles.scrollView}>
           <View style={styles.addressCardContainer}>
-            {!checkEmpty(address) ? (
-              address.map(({ addressId, buildingName, city, postalCode, state, street }) => (
-                <Card style={styles.addressCard}>
-                  <Card.Title
-                    title="Address"
-                    style={styles.cardTitle}
-                    right={(props) => (
-                      <View style={styles.addressActionIcon}>
-                        <IconButton
-                          {...props}
-                          icon="delete"
-                          onPress={() => {}}
-                        />
-                        <IconButton
-                          {...props}
-                          icon="square-edit-outline"
-                          onPress={() => {}}
-                        />
+            {!checkEmpty(addressData) ? (
+              addressData.map((item, index) => {
+                return (
+                  <Card style={styles.addressCard} key={item?.addressId}>
+                    <Card.Title
+                      title={`Address ${index + 1}`}
+                      style={styles.cardTitle}
+                      right={(props) => (
+                        <View style={styles.addressActionIcon}>
+                          <IconButton {...props} icon="delete" onPress={this.deleteAddress} />
+                          <IconButton
+                            {...props}
+                            icon="square-edit-outline"
+                            onPress={() => this.editAddress(item)}
+                          />
+                        </View>
+                      )}
+                    />
+                    <Divider style={styles.dividerStyle} />
+                    <Card.Content style={styles.cardContent}>
+                      <View style={styles.addressInfo}>
+                        <Text style={styles.label}>Building Name:</Text>
+                        <Text style={styles.textContent}>{item?.buildingName || 'N/A'}</Text>
                       </View>
-                    )}
-                  />
-                  <Divider style={styles.dividerStyle} />
-                  <Card.Content style={styles.cardContent} key={addressId}>
-                    <View style={styles.addressInfo}>
-                      <Text style={styles.label}>Building Name:</Text>
-                      <Text style={styles.textContent}>{buildingName || 'N/A'}</Text>
-                    </View>
-                    <View style={styles.addressInfo}>
-                      <Text style={styles.label}>City:</Text>
-                      <Text style={styles.textContent}>{city || 'N/A'}</Text>
-                    </View>
-                    <View style={styles.addressInfo}>
-                      <Text style={styles.label}>Postal Code:</Text>
-                      <Text style={styles.textContent}>{postalCode || 'N/A'}</Text>
-                    </View>
-                    <View style={styles.addressInfo}>
-                      <Text style={styles.label}>State:</Text>
-                      <Text style={styles.textContent}>{state || 'N/A'}</Text>
-                    </View>
-                    <View style={styles.addressInfo}>
-                      <Text style={styles.label}>Street:</Text>
-                      <Text style={styles.textContent}>{street || 'N/A'}</Text>
-                    </View>
-                  </Card.Content>
-                </Card>
-              ))
+                      <View style={styles.addressInfo}>
+                        <Text style={styles.label}>City:</Text>
+                        <Text style={styles.textContent}>{item?.city || 'N/A'}</Text>
+                      </View>
+                      <View style={styles.addressInfo}>
+                        <Text style={styles.label}>Postal Code:</Text>
+                        <Text style={styles.textContent}>{item?.postalCode || 'N/A'}</Text>
+                      </View>
+                      <View style={styles.addressInfo}>
+                        <Text style={styles.label}>State:</Text>
+                        <Text style={styles.textContent}>{item?.state || 'N/A'}</Text>
+                      </View>
+                      <View style={styles.addressInfo}>
+                        <Text style={styles.label}>Street:</Text>
+                        <Text style={styles.textContent}>{item?.street || 'N/A'}</Text>
+                      </View>
+                      <View style={styles.addressInfo}>
+                        <Text style={styles.label}>Primary:</Text>
+                        <Text style={styles.textContent}>{item?.isPrimary ? 'Yes' : 'No'}</Text>
+                      </View>
+                    </Card.Content>
+                  </Card>
+                );
+              })
             ) : (
               <View style={styles.editAddressNoAddress}>
                 <Text style={styles.noAddressText}>No address to edit.</Text>
@@ -76,11 +152,41 @@ export default class EditAddress extends PureComponent {
             )}
           </View>
         </ScrollView>
+        <Portal>
+          <Dialog visible={visible} dismissable={false}>
+            <Dialog.Title>Edit Address</Dialog.Title>
+            <Dialog.Content>
+              <RenderAddressEditForm
+                buildingName={buildingName}
+                city={city}
+                postalCode={postalCode}
+                state={state}
+                street={street}
+                isPrimary={isPrimary}
+                onChange={this.handleUserInput}
+              />
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button
+                rounded
+                style={styles.editProfileButton}
+                onPress={this.hideDialog}
+                caption="Cancel"
+              />
+              <Button
+                rounded
+                style={styles.editProfileButton}
+                onPress={this.updateAddress}
+                caption="Done"
+              />
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
       </SafeAreaView>
     );
   }
 }
 
 EditAddress.propTypes = {
-  route: PropTypes.oneOfType([PropTypes.array]).isRequired,
+  addressData: PropTypes.oneOfType([PropTypes.array]).isRequired,
 };

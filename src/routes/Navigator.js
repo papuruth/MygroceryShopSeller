@@ -12,19 +12,28 @@ const Drawer = createDrawerNavigator();
 
 export default class App extends React.PureComponent {
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(loaderStartAction());
-    dispatch(checkAuthAction());
+    const { dispatch, authenticated } = this.props;
+    if (authenticated) {
+      dispatch(loaderStartAction());
+      dispatch(checkAuthAction());
+    }
   }
 
   render() {
-    const { loaderService, authenticated, user } = this.props;
+    const { loaderService, authenticated, user, dispatch } = this.props;
     return (
       <>
         <Spinner
           visible={loaderService}
           cancelable
-          customIndicator={<Progress.CircleSnail size={70} thickness={5} progress={1} color={['red', 'green', 'blue']} />}
+          customIndicator={(
+            <Progress.CircleSnail
+              size={70}
+              thickness={5}
+              progress={1}
+              color={['red', 'green', 'blue']}
+            />
+          )}
           overlayColor="rgba(0,0,0,0.4)"
           animation="fade"
         />
@@ -33,7 +42,15 @@ export default class App extends React.PureComponent {
             backgroundColor: '#3C38B1',
             width: '85%',
           }}
-          drawerContent={(props) => <RenderDrawer {...props} authenticated={authenticated} user={user} />}>
+          drawerContent={(props) => (
+            <RenderDrawer
+              {...props}
+              authenticated={authenticated}
+              user={user}
+              dispatch={dispatch}
+            />
+          )}
+        >
           <Drawer.Screen name="Homes" component={NavigatorView} />
         </Drawer.Navigator>
       </>

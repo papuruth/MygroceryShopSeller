@@ -1,15 +1,15 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { Image, TouchableOpacity } from 'react-native';
-import { colors, fonts } from '../styles';
 import AvailableInFullVersion from '../components/availableInFullVersion/AvailableInFullVersionViewContainer';
+import { CompleteBooking } from '../components/booking/bookingContainer';
 import LoginView from '../components/login/LoginViewContainer';
 import RegisterScreen from '../components/register/RegisterViewContainer';
+import EditAddress from '../containers/Address';
+import Profile from '../containers/Profile';
+import { colors, fonts } from '../styles';
 import APP_CONSTANTS from '../utils/appConstants/AppConstants';
 import TabNavigator from './MainTabNavigator';
-import Profile from '../containers/Profile';
-import EditAddress from '../components/Profile/EditAddress';
-import {CompleteBooking} from '../components/booking/bookingContainer';
 
 const {
   IMAGES: { headerBackground, arrowBack },
@@ -33,7 +33,7 @@ const HeaderLeftComponent = (props) => (
 
 HeaderLeftComponent.propTypes = {
   onPress: PropTypes.func.isRequired,
-}
+};
 
 const StackNavigationData = [
   {
@@ -277,10 +277,10 @@ const StackNavigationData = [
     },
   },
   {
-    name: 'Bookings',
-    path: 'bookings',
-    component: CompleteBooking,
-    headerLeft: headerLeftComponent,
+    name: 'Commissions',
+    path: 'wallet',
+    component: AvailableInFullVersion,
+    headerLeft: HeaderLeftComponent,
     headerBackground: { source: headerBackground },
     headerTitleStyle: {
       fontFamily: fonts.primaryRegular,
@@ -288,7 +288,6 @@ const StackNavigationData = [
       fontSize: 18,
     },
   },
-
 ];
 
 export default StackNavigationData;

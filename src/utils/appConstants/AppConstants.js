@@ -7,10 +7,13 @@ const APP_CONSTANTS = {
     login: `${ENV.API_HOST}/signin`,
     location: `${ENV.API_HOST}/location/getall`,
     userDetails: `${ENV.API_HOST}/user/getbyusername`,
-    updateUserProfile: `${ENV.API_HOST}/user/updatebyid`,
+    updateUserProfile: `${ENV.API_HOST}/user/updatebyusername`,
     addAddress: `${ENV.API_HOST}/address/addadressbyusername`,
     updateAddress: `${ENV.API_HOST}/address/updatebyid`,
-    bookingDetails: `${ENV.API_HOST}/booking/getbyusername`
+    bookingDetails: `${ENV.API_HOST}/booking/getbyusername`,
+    updateProfessionalDetails: `${ENV.API_HOST}/user/updateuserprofessionaldetails`,
+    getAllAddress: `${ENV.API_HOST}/address/getbyusername`,
+    getOccupation: `${ENV.API_HOST}/occupation/getall`
   },
   APP_MESSAGES: {
     NOINTERNET: 'You are disconnected! Please connect to Internet',
@@ -21,7 +24,9 @@ const APP_CONSTANTS = {
     NODOCUMENTSMESSAGE: 'No Documents Found',
   },
   IMAGES: {
-    iconHome: require('../../assets/images/drawer/home.png'),
+    iconDrawerHome: require('../../assets/images/drawer/home.png'),
+    iconTabHome: require('../../assets/images/tabbar/home.png'),
+    iconWallet: require('../../assets/images/drawer/wallet-outline.png'),
     iconArchitect: require('../../assets/icons/architect.png'),
     iconCivil: require('../../assets/icons/engineer.png'),
     iconMason: require('../../assets/icons/mason.png'),
@@ -37,7 +42,7 @@ const APP_CONSTANTS = {
     iconLogout: require('../../assets/icons/iconLogout.png'),
     iconSignup: require('../../assets/icons/signup.png'),
     iconUser: require('../../assets/images/drawer/user.png'),
-    avatar: require('../../assets/images/default-avatar.png'),
+    avatar: require('../../assets/images/RNS_nerd.png'),
     iconMenu: require('../../assets/images/drawer/menu.png'),
     background: require('../../assets/images/background.png'),
     headerBackground: require('../../assets/images/topBarBg.png'),
@@ -45,7 +50,8 @@ const APP_CONSTANTS = {
     loginIcon: require('../../assets/icons/loginIcon.jpeg'),
     cameraIcon: require('../../assets/icons/camera.png'),
     regIcon: require('../../assets/icons/loginIcon.jpeg'),
-    iconBooking: require('../../assets/images/drawer/bookingIcon1.png')
+    iconDrawerBooking: require('../../assets/images/drawer/bookings.png'),
+    iconTabBooking: require('../../assets/images/tabbar/bookings.png')
   },
   RegisterForm: {
     name: 'Name',

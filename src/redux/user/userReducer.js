@@ -18,11 +18,20 @@ const initialState = {
   addAddress: {},
   updateAddressError: {},
   addAddressError: {},
+  addressData: [],
+  addressDataError: {},
+  occupations: [],
+  occupationsError: {},
 };
 
 export default function userReducer(state = initialState, action) {
-
   switch (action.type) {
+    case USER_CONSTANTS.USER_AUTH_REQUEST:
+      return {
+        ...state,
+        isLoggedIn: false,
+        loginError: {},
+      };
     case USER_CONSTANTS.USER_AUTH_SUCCESS:
       return {
         ...state,
@@ -32,6 +41,12 @@ export default function userReducer(state = initialState, action) {
       return {
         ...state,
         loginError: action.error,
+      };
+    case USER_CONSTANTS.USER_LOGOUT_SUCCESS:
+      return {
+        ...state,
+        isLoggedIn: false,
+        loginError: {},
       };
     case USER_CONSTANTS.USER_REGISTER_REQUEST:
       return {
@@ -120,13 +135,33 @@ export default function userReducer(state = initialState, action) {
     case USER_CONSTANTS.BOOKING_DETAIL_SUCCESS:
       return {
         ...state,
-        bookingDetails: action.payload.data
+        bookingDetails: action.payload.data,
       };
     case USER_CONSTANTS.BOOKING_DETAIL_FAILURE:
-      return{
+      return {
         ...state,
-        bookingDetailsError: action.error
-      }
+        bookingDetailsError: action.error,
+      };
+    case USER_CONSTANTS.GET_ALL_ADDRESS_SUCCESS:
+      return {
+        ...state,
+        addressData: action.payload.data,
+      };
+    case USER_CONSTANTS.GET_ALL_ADDRESS_FAILURE:
+      return {
+        ...state,
+        addressDataError: action.error,
+      };
+    case USER_CONSTANTS.GET_OCCUPATION_SUCCESS:
+      return {
+        ...state,
+        occupations: action.payload.data,
+      };
+    case USER_CONSTANTS.GET_OCCUPATION_FAILURE:
+      return {
+        ...state,
+        occupationsError: action.error,
+      };
     default:
       return { ...state };
   }

@@ -355,36 +355,36 @@ export default class RegisterScreen extends Component {
   };
 
   registerUser = () => {
-    const result = true;
+    const result = this.validateFields();
     if (result === true) {
       const { nameValue, mobileValue, dateOfBirthValue, location, ageValue, emailValue, passwordValue } = this.state;
-      // const userRegBody = {
-      //   name: nameValue,
-      //   phone: Number(mobileValue),
-      //   email: emailValue,
-      //   password: passwordValue,
-      //   age: Number(ageValue),
-      //   roles: ['emp'],
-      //   address: [],
-      //   employeeData: {},
-      //   location,
-      //   dob: dateOfBirthValue,
-      // };
       const userRegBody = {
-        name: 'Vinay Yadav',
-        phone: 7777888899,
-        email: 'vy@gmail.com',
-        password: '727785',
-        age: 30,
+        name: nameValue,
+        phone: Number(mobileValue),
+        email: emailValue,
+        password: passwordValue,
+        age: Number(ageValue),
         roles: ['emp'],
         address: [],
         employeeData: {},
-        location: {
-          locationId: 1,
-          locationName: 'Delhi'
-        },
-        dob: '1994-09-10',
+        location,
+        dob: dateOfBirthValue,
       };
+      // const userRegBody = {
+      //   name: 'Vinay Yadav',
+      //   phone: 7777888899,
+      //   email: 'vy@gmail.com',
+      //   password: '727785',
+      //   age: 30,
+      //   roles: ['emp'],
+      //   address: [],
+      //   employeeData: {},
+      //   location: {
+      //     locationId: 1,
+      //     locationName: 'Delhi'
+      //   },
+      //   dob: '1994-09-10',
+      // };
       const { dispatch } = this.props;
       dispatch(loaderStartAction());
       dispatch(userSignupAction(userRegBody));

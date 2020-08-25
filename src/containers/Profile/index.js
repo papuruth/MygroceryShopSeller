@@ -12,6 +12,7 @@ const mapStateToProps = (state) => {
     addAddress,
     updateAddressError,
     addAddressError,
+    occupations,
   } = state.userReducer;
   return {
     user,
@@ -23,6 +24,7 @@ const mapStateToProps = (state) => {
     addAddress,
     updateAddressError,
     addAddressError,
+    occupations
   };
 };
 

@@ -9,6 +9,10 @@ import {
   updateUserProfileWatcherSaga,
   updateAddressByIdWatcherSaga,
   addAddressWatcherSaga,
+  updateProfessionalDetailsWatcherSaga,
+  getAllAddressWatcherSaga,
+  getOccupationWatcherSaga,
+  userLogoutWatcherSaga,
 } from '../user/UserSaga';
 import { loaderStartWatcherSaga, loaderStopWatcherSaga } from '../loaderService/LoaderSaga';
 
@@ -18,12 +22,16 @@ export default function* rootSaga() {
     checkAuthWatcherSaga(),
     addAddressWatcherSaga(),
     loaderStopWatcherSaga(),
+    userLogoutWatcherSaga(),
     loaderStartWatcherSaga(),
     getLocationWatcherSaga(),
     getUserDataWatcherSaga(),
     userRegisterWatcherSaga(),
+    getAllAddressWatcherSaga(),
+    getOccupationWatcherSaga(),
+    bookingDetailsWatcherSaga(),
     updateUserProfileWatcherSaga(),
     updateAddressByIdWatcherSaga(),
-    bookingDetailsWatcherSaga(),
+    updateProfessionalDetailsWatcherSaga()
   ]);
 }

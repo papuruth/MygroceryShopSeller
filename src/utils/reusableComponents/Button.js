@@ -25,10 +25,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 30,
+    paddingHorizontal: 15,
   },
   buttonSmall: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
   },
   border: {
     borderWidth: 1,

@@ -1,8 +1,5 @@
 apply plugin: "com.android.application"
-<<<<<<< HEAD
 apply plugin: 'com.google.gms.google-services'
-=======
->>>>>>> ad80e3c5991b76e31dd229c8621bc574a754f33d
 
 import com.android.build.OutputFile
 
@@ -110,9 +107,11 @@ android {
 }
 
 dependencies {
-    implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation "com.facebook.react:react-native:+"
+  implementation 'androidx.appcompat:appcompat:1.2.0'
+  implementation 'androidx.constraintlayout:constraintlayout:2.0.0'// From node_modules
     def multidex_version = "2.0.1"
-    implementation 'androidx.multidex:multidex:$multidex_version'
+    implementation "androidx.multidex:multidex:$multidex_version"
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
         debugImplementation files(hermesPath + "hermes-debug.aar")

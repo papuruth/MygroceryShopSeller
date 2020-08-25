@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Image, StyleSheet, Text, TextInput, TouchableHighlight, View, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { Icon } from 'react-native-elements';
-import { loginAction } from '../../redux/user/userAction'
+import { loginAction, getUserDataAction } from '../../redux/user/userAction'
 import APP_CONSTANTS from '../../utils/appConstants/AppConstants';
 import { loaderStartAction } from '../../redux/loaderService/LoaderAction';
-import { equalityChecker } from '../../utils/commonFunctions';
+import { equalityChecker, checkEmpty } from '../../utils/commonFunctions';
 
 const styles = StyleSheet.create({
   container: {
@@ -72,12 +72,13 @@ export default class LoginView extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { isLoggedIn, navigation, loginError } = this.props
+    const { isLoggedIn, navigation, loginError, dispatch } = this.props
     if (isLoggedIn) {
-      navigation.navigate('home')
-    } if (!equalityChecker(loginError, prevProps.loginError) && !isLoggedIn) {
-      const { response: { error } } = loginError;
-      Alert.alert('Failure', `Login failed: ${error}`);
+      navigation.navigate('home');
+      dispatch(getUserDataAction());
+    } if (!checkEmpty(loginError) && !equalityChecker(loginError, prevProps.loginError) && !isLoggedIn) {
+      const { response: { message } } = loginError;
+      Alert.alert('Failure', `Login failed: ${message}`);
     }
     return null;
   }

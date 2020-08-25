@@ -3,12 +3,15 @@ import React from 'react';
 import { Image, Text, TouchableHighlight, View, StyleSheet, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { sessionService } from 'redux-react-native-session';
+import { Avatar } from 'react-native-paper';
 import APP_CONSTANTS from '../utils/appConstants/AppConstants';
 import { Button } from '../utils/reusableComponents';
 import Storage from '../utils/Storage';
+import { userLogout } from '../redux/user/userAction';
+import { Pressable } from 'react-native';
 
 const {
-  IMAGES: { iconHome,iconBooking },
+  IMAGES: { iconDrawerHome, iconTabBooking, iconWallet },
 } = APP_CONSTANTS;
 
 const styles = StyleSheet.create({
@@ -37,7 +40,14 @@ const styles = StyleSheet.create({
   avatar: {
     width: 60,
     height: 60,
-    borderRadius: 20,
+    borderRadius: 30,
+  },
+  avatarText: {
+    width: 60,
+    height: 60,
+    borderColor: '#fff',
+    borderWidth: 1,
+    borderRadius: 30,
   },
   avatarContainer: {
     display: 'flex',
@@ -61,18 +71,18 @@ drawerData = [
   {
     name: 'Home',
     path: 'home',
-    icon: iconHome,
+    icon: iconDrawerHome,
   },
   {
     name: 'Bookings',
     path: 'bookings',
-    icon: iconBooking,
-  }
-  //   {
-  //     name: 'Civil Engineer',
-  //     path: 'civil',
-  //     icon: iconCivil,
-  //   },
+    icon: iconTabBooking,
+  },
+  {
+    name: 'Commissions',
+    path: 'wallet',
+    icon: iconWallet,
+  },
   //   {
   //     name: 'Mason',
   //     path: 'mason',
@@ -117,34 +127,51 @@ drawerData = [
 
 export default function RenderDrawer(props) {
   const {
-    IMAGES: { iconUser, iconLogin, iconLogout, iconSignup, iconSettings },
+    IMAGES: { iconLogin, iconLogout, iconSignup, iconSettings },
   } = APP_CONSTANTS;
-  const { navigation, authenticated, user } = props;
+  const { navigation, authenticated, user, dispatch } = props;
   const handleLogout = async () => {
+    dispatch(userLogout());
     await sessionService.deleteSession();
     await sessionService.deleteUser();
     await Storage.clearStorage();
     Alert.alert(
       'Success',
       'You have logged out successfully!',
-      [
-        { text: 'OK', onPress: () => navigation.navigate('home') }
-      ],
-      { cancelable: false }
+      [{ text: 'OK', onPress: () => navigation.navigate('home') }],
+      { cancelable: false },
     );
-  }
+  };
   return (
     <DrawerContentScrollView {...props} style={{ padding: 0 }}>
       <View style={styles.drawerHeader}>
-        <View style={styles.avatarContainer}>
-          <TouchableHighlight onPress={() => navigation.navigate('profile')}>
-            <Image style={styles.avatar} source={iconUser} />
-          </TouchableHighlight>
-          <View style={{ paddingLeft: 15 }}>
-            <Text style={styles.userName}>{user.name?user.name:"Construct"}</Text>
-            <Text style={{ color: '#4BC1FD' }}>{user.username}</Text>
+        {authenticated ? (
+          <View style={styles.avatarContainer}>
+            <Pressable onPress={() => navigation.navigate('profile')}>
+              {user?.image ? (
+                <Avatar.Image style={styles.avatar} source={{ uri: user?.image }} />
+              ) : (
+                <Avatar.Text
+                  style={styles.avatarText}
+                  label={user?.name && user?.name.slice(0, 1)}
+                />
+              )}
+            </Pressable>
+            <View style={{ paddingLeft: 15 }}>
+              <Text style={styles.userName}>{`Hi! ${user.name}`}</Text>
+              <Text style={{ color: '#4BC1FD' }}>{user.username}</Text>
+            </View>
           </View>
-        </View>
+        ) : (
+          <View style={styles.avatarContainer}>
+            <TouchableHighlight onPress={() => navigation.navigate('login')}>
+              <Avatar.Icon style={styles.avatarText} icon="account" />
+            </TouchableHighlight>
+            <View style={{ paddingLeft: 15 }}>
+              <Text style={styles.userName}>Welcome, Guest!</Text>
+            </View>
+          </View>
+        )}
         {!authenticated ? (
           <View style={styles.buttonContainer}>
             <Button
@@ -168,13 +195,7 @@ export default function RenderDrawer(props) {
           </View>
         ) : (
           <View style={styles.buttonContainer}>
-            <Button
-              bordered
-              rounded
-              caption="Logout"
-              icon={iconLogout}
-              onPress={handleLogout}
-            />
+            <Button bordered rounded caption="Logout" icon={iconLogout} onPress={handleLogout} />
           </View>
         )}
       </View>
@@ -208,5 +229,6 @@ export default function RenderDrawer(props) {
 RenderDrawer.propTypes = {
   navigation: PropTypes.oneOfType([PropTypes.object]).isRequired,
   authenticated: PropTypes.bool.isRequired,
-  user: PropTypes.oneOfType([PropTypes.object]).isRequired
-}
+  user: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  dispatch: PropTypes.func.isRequired,
+};

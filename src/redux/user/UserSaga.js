@@ -110,6 +110,8 @@ const getUserDataService = async () => {
       URLS: { userDetails },
     } = APP_CONSTANTS;
     const response = await getAPIData(userDetails);
+    const user = await sessionService.loadUser();
+    await sessionService.saveUser(Object.assign(user, response.data));
     return { response };
   } catch (error) {
     return { error };
@@ -153,8 +155,8 @@ function* bookingDetailsSaga(action) {
 }
 
 export function* bookingDetailsWatcherSaga() {
-  yield takeEvery(USER_CONSTANTS.BOOKING_DETAIL_REQUEST,bookingDetailsSaga);
-} 
+  yield takeEvery(USER_CONSTANTS.BOOKING_DETAIL_REQUEST, bookingDetailsSaga);
+}
 const checkAuthService = async () => {
   try {
     const {
@@ -188,12 +190,12 @@ export function* checkAuthWatcherSaga() {
   yield takeEvery(USER_CONSTANTS.CHECK_AUTH_REQUEST, checkAuthSaga);
 }
 
-const updateUserProfileService = async ({ id, data }) => {
+const updateUserProfileService = async ({ data }) => {
   try {
     const {
       URLS: { updateUserProfile },
     } = APP_CONSTANTS;
-    const response = await putAPIData(`${updateUserProfile}/${id}`, data);
+    const response = await putAPIData(updateUserProfile, data);
     return { response };
   } catch (error) {
     return { error };
@@ -275,4 +277,93 @@ function* addAddressSaga(action) {
 
 export function* addAddressWatcherSaga() {
   yield takeEvery(USER_CONSTANTS.ADD_ADDRESS_REQUEST, addAddressSaga);
+}
+
+const updateProfessionalDetailsService = async (data) => {
+  try {
+    const {
+      URLS: { updateProfessionalDetails },
+    } = APP_CONSTANTS;
+    const response = await putAPIData(updateProfessionalDetails, data);
+    return { response };
+  } catch (error) {
+    return { error };
+  }
+};
+
+function* updateProfessionalDetailsSaga(action) {
+  const { response, error } = yield call(updateProfessionalDetailsService, action.payload);
+  if (response && response.status) {
+    yield put(yield call(success, USER_CONSTANTS.UPDATE_USER_PROFILE_SUCCESS, response));
+    yield put({ type: LOADER_CONSTANTS.LOADER_STOP_REQUEST });
+  } else {
+    yield put(yield call(failure, USER_CONSTANTS.UPDATE_USER_PROFILE_FAILURE, error));
+    yield put({ type: LOADER_CONSTANTS.LOADER_STOP_REQUEST });
+  }
+}
+
+export function* updateProfessionalDetailsWatcherSaga() {
+  yield takeEvery(USER_CONSTANTS.UPDATE_PROFESSIONAL_DETAIL_REQUEST, updateProfessionalDetailsSaga);
+}
+
+const getAllAddressService = async () => {
+  try {
+    const {
+      URLS: { getAllAddress },
+    } = APP_CONSTANTS;
+    const response = await getAPIData(getAllAddress);
+    return { response };
+  } catch (error) {
+    return { error };
+  }
+};
+
+function* getAllAddressSaga() {
+  const { response, error } = yield call(getAllAddressService);
+  if (response && response.status) {
+    yield put(yield call(success, USER_CONSTANTS.GET_ALL_ADDRESS_SUCCESS, response));
+    yield put({ type: LOADER_CONSTANTS.LOADER_STOP_REQUEST });
+  } else {
+    yield put(yield call(failure, USER_CONSTANTS.GET_ALL_ADDRESS_FAILURE, error));
+    yield put({ type: LOADER_CONSTANTS.LOADER_STOP_REQUEST });
+  }
+}
+
+export function* getAllAddressWatcherSaga() {
+  yield takeEvery(USER_CONSTANTS.GET_ALL_ADDRESS_REQUEST, getAllAddressSaga);
+}
+
+const getOccupationService = async () => {
+  try {
+    const {
+      URLS: { getOccupation },
+    } = APP_CONSTANTS;
+    const response = await getAPIData(getOccupation);
+    return { response };
+  } catch (error) {
+    return { error };
+  }
+};
+
+function* getOccupationSaga() {
+  const { response, error } = yield call(getOccupationService);
+  if (response && response.status) {
+    yield put(yield call(success, USER_CONSTANTS.GET_OCCUPATION_SUCCESS, response));
+    yield put({ type: LOADER_CONSTANTS.LOADER_STOP_REQUEST });
+  } else {
+    yield put(yield call(failure, USER_CONSTANTS.GET_OCCUPATION_FAILURE, error));
+    yield put({ type: LOADER_CONSTANTS.LOADER_STOP_REQUEST });
+  }
+}
+
+export function* getOccupationWatcherSaga() {
+  yield takeEvery(USER_CONSTANTS.GET_OCCUPATION_REQUEST, getOccupationSaga);
+}
+
+function* userLogoutSaga() {
+  yield put(yield call(success, USER_CONSTANTS.USER_LOGOUT_SUCCESS, null));
+}
+
+export function* userLogoutWatcherSaga() {
+  yield takeEvery(USER_CONSTANTS.USER_LOGOUT_REQUEST, userLogoutSaga);
 }

@@ -9,7 +9,7 @@
     "camelcase": "off",
     "global-require": "off",
     "no-console": "off",
-    "react/prop-types": 0,
+    // "react/prop-types": 0,
     "no-undef": "off",
     "max-len": ["error", { "code": 300 }],
     "implicit-arrow-linebreak": "off",

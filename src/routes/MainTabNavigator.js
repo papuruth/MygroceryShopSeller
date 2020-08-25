@@ -24,6 +24,9 @@ const styles = StyleSheet.create({
   tabBarIconFocused: {
     tintColor: colors.PRIMARY,
   },
+  tabBarIconReleased: {
+    tintColor: colors.black
+  }
 });
 
 export default function BottomTabs() {
@@ -37,7 +40,7 @@ export default function BottomTabs() {
           options={{
             tabBarIcon: ({ focused }) => (
               <View style={styles.tabBarItemContainer}>
-                <Image resizeMode="contain" source={item.icon} style={[styles.tabBarIcon, focused && styles.tabBarIconFocused]} />
+                <Image resizeMode="contain" source={item.icon} style={[styles.tabBarIcon, focused ? styles.tabBarIconFocused : styles.tabBarIconReleased]} />
               </View>
             ),
             tabBarLabel: ({ focused }) => <Text style={{ fontSize: 12, color: focused ? colors.primary : colors.gray }}>{item.name}</Text>,

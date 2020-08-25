@@ -1,23 +1,28 @@
-import React, { PureComponent } from 'react';
 import storage from '@react-native-firebase/storage';
-import { SafeAreaView, Alert } from 'react-native';
-import { Dialog, Portal } from 'react-native-paper';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { Alert, SafeAreaView } from 'react-native';
+import { Dialog, Portal } from 'react-native-paper';
+import { loaderStartAction } from '../../../redux/loaderService/LoaderAction';
+import {
+  addAddressByUsername,
+  updateProfessionalDetails,
+  updateUserProfile,
+} from '../../../redux/user/userAction';
 import { colors } from '../../../styles';
+import APP_CONSTANTS from '../../../utils/appConstants/AppConstants';
 import { checkEmpty, equalityChecker } from '../../../utils/commonFunctions';
 import { Button } from '../../../utils/reusableComponents';
 import { styles } from '../styles';
 import {
-  RenderBasicDetailsForm,
   RenderAddressForm,
-  RenderProfessionalDetailsForm,
+  RenderBasicDetailsForm,
   RenderDocsForm,
+  RenderProfessionalDetailsForm,
 } from './RenderEditForm';
-import APP_CONSTANTS from '../../../utils/appConstants/AppConstants';
-import { updateUserProfile, addAddressByUsername } from '../../../redux/user/userAction';
-import { loaderStartAction } from '../../../redux/loaderService/LoaderAction';
 
-export default class EditProfile extends PureComponent {
+export default class EditProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -38,6 +43,7 @@ export default class EditProfile extends PureComponent {
       selectedOccupation: null,
       aadharFront: null,
       aadharBack: null,
+      rawImge: null,
       locationSelected: null,
       locationColor: colors.PURPLE,
       occColor: colors.PURPLE,
@@ -53,9 +59,7 @@ export default class EditProfile extends PureComponent {
       ? data
       : {};
     const { buildingName, city, postalCode, state, street } = !checkEmpty(address) ? address : {};
-    const { experience, occupation, aadharFront, aadharBack } = !checkEmpty(employeeData)
-      ? employeeData
-      : {};
+    const { aadharFront, aadharBack } = !checkEmpty(employeeData) ? employeeData : {};
     this.setState({
       name,
       phone,
@@ -117,6 +121,7 @@ export default class EditProfile extends PureComponent {
         uploading: false,
       });
     }
+    return false;
   };
 
   saveProfile = async () => {
@@ -137,6 +142,7 @@ export default class EditProfile extends PureComponent {
       occupation,
       aadharFront,
       aadharBack,
+      rawImage,
     } = this.state;
     if (section === 'Documents') {
       if (checkEmpty(aadharFront) || checkEmpty(aadharBack)) {
@@ -160,7 +166,7 @@ export default class EditProfile extends PureComponent {
           aadharBack: res2,
         });
         dispatch(loaderStartAction());
-        dispatch(updateUserProfile(data?.id, data));
+        dispatch(updateProfessionalDetails(data?.employeeData));
         this.setState({
           aadharFront: res1,
           aadharBack: res2,
@@ -170,10 +176,13 @@ export default class EditProfile extends PureComponent {
       }
     }
     if (section === 'Basic Details') {
-      const imgUrl = await this.uploadImage(image, `${email}-userAvatar.jpg`);
-      Object.assign(data, { name, phone, email, location, image: imgUrl });
+      let imgUrl;
+      if (rawImage) {
+        imgUrl = await this.uploadImage(rawImage, `${email}-userAvatar.jpg`);
+      }
+      Object.assign(data, { name, phone, email, location, image: imgUrl || image });
       dispatch(loaderStartAction());
-      dispatch(updateUserProfile(data?.id, data));
+      dispatch(updateUserProfile(data));
       Alert.alert('Success', 'Basic details updated successfully!');
       this.hideDialog();
     }
@@ -201,15 +210,40 @@ export default class EditProfile extends PureComponent {
       this.hideDialog();
     }
     if (section === 'Professional Details') {
-      const experience = [experienceInYears.split(/\s/)[0], experienceInMonths.split(/\s/)[0]].join('.');
-      Object.assign(data?.employeeData, {experience, occupation});
+      const experience = [experienceInYears.split(/\s/)[0], experienceInMonths.split(/\s/)[0]].join(
+        '.',
+      );
+      Object.assign(data?.employeeData, { experience, occupation });
       console.log(data);
       dispatch(loaderStartAction());
-      dispatch(updateUserProfile(data?.id, data));
+      dispatch(updateProfessionalDetails(data?.employeeData));
       Alert.alert('Success', 'Professional details updated successfully!');
       this.hideDialog();
     }
+    this.resetState()
+    return false;
   };
+
+  resetState = () => {
+    this.setState({
+      name:null,
+      phone: null,
+      email: null,
+      image: null,
+      location: null,
+      buildingName: null,
+      city: null,
+      postalCode: null,
+      state: null,
+      street: null,
+      experienceInYears: null,
+      experienceInMonths: null,
+      occupation: null,
+      aadharFront: null,
+      aadharBack: null,
+      rawImage: null,
+    })
+  }
 
   handleLocationSelection = (index, opt) => {
     const { locations } = this.props;
@@ -220,9 +254,10 @@ export default class EditProfile extends PureComponent {
   };
 
   handleOccupationSelection = (index, opt) => {
+    const { occupations } = this.props;
     this.setState({
       selectedOccupation: index,
-      occupation: opt,
+      occupation: occupations.filter((item) => item.occupationName === opt)[0],
     });
   };
 
@@ -241,13 +276,21 @@ export default class EditProfile extends PureComponent {
   };
 
   setSelectedPhotos = (res, type) => {
-    this.setState({
-      [type]: res,
-    });
+    if (type === 'rawImage') {
+      this.setState({
+        image: res,
+        [type]: res,
+      });
+    } else {
+      this.setState({
+        [type]: res,
+      });
+    }
+    this.forceUpdate()
   };
 
   render() {
-    const { visible, section, locations } = this.props;
+    const { visible, section, locations, occupations } = this.props;
     const locationsData = !checkEmpty(locations) ? locations.map((item) => item.locationName) : [];
     const {
       name,
@@ -271,7 +314,10 @@ export default class EditProfile extends PureComponent {
       uploading,
       transferred,
     } = this.state;
-    const { occupation, exprInYears, exprInMonths } = APP_CONSTANTS;
+    const { exprInYears, exprInMonths } = APP_CONSTANTS;
+    const occupationData = !checkEmpty(occupations)
+      ? occupations.map((item) => item.occupationName)
+      : [];
     return (
       <SafeAreaView>
         <Portal>
@@ -308,7 +354,7 @@ export default class EditProfile extends PureComponent {
               )}
               {section === 'Professional Details' && (
                 <RenderProfessionalDetailsForm
-                  occupation={occupation}
+                  occupation={occupationData}
                   expInYears={exprInYears}
                   expInMonths={exprInMonths}
                   handleExperienceSelectionYears={this.handleExperienceSelectionYears}
@@ -352,3 +398,17 @@ export default class EditProfile extends PureComponent {
     );
   }
 }
+
+EditProfile.defaultProps = {
+  dispatch: () => {},
+};
+
+EditProfile.propTypes = {
+  visible: PropTypes.bool.isRequired,
+  section: PropTypes.string.isRequired,
+  locations: PropTypes.oneOfType([PropTypes.array]).isRequired,
+  occupations: PropTypes.oneOfType([PropTypes.array]).isRequired,
+  data: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  dispatch: PropTypes.func,
+  closeEditProfileHandler: PropTypes.func.isRequired,
+};

@@ -3,18 +3,18 @@ import APP_CONSTANTS from '../utils/appConstants/AppConstants';
 import {CompleteBooking} from '../components/booking/bookingContainer';
 
 const {
-  IMAGES: { iconHome,iconBooking },
+  IMAGES: { iconTabHome,iconTabBooking },
 } = APP_CONSTANTS;
 const tabNavigationData = [
   {
     name: 'Home',
     component: HomeScreen,
-    icon: iconHome,
+    icon: iconTabHome,
   },
   {
     name: 'Bookings',
     component: CompleteBooking,
-    icon: iconBooking 
+    icon: iconTabBooking 
   }
 ];
 

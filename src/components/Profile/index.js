@@ -1,11 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Image, RefreshControl, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { Image, RefreshControl, SafeAreaView, ScrollView, Text, View, Alert } from 'react-native';
 import { Avatar, Card, Divider, IconButton } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Verified from '../../assets/icons/verified.svg';
 import { loaderStartAction } from '../../redux/loaderService/LoaderAction';
-import { getUserDataAction, getLocationAction } from '../../redux/user/userAction';
+import {
+  getUserDataAction,
+  getLocationAction,
+  getOccupationAction,
+} from '../../redux/user/userAction';
 import { colors } from '../../styles';
 import { checkEmpty, dateTimeFormater, equalityChecker } from '../../utils/commonFunctions';
 import EditProfile from './EditProfile';
@@ -23,12 +27,30 @@ export default class Profile extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { userDetails, updateAddress, addAddress } = this.props;
+    const {
+      userProfileUpdateStatus,
+      userProfileUpdateError,
+      userDetails,
+      addAddress,
+      addAddressError,
+    } = this.props;
+    if (
+      !equalityChecker(userProfileUpdateStatus, prevProps.userProfileUpdateStatus) &&
+      userProfileUpdateStatus?.status
+    ) {
+      this.fetchUserDetails();
+    }
+    if (!equalityChecker(userProfileUpdateError, prevProps.userProfileUpdateError)) {
+      Alert.alert('Error', `${userProfileUpdateError?.message}`);
+    }
     if (!checkEmpty(userDetails)) {
       this.updateState();
     }
     if (!equalityChecker(addAddress, prevProps.addAddress) && addAddress?.status) {
       this.fetchUserDetails();
+    }
+    if (!equalityChecker(addAddressError, prevProps.addAddressError)) {
+      Alert.alert('Error', 'Sorry! Cannot add new address. Please, try again.');
     }
   }
 
@@ -37,6 +59,7 @@ export default class Profile extends React.PureComponent {
     dispatch(loaderStartAction());
     dispatch(getUserDataAction());
     dispatch(getLocationAction());
+    dispatch(getOccupationAction());
   };
 
   updateState = () => {
@@ -77,6 +100,7 @@ export default class Profile extends React.PureComponent {
       userProfileUpdateStatus,
       userProfileUpdateError,
       dispatch,
+      occupations,
     } = this.props;
     const {
       id,
@@ -101,8 +125,14 @@ export default class Profile extends React.PureComponent {
       verified,
     } = !checkEmpty(employeeData) ? employeeData : {};
     const experienceModified = experience ? experience.split('.') : [];
-    const exprInYears = !checkEmpty(experienceModified) && parseInt(experienceModified[0], 10) > 1 ?  `${experienceModified[0]} Years` : `${experienceModified[0]} Year`;
-    const exprInMonths = !checkEmpty(experienceModified) && parseInt(experienceModified[1], 10) > 1 ?  `${experienceModified[1]} Months` : `${experienceModified[1]} Month`;
+    const exprInYears =
+      !checkEmpty(experienceModified) && parseInt(experienceModified[0], 10) > 1
+        ? `${experienceModified[0]} Years`
+        : `${experienceModified[0]} Year`;
+    const exprInMonths =
+      !checkEmpty(experienceModified) && parseInt(experienceModified[1], 10) > 1
+        ? `${experienceModified[1]} Months`
+        : `${experienceModified[1]} Month`;
     return (
       <SafeAreaView style={styles.profile} key={id}>
         <ScrollView
@@ -176,42 +206,44 @@ export default class Profile extends React.PureComponent {
                     <IconButton
                       {...props}
                       icon="square-edit-outline"
-                      onPress={() => navigation.navigate('edit-address', {address})}
+                      onPress={() => navigation.navigate('edit-address')}
                     />
                   </View>
                 )}
               />
               <Divider style={styles.dividerStyle} />
-              {!checkEmpty(address) ? (
-                address.slice(0, 1).map(({ addressId, buildingName, city, postalCode, state, street }) => (
-                  <Card.Content style={styles.cardContent} key={addressId}>
-                    <View style={styles.addressInfo}>
-                      <Text style={styles.label}>Building Name:</Text>
-                      <Text style={styles.textContent}>{buildingName || 'N/A'}</Text>
-                    </View>
-                    <View style={styles.addressInfo}>
-                      <Text style={styles.label}>City:</Text>
-                      <Text style={styles.textContent}>{city || 'N/A'}</Text>
-                    </View>
-                    <View style={styles.addressInfo}>
-                      <Text style={styles.label}>Postal Code:</Text>
-                      <Text style={styles.textContent}>{postalCode || 'N/A'}</Text>
-                    </View>
-                    <View style={styles.addressInfo}>
-                      <Text style={styles.label}>State:</Text>
-                      <Text style={styles.textContent}>{state || 'N/A'}</Text>
-                    </View>
-                    <View style={styles.addressInfo}>
-                      <Text style={styles.label}>Street:</Text>
-                      <Text style={styles.textContent}>{street || 'N/A'}</Text>
-                    </View>
-                  </Card.Content>
-                ))
+              {!checkEmpty(address) && !checkEmpty(address.filter((item) => item.isPrimary)) ? (
+                address
+                  .filter((item) => item.isPrimary)
+                  .map(({ addressId, buildingName, city, postalCode, state, street }) => (
+                    <Card.Content style={styles.cardContent} key={addressId}>
+                      <View style={styles.addressInfo}>
+                        <Text style={styles.label}>Building Name:</Text>
+                        <Text style={styles.textContent}>{buildingName || 'N/A'}</Text>
+                      </View>
+                      <View style={styles.addressInfo}>
+                        <Text style={styles.label}>City:</Text>
+                        <Text style={styles.textContent}>{city || 'N/A'}</Text>
+                      </View>
+                      <View style={styles.addressInfo}>
+                        <Text style={styles.label}>Postal Code:</Text>
+                        <Text style={styles.textContent}>{postalCode || 'N/A'}</Text>
+                      </View>
+                      <View style={styles.addressInfo}>
+                        <Text style={styles.label}>State:</Text>
+                        <Text style={styles.textContent}>{state || 'N/A'}</Text>
+                      </View>
+                      <View style={styles.addressInfo}>
+                        <Text style={styles.label}>Street:</Text>
+                        <Text style={styles.textContent}>{street || 'N/A'}</Text>
+                      </View>
+                    </Card.Content>
+                  ))
               ) : (
                 <Card.Content style={styles.cardContent}>
                   <View style={styles.noAddressFound}>
                     <Text style={styles.label}>
-                      No address found, please use add button to add an address.
+                      No address to display. Add a new address or if already added, make atleast one address primary.
                     </Text>
                   </View>
                 </Card.Content>
@@ -233,7 +265,9 @@ export default class Profile extends React.PureComponent {
               <Card.Content style={styles.cardContent}>
                 <View style={styles.professionalInfo}>
                   <Text style={styles.label}>Ocupation</Text>
-                  <Text style={styles.textContent}>{occupation || 'N/A'}</Text>
+                  <Text style={styles.textContent}>
+                    {!checkEmpty(occupation) ? occupation?.occupationName : 'N/A'}
+                  </Text>
                 </View>
                 <View style={styles.professionalInfo}>
                   <Text style={styles.label}>Job Start Date</Text>
@@ -243,7 +277,9 @@ export default class Profile extends React.PureComponent {
                 </View>
                 <View style={styles.professionalInfo}>
                   <Text style={styles.label}>Experience:</Text>
-                  <Text style={styles.textContent}>{experience ? [exprInYears, exprInMonths].join(' ') : 'N/A'}</Text>
+                  <Text style={styles.textContent}>
+                    {experience ? [exprInYears, exprInMonths].join(' ') : 'N/A'}
+                  </Text>
                 </View>
                 <View style={styles.professionalInfo}>
                   <Text style={styles.label}>Per Day Charge:</Text>
@@ -251,25 +287,27 @@ export default class Profile extends React.PureComponent {
                 </View>
                 <View style={styles.professionalInfo}>
                   <Text style={styles.label}>Rating:</Text>
-                  {rating ? (
-                    Array(rating)
-                      .fill()
-                      .map(() => (
-                        <Text style={styles.textContent}>
-                          <Icon name="star" size={20} color={colors.yellow} />
-                        </Text>
-                      ))
-                  ) : (
-                    <Text style={styles.textContent}>N/A</Text>
-                  )}
-                  {rating &&
-                    Array(5 - rating)
-                      .fill()
-                      .map(() => (
-                        <Text style={styles.textContent}>
-                          <Icon name="star-outlined" size={20} color={colors.yellow} />
-                        </Text>
-                      ))}
+                  <View style={styles.professionalInfoRating}>
+                    {rating ? (
+                      Array(rating)
+                        .fill()
+                        .map(() => (
+                          <Text>
+                            <Icon name="star" size={20} color={colors.yellow} />
+                          </Text>
+                        ))
+                    ) : (
+                      <Text style={styles.textContent}>N/A</Text>
+                    )}
+                    {rating &&
+                      Array(5 - rating)
+                        .fill()
+                        .map(() => (
+                          <Text>
+                            <Icon name="star-outline" size={20} color={colors.yellow} />
+                          </Text>
+                        ))}
+                  </View>
                 </View>
               </Card.Content>
             </Card>
@@ -313,6 +351,7 @@ export default class Profile extends React.PureComponent {
           data={userDetails}
           locations={locations}
           dispatch={dispatch}
+          occupations={occupations}
           userProfileUpdateStatus={userProfileUpdateStatus}
           userProfileUpdateError={userProfileUpdateError}
           closeEditProfileHandler={this.closeEditProfileHandler}
@@ -326,6 +365,8 @@ Profile.propTypes = {
   userProfileUpdateStatus: PropTypes.oneOfType([PropTypes.object]).isRequired,
   userProfileUpdateError: PropTypes.oneOfType([PropTypes.object]).isRequired,
   dispatch: PropTypes.func.isRequired,
+  addAddressError: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  occupations: PropTypes.oneOfType([PropTypes.array]).isRequired,
   navigation: PropTypes.oneOfType([PropTypes.object]).isRequired,
   locations: PropTypes.oneOfType([PropTypes.array]).isRequired,
   userDetails: PropTypes.oneOfType([PropTypes.object]).isRequired,

@@ -21,7 +21,7 @@ export const RenderBasicDetailsForm = ({
 }) => {
   const selectPhoto = async () => {
     const res = await imageSelector();
-    setPhotos(res, 'image');
+    setPhotos(res, 'rawImage');
   };
   return (
     <View style={styles.editBasicProfileContainer}>

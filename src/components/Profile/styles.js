@@ -19,6 +19,7 @@ export const styles = StyleSheet.create({
   personalInfoCard: {
     display: 'flex',
     borderTopColor: colors.secondary,
+    backgroundColor: colors.WHITE,
     borderTopWidth: 2,
     flexDirection: 'column',
     marginBottom: 15,
@@ -27,6 +28,7 @@ export const styles = StyleSheet.create({
     display: 'flex',
     borderTopColor: colors.green,
     borderTopWidth: 2,
+    backgroundColor: colors.WHITE,
     flexDirection: 'column',
     marginBottom: 15,
   },
@@ -95,6 +97,7 @@ export const styles = StyleSheet.create({
     display: 'flex',
     borderTopColor: colors.orange,
     borderTopWidth: 2,
+    backgroundColor: colors.WHITE,
     flexDirection: 'column',
     marginBottom: 15,
   },
@@ -108,6 +111,7 @@ export const styles = StyleSheet.create({
     display: 'flex',
     borderTopColor: colors.BLUE,
     borderTopWidth: 2,
+    backgroundColor: colors.WHITE,
     flexDirection: 'column',
   },
   documentInfo: {
@@ -228,5 +232,12 @@ export const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     width: '100%',
+  },
+  checkbox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  }, 
+  professionalInfoRating: {
+    flexDirection: 'row',
   }
 });
