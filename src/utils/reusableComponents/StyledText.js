@@ -3,6 +3,35 @@ import { Text as RNText, StyleSheet } from 'react-native';
 
 import { colors, fonts } from '../../styles';
 
+const styles = StyleSheet.create({
+  default: {
+    fontFamily: fonts.primaryRegular,
+  },
+  bold: {
+    fontFamily: fonts.primaryBold,
+  },
+  light: {
+    fontFamily: fonts.primaryLight,
+  },
+  title: {
+    fontSize: 18,
+  },
+  caption: {
+    fontSize: 13,
+  },
+  underline: {
+    textDecorationLine: 'underline',
+    textDecorationStyle: 'solid',
+    textDecorationColor: colors.gray,
+  },
+  lineThrough: {
+    textDecorationLine: 'line-through',
+  },
+  white: {
+    color: colors.white,
+  },
+});
+
 function applyGeneralStyles({
   style,
   bold,
@@ -34,50 +63,13 @@ export function Text(props) {
 }
 
 export function Title(props) {
-  const finalStyle = [
-    styles.default,
-    styles.title,
-    ...applyGeneralStyles(props),
-  ];
+  const finalStyle = [styles.default, styles.title, ...applyGeneralStyles(props)];
 
   return <RNText {...props} style={finalStyle} />;
 }
 
 export function Caption(props) {
-  const finalStyle = [
-    styles.default,
-    styles.caption,
-    ...applyGeneralStyles(props),
-  ];
+  const finalStyle = [styles.default, styles.caption, ...applyGeneralStyles(props)];
 
   return <RNText {...props} style={finalStyle} />;
 }
-
-const styles = StyleSheet.create({
-  default: {
-    fontFamily: fonts.primaryRegular,
-  },
-  bold: {
-    fontFamily: fonts.primaryBold,
-  },
-  light: {
-    fontFamily: fonts.primaryLight,
-  },
-  title: {
-    fontSize: 18,
-  },
-  caption: {
-    fontSize: 13,
-  },
-  underline: {
-    textDecorationLine: 'underline',
-    textDecorationStyle: 'solid',
-    textDecorationColor: colors.gray,
-  },
-  lineThrough: {
-    textDecorationLine: 'line-through',
-  },
-  white: {
-    color: colors.white,
-  },
-});

@@ -1,4 +1,4 @@
-# React Native Starter 🚀
+# MyGroceryShop 🚀
 
 ## Getting Started
 
@@ -6,25 +6,19 @@
 
 ```bash
 # Clone the repo
-git clone https://github.com/flatlogic/react-native-starter.git
+git clone https://github.com/papuruth/mygroceryshop.git
 
 # Navigate to clonned folder and Install dependencies
-cd react-native-starter && yarn install
-
-# Install Pods
-cd ios && pod install
+cd mygroceryshop && yarn install
 ```
 
-#### 2. Open RNS in your iOS simulator
+#### 2. Open RNS in your android emmulator
 
-Run this command to start the development server and to start your app on iOS simulator:
-```
-yarn run:ios
-```
+Run this command to start the development server and to start your app on Android simulator:
 
-Or, if you prefer Android:
 ```
-yarn run:android
+yarn start // To spawn RN Server
+yarn run:android // To build and install app on emulator
 ```
 
 That's it! Cool, right?

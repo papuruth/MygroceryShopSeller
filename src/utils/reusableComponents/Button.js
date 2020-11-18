@@ -76,67 +76,89 @@ const styles = StyleSheet.create({
 });
 
 export default function Button(props) {
-  const caption = props.caption && props.caption.toUpperCase();
-  let icon;
-  if (props.icon) {
-    icon = <Image resizeMode="contain" source={props.icon} style={styles.icon} />;
+  const {
+    caption,
+    icon,
+    bordered,
+    small,
+    bgColor,
+    rounded,
+    loading,
+    children,
+    style,
+    onPress,
+    isDisabled,
+    action,
+    bgGradientStart,
+    bgGradientEnd,
+    textColor,
+    secondary,
+    primary,
+    large,
+  } = props;
+  let iconMod;
+  if (icon) {
+    iconMod = <Image resizeMode="contain" source={icon} style={styles.icon} />;
   }
 
   let content;
 
-  if (props.bordered) {
+  if (bordered) {
     const borderedStyle = [
       styles.button,
-      props.small && styles.buttonSmall,
+      small && styles.buttonSmall,
       styles.border,
-      props.primary && {
+      primary && {
         borderColor: colors.primary,
       },
-      props.secondary && {
+      secondary && {
         borderColor: colors.secondary,
       },
-      props.bgColor && {
+      bgColor && {
         borderColor: props.bgColor,
       },
-      props.rounded && styles.rounded,
+      rounded && styles.rounded,
     ];
     const textStyle = [
       styles.caption,
-      props.small && styles.captionSmall,
+      small && styles.captionSmall,
       styles.secondaryCaption,
-      icon && styles.captionWithIcon,
-      props.primary && {
+      iconMod && styles.captionWithIcon,
+      primary && {
         color: colors.primary,
       },
-      props.secondary && {
+      secondary && {
         color: colors.secondary,
       },
-      props.bgColor && {
+      bgColor && {
         color: props.bgColor,
       },
-      props.textColor && {
-        color: props.textColor,
+      textColor && {
+        color: textColor,
       },
     ];
 
     content = (
       <View style={borderedStyle}>
-        {icon && <View>{icon}</View>}
-        {props.loading && <ActivityIndicator color="white" />}
-        {!props.loading && props.caption && <Text style={textStyle}>{caption}</Text>}
-        {props.children && props.children}
+        {iconMod && <View>{iconMod}</View>}
+        {loading && <ActivityIndicator color="white" />}
+        {!loading && caption && <Text style={textStyle}>{caption}</Text>}
+        {children && children}
       </View>
     );
   } else {
-    const isPrimary = props.primary || (!props.primary && !props.secondary);
-    let gradientArray = props.bgGradientStart && props.bgGradientEnd ? [props.bgGradientStart, props.bgGradientEnd] : undefined;
+    const isPrimary = primary || (!primary && !secondary);
+    let gradientArray =
+      bgGradientStart && bgGradientEnd ? [bgGradientStart, bgGradientEnd] : undefined;
 
     if (!gradientArray) {
-      gradientArray = isPrimary ? [colors.primaryGradientStart, colors.primaryGradientEnd] : [colors.secondaryGradientStart, colors.secondaryGradientEnd];
+      gradientArray = isPrimary
+        ? [colors.primaryGradientStart, colors.primaryGradientEnd]
+        : [colors.secondaryGradientStart, colors.secondaryGradientEnd];
     }
 
-    if (props.bgColor) {
-      gradientArray = [props.bgColor, props.bgColor];
+    if (bgColor) {
+      gradientArray = [bgColor, bgColor];
     }
 
     content = (
@@ -144,12 +166,29 @@ export default function Button(props) {
         start={{ x: 0.5, y: 1 }}
         end={{ x: 1, y: 1 }}
         colors={gradientArray}
-        style={[styles.button, props.small && styles.buttonSmall, styles.primaryButton, props.rounded && { borderRadius }, props.action && styles.action]}
+        style={[
+          styles.button,
+          small && styles.buttonSmall,
+          styles.primaryButton,
+          rounded && { borderRadius },
+          action && styles.action,
+        ]}
       >
-        {icon && <View>{icon}</View>}
-        {props.loading && <ActivityIndicator color="white" />}
-        {!props.loading && props.caption && <Text style={[styles.caption, props.small && styles.captionSmall, icon && styles.captionWithIcon, styles.primaryCaption]}>{caption}</Text>}
-        {!props.loading && props.children && props.children}
+        {iconMod && <View>{iconMod}</View>}
+        {loading && <ActivityIndicator color="white" />}
+        {!loading && props.caption && (
+          <Text
+            style={[
+              styles.caption,
+              small && styles.captionSmall,
+              iconMod && styles.captionWithIcon,
+              styles.primaryCaption,
+            ]}
+          >
+            {caption}
+          </Text>
+        )}
+        {!loading && children ? children : null}
       </LinearGradient>
     );
   }
@@ -157,10 +196,15 @@ export default function Button(props) {
   return (
     <TouchableOpacity
       accessibilityTraits="button"
-      onPress={props.onPress}
-      disabled={props.isDisabled}
+      onPress={onPress}
+      disabled={isDisabled}
       activeOpacity={0.8}
-      style={[styles.container, props.small && styles.containerSmall, props.large && styles.containerLarge, props.style]}
+      style={[
+        styles.container,
+        small && styles.containerSmall,
+        large && styles.containerLarge,
+        style,
+      ]}
     >
       {content}
     </TouchableOpacity>
@@ -178,6 +222,12 @@ Button.defaultProps = {
   children: undefined,
   style: undefined,
   isDisabled: undefined,
+  action: undefined,
+  bgGradientStart: undefined,
+  bgGradientEnd: undefined,
+  textColor: undefined,
+  secondary: undefined,
+  primary: undefined,
 };
 
 Button.propTypes = {
@@ -193,4 +243,10 @@ Button.propTypes = {
   onPress: PropTypes.func.isRequired,
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   caption: PropTypes.string.isRequired,
+  action: PropTypes.string,
+  bgGradientStart: PropTypes.string,
+  bgGradientEnd: PropTypes.string,
+  textColor: PropTypes.string,
+  secondary: PropTypes.bool,
+  primary: PropTypes.bool,
 };

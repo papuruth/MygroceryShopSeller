@@ -4,6 +4,7 @@ import { Dimensions, Platform } from 'react-native';
 import colors from './colors';
 import fonts from './fonts';
 import commonStyles from './common';
+import metrics from './metrics';
 
 const { width } = Dimensions.get('window');
 
@@ -121,9 +122,4 @@ Assets.loadAssetsGroup('icons', {});
 
 const scale = (size) => (width / guidelineBaseWidth) * size;
 
-export {
-  colors,
-  fonts,
-  scale,
-  commonStyles,
-};
+export { colors, fonts, scale, commonStyles, metrics };

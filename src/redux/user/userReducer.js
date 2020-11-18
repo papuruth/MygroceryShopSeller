@@ -1,104 +1,44 @@
 import { USER_CONSTANTS } from './userConstants';
 
 const initialState = {
-  isLoggedIn: false,
-  loginError: {},
-  signUpData: {},
-  signUpStatus: false,
-  signUpError: {},
-  locations: [],
-  locationError: {},
-  userDetails: {},
-  bookingDetails: [],
-  bookingDetailsError: {},
-  userDetailsError: {},
-  userProfileUpdateStatus: {},
-  userProfileUpdateError: {},
-  updateAddress: {},
+  otpSentStatus: false,
+  otpConfirm: {},
+  otpSentError: {},
   addAddress: {},
-  updateAddressError: {},
   addAddressError: {},
+  updateAddress: {},
+  updateAddressError: {},
   addressData: [],
   addressDataError: {},
-  occupations: [],
-  occupationsError: {},
+  addressDeleteStatus: false,
+  addressDeleteError: {},
 };
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
-    case USER_CONSTANTS.USER_AUTH_REQUEST:
+    case USER_CONSTANTS.SEND_OTP_REQUEST:
       return {
-        ...state,
-        isLoggedIn: false,
-        loginError: {},
+        otpSentStatus: false,
+        otpConfirm: {},
+        otpSentError: {},
       };
-    case USER_CONSTANTS.USER_AUTH_SUCCESS:
+    case USER_CONSTANTS.SEND_OTP_SUCCESS:
       return {
         ...state,
-        isLoggedIn: action.payload.status,
+        otpSentStatus: Boolean(action.payload),
+        otpConfirm: action.payload,
       };
-    case USER_CONSTANTS.USER_AUTH_FAILURE:
+    case USER_CONSTANTS.SEND_OTP_FAILURE:
       return {
         ...state,
-        loginError: action.error,
+        otpSentError: action.error,
       };
     case USER_CONSTANTS.USER_LOGOUT_SUCCESS:
       return {
         ...state,
-        isLoggedIn: false,
-        loginError: {},
-      };
-    case USER_CONSTANTS.USER_REGISTER_REQUEST:
-      return {
-        ...state,
-        signUpStatus: false,
-        signUpError: {},
-      };
-    case USER_CONSTANTS.USER_REGISTER_SUCCESS:
-      return {
-        ...state,
-        signUpStatus: action.payload.status,
-      };
-    case USER_CONSTANTS.USER_REGISTER_FAILURE:
-      return {
-        ...state,
-        signUpError: action.error,
-      };
-    case USER_CONSTANTS.GET_LOCATION_SUCCESS:
-      return {
-        ...state,
-        locations: action.payload.data,
-      };
-    case USER_CONSTANTS.GET_LOCATION_FAILURE:
-      return {
-        ...state,
-        locationError: action.error,
-      };
-    case USER_CONSTANTS.GET_USER_DATA_SUCCESS:
-      return {
-        ...state,
-        userDetails: action.payload.data,
-      };
-    case USER_CONSTANTS.GET_USER_DATA_FAILURE:
-      return {
-        ...state,
-        userDetailsError: action.error,
-      };
-    case USER_CONSTANTS.UPDATE_USER_PROFILE_REQUEST:
-      return {
-        ...state,
-        userProfileUpdateStatus: {},
-        userProfileUpdateError: {},
-      };
-    case USER_CONSTANTS.UPDATE_USER_PROFILE_SUCCESS:
-      return {
-        ...state,
-        userProfileUpdateStatus: action.payload.data,
-      };
-    case USER_CONSTANTS.UPDATE_USER_PROFILE_FAILURE:
-      return {
-        ...state,
-        userProfileUpdateError: action.error || {},
+        otpSentStatus: false,
+        otpConfirm: {},
+        otpSentError: {},
       };
     case USER_CONSTANTS.ADD_ADDRESS_REQUEST:
       return {
@@ -132,35 +72,33 @@ export default function userReducer(state = initialState, action) {
         ...state,
         updateAddressError: action.error || {},
       };
-    case USER_CONSTANTS.BOOKING_DETAIL_SUCCESS:
-      return {
-        ...state,
-        bookingDetails: action.payload.data,
-      };
-    case USER_CONSTANTS.BOOKING_DETAIL_FAILURE:
-      return {
-        ...state,
-        bookingDetailsError: action.error,
-      };
     case USER_CONSTANTS.GET_ALL_ADDRESS_SUCCESS:
       return {
         ...state,
-        addressData: action.payload.data,
+        addressData: action.payload,
       };
     case USER_CONSTANTS.GET_ALL_ADDRESS_FAILURE:
       return {
         ...state,
         addressDataError: action.error,
       };
-    case USER_CONSTANTS.GET_OCCUPATION_SUCCESS:
+    case USER_CONSTANTS.DELETE_ADDRESS_REQUEST:
       return {
         ...state,
-        occupations: action.payload.data,
+        addressDeleteStatus: false,
+        addressDeleteError: {},
       };
-    case USER_CONSTANTS.GET_OCCUPATION_FAILURE:
+    case USER_CONSTANTS.DELETE_ADDRESS_SUCCESS:
       return {
         ...state,
-        occupationsError: action.error,
+        addressDeleteStatus: action.payload,
+        addressDeleteError: {},
+      };
+    case USER_CONSTANTS.DELETE_ADDRESS_FAILURE:
+      return {
+        ...state,
+        addressDeleteStatus: false,
+        addressDeleteError: action.error,
       };
     default:
       return { ...state };

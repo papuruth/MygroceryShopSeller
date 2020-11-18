@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const WithBadge = (value, options = {}) => WrappedComponent =>
+const WithBadge = (value, options = {}) => (WrappedComponent) =>
   class extends React.PureComponent {
     render() {
       const {
@@ -29,8 +29,7 @@ const WithBadge = (value, options = {}) => WrappedComponent =>
         hidden = !value,
         ...badgeProps
       } = options;
-      const badgeValue =
-        typeof value === 'function' ? value(this.props) : value;
+      const badgeValue = typeof value === 'function' ? value(this.props) : value;
       return (
         <View>
           <WrappedComponent {...this.props} />
@@ -40,10 +39,7 @@ const WithBadge = (value, options = {}) => WrappedComponent =>
               textStyle={styles.badgeText}
               value={badgeValue}
               status="error"
-              containerStyle={[
-                styles.badgeContainer,
-                { top, right, left, bottom },
-              ]}
+              containerStyle={[styles.badgeContainer, { top, right, left, bottom }]}
               {...badgeProps}
             />
           )}

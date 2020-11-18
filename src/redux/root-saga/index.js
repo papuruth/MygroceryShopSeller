@@ -1,37 +1,23 @@
 import { all } from 'redux-saga/effects';
+import { loaderStartWatcherSaga, loaderStopWatcherSaga } from '../loaderService/LoaderSaga';
 import {
-  userRegisterWatcherSaga,
-  getLocationWatcherSaga,
-  loginWatcherSaga,
-  bookingDetailsWatcherSaga,
-  getUserDataWatcherSaga,
-  checkAuthWatcherSaga,
-  updateUserProfileWatcherSaga,
-  updateAddressByIdWatcherSaga,
   addAddressWatcherSaga,
-  updateProfessionalDetailsWatcherSaga,
+  deleteAddressByIdWatcherSaga,
   getAllAddressWatcherSaga,
-  getOccupationWatcherSaga,
+  sendOTPWatcherSaga,
+  updateAddressByIdWatcherSaga,
   userLogoutWatcherSaga,
 } from '../user/UserSaga';
-import { loaderStartWatcherSaga, loaderStopWatcherSaga } from '../loaderService/LoaderSaga';
 
 export default function* rootSaga() {
   yield all([
-    loginWatcherSaga(),
-    checkAuthWatcherSaga(),
-    addAddressWatcherSaga(),
+    sendOTPWatcherSaga(),
     loaderStopWatcherSaga(),
     userLogoutWatcherSaga(),
     loaderStartWatcherSaga(),
-    getLocationWatcherSaga(),
-    getUserDataWatcherSaga(),
-    userRegisterWatcherSaga(),
+    addAddressWatcherSaga(),
     getAllAddressWatcherSaga(),
-    getOccupationWatcherSaga(),
-    bookingDetailsWatcherSaga(),
-    updateUserProfileWatcherSaga(),
     updateAddressByIdWatcherSaga(),
-    updateProfessionalDetailsWatcherSaga()
+    deleteAddressByIdWatcherSaga(),
   ]);
 }

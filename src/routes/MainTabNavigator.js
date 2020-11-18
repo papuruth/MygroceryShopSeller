@@ -1,7 +1,6 @@
-/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable react/prop-types */
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import PropTypes from 'prop-types';
-import * as React from 'react';
+import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { colors } from '../styles';
 import tabNavigationData from './TabNavigationData';
@@ -25,8 +24,8 @@ const styles = StyleSheet.create({
     tintColor: colors.PRIMARY,
   },
   tabBarIconReleased: {
-    tintColor: colors.black
-  }
+    tintColor: colors.black,
+  },
 });
 
 export default function BottomTabs() {
@@ -40,21 +39,24 @@ export default function BottomTabs() {
           options={{
             tabBarIcon: ({ focused }) => (
               <View style={styles.tabBarItemContainer}>
-                <Image resizeMode="contain" source={item.icon} style={[styles.tabBarIcon, focused ? styles.tabBarIconFocused : styles.tabBarIconReleased]} />
+                <Image
+                  resizeMode="contain"
+                  source={item.icon}
+                  style={[
+                    styles.tabBarIcon,
+                    focused ? styles.tabBarIconFocused : styles.tabBarIconReleased,
+                  ]}
+                />
               </View>
             ),
-            tabBarLabel: ({ focused }) => <Text style={{ fontSize: 12, color: focused ? colors.primary : colors.gray }}>{item.name}</Text>,
+            tabBarLabel: ({ focused }) => (
+              <Text style={{ fontSize: 12, color: focused ? colors.primary : colors.gray }}>
+                {item.name}
+              </Text>
+            ),
           }}
         />
       ))}
     </Tab.Navigator>
   );
 }
-
-BottomTabs.defaultProps = {
-  focused: undefined,
-};
-
-BottomTabs.propTypes = {
-  focused: PropTypes.bool,
-};

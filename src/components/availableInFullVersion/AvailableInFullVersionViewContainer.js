@@ -1,6 +1,7 @@
-// @flow
-import { compose } from 'recompose';
-
+import { connect } from 'react-redux';
 import AvailableInFullVersionView from './AvailableInFullVersionView';
 
-export default compose()(AvailableInFullVersionView);
+const mapStateToProps = () => {
+  return {};
+};
+export default connect(mapStateToProps)(AvailableInFullVersionView);

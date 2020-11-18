@@ -1,10 +1,19 @@
 import React from 'react';
 import { View } from 'react-native';
-import { TextInput, Checkbox } from 'react-native-paper';
+import PropTypes from 'prop-types';
+import { RadioButton, TextInput } from 'react-native-paper';
+import { Caption, Text } from '../../../utils/reusableComponents/StyledText';
 import { styles } from '../styles';
-import { Text } from '../../../utils/reusableComponents/StyledText';
 
-export const RenderAddressEditForm = ({ buildingName, city, postalCode, state, street, onChange, isPrimary }) => {
+export const RenderAddressEditForm = ({
+  buildingName,
+  city,
+  postalCode,
+  state,
+  street,
+  onChange,
+  addressType,
+}) => {
   let cityInputRef;
   let postalInputRef;
   let stateInputRef;
@@ -68,12 +77,30 @@ export const RenderAddressEditForm = ({ buildingName, city, postalCode, state, s
         onChangeText={(text) => onChange('street', text)}
       />
       <View style={styles.checkbox}>
-        <Checkbox
-          status={isPrimary ? 'checked' : 'unchecked'}
-          onPress={() => onChange('isPrimary', !isPrimary)}
+        <Text style={styles.label}>Address Type:</Text>
+        <RadioButton
+          value={addressType}
+          status={addressType === 'Home' ? 'checked' : 'unchecked'}
+          onPress={() => onChange('addressType', 'Home')}
         />
-        <Text style={styles.label}>Is Primary</Text>
+        <Caption>Home</Caption>
+        <RadioButton
+          value={addressType}
+          status={addressType === 'Office' ? 'checked' : 'unchecked'}
+          onPress={() => onChange('addressType', 'Office')}
+        />
+        <Caption>Office</Caption>
       </View>
     </View>
   );
+};
+
+RenderAddressEditForm.propTypes = {
+  buildingName: PropTypes.string.isRequired,
+  city: PropTypes.string.isRequired,
+  postalCode: PropTypes.string.isRequired,
+  state: PropTypes.string.isRequired,
+  street: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  addressType: PropTypes.string.isRequired,
 };

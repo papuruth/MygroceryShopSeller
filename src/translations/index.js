@@ -6,9 +6,9 @@ import ru from './ru.json';
 
 const translations = { en, ru };
 
-const { languageTag } = RNLocalize.findBestAvailableLanguage(
-  Object.keys(translations),
-) || { languageTag: 'en' };
+const { languageTag } = RNLocalize.findBestAvailableLanguage(Object.keys(translations)) || {
+  languageTag: 'en',
+};
 
 i18n.locale = languageTag;
 i18n.fallbacks = true;

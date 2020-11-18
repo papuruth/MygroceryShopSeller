@@ -1,58 +1,30 @@
 import { USER_CONSTANTS } from './userConstants';
 
-export const userSignupAction = (data) => ({
-  type: USER_CONSTANTS.USER_REGISTER_REQUEST,
-  payload: { data },
-});
-
-export const loginAction = (data) => ({
-  type: USER_CONSTANTS.USER_AUTH_REQUEST,
-  payload: { data },
+export const sendOTPAction = (phone) => ({
+  type: USER_CONSTANTS.SEND_OTP_REQUEST,
+  payload: { phone },
 });
 
 export const userLogout = () => ({
   type: USER_CONSTANTS.USER_LOGOUT_REQUEST,
 });
 
-export const getLocationAction = () => ({
-  type: USER_CONSTANTS.GET_LOCATION_REQUEST,
-});
-
-export const getUserDataAction = () => ({
-  type: USER_CONSTANTS.GET_USER_DATA_REQUEST,
-});
-
-export const getBookingDetails = () => ({
-  type: USER_CONSTANTS.BOOKING_DETAIL_REQUEST,
-});
-export const checkAuthAction = () => ({
-  type: USER_CONSTANTS.CHECK_AUTH_REQUEST,
-});
-
-export const updateUserProfile = (data) => ({
-  type: USER_CONSTANTS.UPDATE_USER_PROFILE_REQUEST,
-  payload: { data },
-});
-
-export const updateAddressById = (id, data) => ({
-  type: USER_CONSTANTS.UPDATE_ADDRESS_REQUEST,
-  payload: { id, data },
-});
-
-export const addAddressByUsername = (data) => ({
+export const addAddressAction = (data, userId) => ({
   type: USER_CONSTANTS.ADD_ADDRESS_REQUEST,
-  payload: data,
+  payload: { data, userId },
 });
 
-export const updateProfessionalDetails = (data) => ({
-  type: USER_CONSTANTS.UPDATE_PROFESSIONAL_DETAIL_REQUEST,
-  payload: data,
+export const updateAddressById = (docId, userId, data) => ({
+  type: USER_CONSTANTS.UPDATE_ADDRESS_REQUEST,
+  payload: { docId, userId, data },
 });
 
-export const getAllAddressAction = () => ({
+export const getAllAddressAction = (id) => ({
   type: USER_CONSTANTS.GET_ALL_ADDRESS_REQUEST,
+  payload: id,
 });
 
-export const getOccupationAction = () => ({
-  type: USER_CONSTANTS.GET_OCCUPATION_REQUEST,
+export const deleteAddressById = (docId, userId) => ({
+  type: USER_CONSTANTS.DELETE_ADDRESS_REQUEST,
+  payload: { docId, userId },
 });

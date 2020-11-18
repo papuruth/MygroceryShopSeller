@@ -3,128 +3,59 @@ import { colors } from '../../styles';
 
 export const styles = StyleSheet.create({
   profile: {
-    flex: 1,
     width: '100%',
+    flexDirection: 'column',
+  },
+  profileBG: {
+    width: '100%',
+    flexDirection: 'column',
+    height: '100%',
   },
   profileDisplayContainer: {
-    flex: 1,
-    padding: 10,
     width: '100%',
+    height: 250,
+    flexDirection: 'column',
+    alignItems: 'center',
   },
-  cardTitle: {},
   dividerStyle: {
     height: 1,
     backgroundColor: colors.grey,
   },
-  personalInfoCard: {
-    display: 'flex',
-    borderTopColor: colors.secondary,
-    backgroundColor: colors.WHITE,
-    borderTopWidth: 2,
-    flexDirection: 'column',
-    marginBottom: 15,
-  },
-  addressCard: {
-    display: 'flex',
-    borderTopColor: colors.green,
-    borderTopWidth: 2,
-    backgroundColor: colors.WHITE,
-    flexDirection: 'column',
-    marginBottom: 15,
-  },
-  personalInfoContent: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   imageContainer: {
-    padding: 10,
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'center',
+    padding: 30,
+    flexDirection: 'column',
+    width: '100%',
   },
   profileImage: {
-    width: 100,
-    height: 100,
     borderRadius: 100,
   },
   personalInfoContainer: {
     display: 'flex',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   personalInfo: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingLeft: 10,
   },
   personalInfoText: {
     fontWeight: 'bold',
     paddingLeft: 10,
+    color: colors.white,
   },
-  verifiedUser: { width: 20, height: 20 },
   scrollView: {
-    display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
   },
-  cardContent: {
-    display: 'flex',
-    flex: 1,
-    paddingTop: 10,
-  },
-  addressInfo: {
-    margin: 5,
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-  },
-  addressActionIcon: {
-    flexDirection: 'row',
-  },
-  noAddressFound: {
-    margin: 5,
-    display: 'flex',
+  profileActions: {
     alignItems: 'center',
-    justifyContent: 'center',
   },
   label: {
     marginRight: 5,
     fontSize: 14,
     fontWeight: 'bold',
-  },
-  professionalInfoCard: {
-    display: 'flex',
-    borderTopColor: colors.orange,
-    borderTopWidth: 2,
-    backgroundColor: colors.WHITE,
-    flexDirection: 'column',
-    marginBottom: 15,
-  },
-  professionalInfo: {
-    margin: 5,
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-  },
-  documentCard: {
-    display: 'flex',
-    borderTopColor: colors.BLUE,
-    borderTopWidth: 2,
-    backgroundColor: colors.WHITE,
-    flexDirection: 'column',
-  },
-  documentInfo: {
-    margin: 5,
-    display: 'flex',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-  },
-  documentInfoImage: {
-    height: 150,
-    width: 200,
-    resizeMode: 'contain',
   },
   editProfileButton: {
     marginLeft: 5,
@@ -146,39 +77,6 @@ export const styles = StyleSheet.create({
   inputFields: {
     marginVertical: 5,
   },
-  dropDownContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    marginBottom: 20,
-    justifyContent: 'flex-start',
-  },
-  dropDownInnerContainer: {
-    justifyContent: 'flex-start',
-    paddingTop: 10,
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  expTextLabel: {
-    fontWeight: 'bold',
-  },
-  expContainer: {
-    flexDirection: 'row',
-    marginBottom: 20,
-    maxWidth: '100%',
-    justifyContent: 'space-between',
-    paddingTop: 10,
-  },
-  exprInnerContainer: {
-    minWidth: '48%',
-    justifyContent: 'flex-start',
-  },
-  docsContainer: {
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  aadhaarImageContainer: {
-    marginVertical: 10,
-  },
   buttonShadow: {
     shadowColor: '#000fff',
     padding: 20,
@@ -186,26 +84,29 @@ export const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     shadowOpacity: 0.5,
     shadowRadius: 3.84,
     elevation: 5,
   },
-  aadhaarLabel: {
-    display: 'flex',
-    marginBottom: 10,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    fontWeight: 'bold',
-    textDecorationLine: 'underline'
-  },
   progressBarContainer: {
-    marginTop: 20
+    marginTop: 20,
   },
   imageBox: {
     width: 300,
     resizeMode: 'contain',
-    height: 150
+    height: 150,
+  },
+  addressCard: {
+    display: 'flex',
+    borderTopColor: colors.green,
+    borderTopWidth: 2,
+    backgroundColor: colors.WHITE,
+    flexDirection: 'column',
+    marginBottom: 15,
+  },
+  cardTitle: {
+    color: colors.black,
   },
   addressEditContainer: {
     flex: 1,
@@ -236,8 +137,29 @@ export const styles = StyleSheet.create({
   checkbox: {
     flexDirection: 'row',
     alignItems: 'center',
-  }, 
+  },
   professionalInfoRating: {
     flexDirection: 'row',
-  }
+  },
+  addressInfo: {
+    margin: 5,
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
+  newAddressView: {
+    alignItems: 'center',
+    width: '100%',
+    marginVertical: 30,
+  },
+  addressActionIcon: {
+    flexDirection: 'row',
+    color: colors.blue,
+  },
+  noAddressFound: {
+    margin: 5,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });

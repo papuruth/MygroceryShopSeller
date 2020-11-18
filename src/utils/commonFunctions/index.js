@@ -2,10 +2,9 @@ import _ from 'lodash';
 import moment from 'moment';
 import ImagePicker from 'react-native-image-picker';
 
-
 export const checkEmpty = (data) => {
   return _.isEmpty(data);
-}
+};
 
 export const equalityChecker = (param1, param2) => _.isEqual(param1, param2);
 
@@ -23,7 +22,7 @@ const options = {
  */
 export const imageSelector = () => {
   return new Promise((resolve, reject) => {
-    ImagePicker.launchImageLibrary(options, (response) => {  
+    ImagePicker.launchImageLibrary(options, (response) => {
       if (response.didCancel) {
         resolve('User cancelled image picker');
       } else if (response.error) {
@@ -33,5 +32,5 @@ export const imageSelector = () => {
       }
       reject(new Error('Error picking photo'));
     });
-  })
-} 
+  });
+};

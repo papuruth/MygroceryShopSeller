@@ -1,34 +1,42 @@
 {
   "project_info": {
-    "project_number": "785695555059",
-    "firebase_url": "https://my-project-1556705166591.firebaseio.com",
-    "project_id": "my-project-1556705166591",
-    "storage_bucket": "my-project-1556705166591.appspot.com"
+    "project_number": "738194151653",
+    "firebase_url": "https://mygroceryshop-983f6.firebaseio.com",
+    "project_id": "mygroceryshop-983f6",
+    "storage_bucket": "mygroceryshop-983f6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:785695555059:android:7960e8fdf7543e55b2e686",
+        "mobilesdk_app_id": "1:738194151653:android:30869ef49695d93c879c0c",
         "android_client_info": {
-          "package_name": "com.construction"
+          "package_name": "com.pariso.android.mygroceryshop"
         }
       },
       "oauth_client": [
         {
-          "client_id": "785695555059-jg5ep6kb0p3etk3uibs8iii6h0a1ej7e.apps.googleusercontent.com",
+          "client_id": "738194151653-5lfd0eum6iu9b1cff9lrfs4m31052gp0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pariso.android.mygroceryshop",
+            "certificate_hash": "63232105b864b69c4abc47248f1aacb269d40216"
+          }
+        },
+        {
+          "client_id": "738194151653-cne0fblg7gfbgoi2h7cndkvisruariel.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB_4uLo4duZRDwe5vvvd6Qg5ZmfBQo2taI"
+          "current_key": "AIzaSyAJ3bIFoFID3R4etDQ2jCjv9nQA-JPypVM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "785695555059-jg5ep6kb0p3etk3uibs8iii6h0a1ej7e.apps.googleusercontent.com",
+              "client_id": "738194151653-cne0fblg7gfbgoi2h7cndkvisruariel.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function AvailableInFullVersionScreen({navigation}) {
+export default function AvailableInFullVersionScreen({ navigation }) {
   const {
     IMAGES: { background },
   } = APP_CONSTANTS;
@@ -49,7 +49,14 @@ export default function AvailableInFullVersionScreen({navigation}) {
       </View>
 
       <View style={styles.buttonsContainer}>
-        <Button large bordered rounded style={styles.button} caption="Home" onPress={() => navigation.goBack()} />
+        <Button
+          large
+          bordered
+          rounded
+          style={styles.button}
+          caption="Home"
+          onPress={() => navigation.goBack()}
+        />
       </View>
     </ImageBackground>
   );
@@ -57,4 +64,4 @@ export default function AvailableInFullVersionScreen({navigation}) {
 
 AvailableInFullVersionScreen.propTypes = {
   navigation: PropTypes.oneOfType([PropTypes.object]).isRequired,
-}
+};

@@ -13,7 +13,7 @@ const APP_CONSTANTS = {
     bookingDetails: `${ENV.API_HOST}/booking/getbyusername`,
     updateProfessionalDetails: `${ENV.API_HOST}/user/updateuserprofessionaldetails`,
     getAllAddress: `${ENV.API_HOST}/address/getbyusername`,
-    getOccupation: `${ENV.API_HOST}/occupation/getall`
+    getOccupation: `${ENV.API_HOST}/occupation/getall`,
   },
   APP_MESSAGES: {
     NOINTERNET: 'You are disconnected! Please connect to Internet',
@@ -24,6 +24,8 @@ const APP_CONSTANTS = {
     NODOCUMENTSMESSAGE: 'No Documents Found',
   },
   IMAGES: {
+    parisoLogo: require('../../assets/icons/pariso_trans_logo.png'),
+    parisoCover: require('../../assets/images/cover_parsio.jpg'),
     iconDrawerHome: require('../../assets/images/drawer/home.png'),
     iconTabHome: require('../../assets/images/tabbar/home.png'),
     iconWallet: require('../../assets/images/drawer/wallet-outline.png'),
@@ -51,7 +53,7 @@ const APP_CONSTANTS = {
     cameraIcon: require('../../assets/icons/camera.png'),
     regIcon: require('../../assets/icons/loginIcon.jpeg'),
     iconDrawerBooking: require('../../assets/images/drawer/bookings.png'),
-    iconTabBooking: require('../../assets/images/tabbar/bookings.png')
+    iconTabBooking: require('../../assets/images/tabbar/bookings.png'),
   },
   RegisterForm: {
     name: 'Name',
@@ -94,9 +96,45 @@ const APP_CONSTANTS = {
     BOOKED: 'BOOKED',
     ACCEPT: 'Accept',
   },
-  occupation: ['Civil Engineer', 'Architect', 'Mason (with Labour)', 'Carpenter', 'Electrician', 'Plumber', 'Painter', 'Welder', 'Tiles / Stone / Flooring', 'Home Decoration'],
-  exprInYears: ['0 Year', '1 Year', '2 Years', '3 Years', '4 Years', '5 Years', '6 Years', '7 Years', '8 Years', '9 Years', '10 Years'],
-  exprInMonths: ['0 Month', '1 Month', '2 Months', '3 Months', '4 Months', '5 Months', '6 Months', '7 Months', '8 Months', '9 Months', '10 Months', '11 Months'],
+  occupation: [
+    'Civil Engineer',
+    'Architect',
+    'Mason (with Labour)',
+    'Carpenter',
+    'Electrician',
+    'Plumber',
+    'Painter',
+    'Welder',
+    'Tiles / Stone / Flooring',
+    'Home Decoration',
+  ],
+  exprInYears: [
+    '0 Year',
+    '1 Year',
+    '2 Years',
+    '3 Years',
+    '4 Years',
+    '5 Years',
+    '6 Years',
+    '7 Years',
+    '8 Years',
+    '9 Years',
+    '10 Years',
+  ],
+  exprInMonths: [
+    '0 Month',
+    '1 Month',
+    '2 Months',
+    '3 Months',
+    '4 Months',
+    '5 Months',
+    '6 Months',
+    '7 Months',
+    '8 Months',
+    '9 Months',
+    '10 Months',
+    '11 Months',
+  ],
 };
 
 export default APP_CONSTANTS;

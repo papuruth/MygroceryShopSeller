@@ -1,22 +1,22 @@
+import VerifyOTP from '@/containers/VerifyOTP';
+import HomeScreen from '@/containers/HomeScreen';
+import LoginScreen from '@/containers/LoginScreen';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Image, TouchableOpacity } from 'react-native';
+import MapScreen from '@/components/HomeScreen/MapScreen';
 import AvailableInFullVersion from '../components/availableInFullVersion/AvailableInFullVersionViewContainer';
-import { CompleteBooking } from '../components/booking/bookingContainer';
-import LoginView from '../components/login/LoginViewContainer';
-import RegisterScreen from '../components/register/RegisterViewContainer';
 import EditAddress from '../containers/Address';
 import Profile from '../containers/Profile';
 import { colors, fonts } from '../styles';
 import APP_CONSTANTS from '../utils/appConstants/AppConstants';
-import TabNavigator from './MainTabNavigator';
 
 const {
   IMAGES: { headerBackground, arrowBack },
 } = APP_CONSTANTS;
-const HeaderLeftComponent = (props) => (
+const HeaderLeftComponent = ({ onPress }) => (
   <TouchableOpacity
-    onPress={props.onPress}
+    onPress={onPress}
     style={{
       paddingLeft: 10,
     }}
@@ -37,130 +37,10 @@ HeaderLeftComponent.propTypes = {
 
 const StackNavigationData = [
   {
-    name: 'Real Estate',
+    name: 'Pariso Foods',
     path: 'home',
-    component: TabNavigator,
+    component: HomeScreen,
     headerLeft: null,
-    headerBackground: { source: headerBackground },
-    headerTitleStyle: {
-      fontFamily: fonts.primaryRegular,
-      color: colors.white,
-      fontSize: 18,
-    },
-  },
-  {
-    name: 'Architecture',
-    path: 'arch',
-    component: AvailableInFullVersion,
-    headerLeft: HeaderLeftComponent,
-    headerBackground: { source: headerBackground },
-    headerTitleStyle: {
-      fontFamily: fonts.primaryRegular,
-      color: colors.white,
-      fontSize: 18,
-    },
-  },
-  {
-    name: 'Civil',
-    path: 'civil',
-    component: AvailableInFullVersion,
-    headerLeft: HeaderLeftComponent,
-    headerBackground: { source: headerBackground },
-    headerTitleStyle: {
-      fontFamily: fonts.primaryRegular,
-      color: colors.white,
-      fontSize: 18,
-    },
-  },
-  {
-    name: 'Mason (with Labour)',
-    path: 'mason',
-    component: AvailableInFullVersion,
-    headerLeft: HeaderLeftComponent,
-    headerBackground: { source: headerBackground },
-    headerTitleStyle: {
-      fontFamily: fonts.primaryRegular,
-      color: colors.white,
-      fontSize: 18,
-    },
-  },
-  {
-    name: 'Carpenter',
-    path: 'carpenter',
-    component: AvailableInFullVersion,
-    headerLeft: HeaderLeftComponent,
-    headerBackground: { source: headerBackground },
-    headerTitleStyle: {
-      fontFamily: fonts.primaryRegular,
-      color: colors.white,
-      fontSize: 18,
-    },
-  },
-  {
-    name: 'Electrician',
-    path: 'electrician',
-    component: AvailableInFullVersion,
-    headerLeft: HeaderLeftComponent,
-    headerBackground: { source: headerBackground },
-    headerTitleStyle: {
-      fontFamily: fonts.primaryRegular,
-      color: colors.white,
-      fontSize: 18,
-    },
-  },
-  {
-    name: 'Plumber',
-    path: 'plumber',
-    component: AvailableInFullVersion,
-    headerLeft: HeaderLeftComponent,
-    headerBackground: { source: headerBackground },
-    headerTitleStyle: {
-      fontFamily: fonts.primaryRegular,
-      color: colors.white,
-      fontSize: 18,
-    },
-  },
-  {
-    name: 'Painter',
-    path: 'painter',
-    component: AvailableInFullVersion,
-    headerLeft: HeaderLeftComponent,
-    headerBackground: { source: headerBackground },
-    headerTitleStyle: {
-      fontFamily: fonts.primaryRegular,
-      color: colors.white,
-      fontSize: 18,
-    },
-  },
-  {
-    name: 'Welder',
-    path: 'welder',
-    component: AvailableInFullVersion,
-    headerLeft: HeaderLeftComponent,
-    headerBackground: { source: headerBackground },
-    headerTitleStyle: {
-      fontFamily: fonts.primaryRegular,
-      color: colors.white,
-      fontSize: 18,
-    },
-  },
-  {
-    name: 'Tiles / Stones / Flooring',
-    path: 'tiles',
-    component: AvailableInFullVersion,
-    headerLeft: HeaderLeftComponent,
-    headerBackground: { source: headerBackground },
-    headerTitleStyle: {
-      fontFamily: fonts.primaryRegular,
-      color: colors.white,
-      fontSize: 18,
-    },
-  },
-  {
-    name: 'Home Decoration',
-    path: 'home-decor',
-    component: AvailableInFullVersion,
-    headerLeft: HeaderLeftComponent,
     headerBackground: { source: headerBackground },
     headerTitleStyle: {
       fontFamily: fonts.primaryRegular,
@@ -243,7 +123,7 @@ const StackNavigationData = [
   {
     name: 'Login',
     path: 'login',
-    component: LoginView,
+    component: LoginScreen,
     headerLeft: HeaderLeftComponent,
     headerBackground: { source: headerBackground },
     headerTitleStyle: {
@@ -253,9 +133,9 @@ const StackNavigationData = [
     },
   },
   {
-    name: 'Register',
-    path: 'register',
-    component: RegisterScreen,
+    name: 'Verify OTP',
+    path: 'verify-otp',
+    component: VerifyOTP,
     headerLeft: HeaderLeftComponent,
     headerBackground: { source: headerBackground },
     headerTitleStyle: {
@@ -265,21 +145,21 @@ const StackNavigationData = [
     },
   },
   {
-    name: 'Bookings',
-    path: 'bookings',
-    component: CompleteBooking,
-    headerLeft: HeaderLeftComponent,
-    headerBackground: { source: headerBackground },
-    headerTitleStyle: {
-      fontFamily: fonts.primaryRegular,
-      color: colors.white,
-      fontSize: 18,
-    },
-  },
-  {
-    name: 'Commissions',
-    path: 'wallet',
+    name: 'My Orders',
+    path: 'orders',
     component: AvailableInFullVersion,
+    headerLeft: HeaderLeftComponent,
+    headerBackground: { source: headerBackground },
+    headerTitleStyle: {
+      fontFamily: fonts.primaryRegular,
+      color: colors.white,
+      fontSize: 18,
+    },
+  },
+  {
+    name: 'Choose Location',
+    path: 'map-screen',
+    component: MapScreen,
     headerLeft: HeaderLeftComponent,
     headerBackground: { source: headerBackground },
     headerTitleStyle: {

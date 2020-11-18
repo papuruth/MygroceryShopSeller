@@ -4,11 +4,11 @@ import App from '../../routes/Navigator';
 
 const mapStateToProps = (state) => {
   const { loaderService } = state.loaderReducer;
-  const { authenticated,user} = state.session
+  const { authenticated, user } = state.session;
   return {
     loaderService,
     authenticated,
-    user
+    user,
   };
 };
 

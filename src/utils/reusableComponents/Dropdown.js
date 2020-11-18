@@ -1,32 +1,45 @@
 import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import PropTypes from 'prop-types';
 import { colors } from '../../styles';
 import ModalDropdown from './ModalDropdown';
 
-
+const styles = {
+  container: {
+    display: 'flex',
+    borderWidth: 1,
+    borderColor: colors.primary,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    flexDirection: 'row',
+    paddingLeft: 10,
+    borderRadius: 5,
+  },
+  icon: {
+    marginLeft: 10,
+  },
+};
 
 class DropDown extends React.Component {
-  static defaultProps = {
-    placeholder: 'Please Select experience',
-    selectedIndex: -1,
-    color: colors.primary,
-    borderColor: colors.primary,
-  };
+  constructor() {
+    super();
+    this.state = {
+      isOpened: false,
+    };
+  }
 
-  state = {
-    isOpened: false,
-  };
-
-  _openModal = () => {
+  openModal = () => {
     this.setState({ isOpened: true });
   };
 
-  _closeModal = () => {
+  closeModal = () => {
     this.setState({ isOpened: false });
   };
 
-  _renderRow = (text, color) => (
+  renderRow = (text, color) => (
     <TouchableHighlight underlayColor="lightgray">
       <View style={{ paddingHorizontal: 20, paddingVertical: 10 }}>
         <Text style={{ color }}>{text}</Text>
@@ -45,11 +58,12 @@ class DropDown extends React.Component {
       selectedIndex,
       placeholder,
     } = this.props;
+    const { isOpened } = this.state;
     return (
       <ModalDropdown
         options={items}
-        onDropdownWillShow={this._openModal}
-        onDropdownWillHide={this._closeModal}
+        onDropdownWillShow={this.openModal}
+        onDropdownWillHide={this.closeModal}
         style={style}
         dropdownStyle={{
           shadowColor: 'blue',
@@ -61,23 +75,18 @@ class DropDown extends React.Component {
           shadowOpacity: 1.0,
         }}
         adjustFrame={(params) => {
-          // eslint-disable-next-line no-param-reassign
-          params.left = 30;
-          // eslint-disable-next-line no-param-reassign
-          params.right = 30;
+          Object.assign(params, { left: 30, right: 30 });
           return params;
         }}
-        renderRow={text => this._renderRow(text, color)}
+        renderRow={(text) => this.renderRow(text, color)}
         onSelect={onSelect}
       >
         <View style={[styles.container, { borderColor, height }]}>
           <Text style={{ color }}>
-            {selectedIndex > -1 && items[selectedIndex]
-              ? items[selectedIndex]
-              : placeholder}
+            {selectedIndex > -1 && items[selectedIndex] ? items[selectedIndex] : placeholder}
           </Text>
           <Icon
-            name={this.state.isOpened ? 'angle-up' : 'angle-down'}
+            name={isOpened ? 'angle-up' : 'angle-down'}
             color={color}
             size={20}
             style={styles.icon}
@@ -88,22 +97,24 @@ class DropDown extends React.Component {
   }
 }
 
-const styles = {
-  container: {
-    display: 'flex',
-    borderWidth: 1,
-    borderColor: colors.primary,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    flexDirection: 'row',
-    paddingLeft: 10,
-    borderRadius: 5,
-  },
-  icon: {
-    marginLeft: 10,
-  },
+DropDown.defaultProps = {
+  placeholder: 'Please Select experience',
+  selectedIndex: -1,
+  color: colors.primary,
+  borderColor: colors.primary,
+  height: undefined,
+  style: {},
+};
+
+DropDown.propTypes = {
+  items: PropTypes.oneOfType([PropTypes.array]).isRequired,
+  color: PropTypes.string,
+  onSelect: PropTypes.func.isRequired,
+  style: PropTypes.oneOfType([PropTypes.object]),
+  borderColor: PropTypes.string,
+  height: PropTypes.number,
+  selectedIndex: PropTypes.number,
+  placeholder: PropTypes.string,
 };
 
 export default DropDown;

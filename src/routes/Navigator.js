@@ -1,26 +1,38 @@
+/* eslint-disable no-underscore-dangle */
+import NavigatorView from '@/containers/NavigatorView';
+import { checkEmpty } from '@/utils/commonFunctions';
+import auth from '@react-native-firebase/auth';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import Spinner from 'react-native-loading-spinner-overlay';
 import * as Progress from 'react-native-progress';
+import { sessionService } from 'redux-react-native-session';
 import RenderDrawer from './DrawerNavigation';
-import NavigatorView from './RootNavigation';
-import { checkAuthAction } from '../redux/user/userAction';
-import { loaderStartAction } from '../redux/loaderService/LoaderAction';
 
 const Drawer = createDrawerNavigator();
 
 export default class App extends React.PureComponent {
   componentDidMount() {
-    const { dispatch, authenticated } = this.props;
-    if (authenticated) {
-      dispatch(loaderStartAction());
-      dispatch(checkAuthAction());
+    this.unsubscribe = auth().onAuthStateChanged(this.onAuthStateChanged);
+  }
+
+  componentWillUnmount() {
+    if (this.subscriber) {
+      this.unsubscribe();
     }
   }
 
+  onAuthStateChanged = async (user) => {
+    if (!checkEmpty(user) && !checkEmpty(user._user)) {
+      await sessionService.saveSession(user._user);
+      await sessionService.saveUser(user._user);
+    }
+  };
+
   render() {
     const { loaderService, authenticated, user, dispatch } = this.props;
+    console.log(authenticated);
     return (
       <>
         <Spinner
@@ -42,6 +54,9 @@ export default class App extends React.PureComponent {
             backgroundColor: '#3C38B1',
             width: '85%',
           }}
+          screenOptions={{
+            swipeEnabled: authenticated,
+          }}
           drawerContent={(props) => (
             <RenderDrawer
               {...props}
@@ -51,7 +66,7 @@ export default class App extends React.PureComponent {
             />
           )}
         >
-          <Drawer.Screen name="Homes" component={NavigatorView} />
+          <Drawer.Screen name="root" component={NavigatorView} />
         </Drawer.Navigator>
       </>
     );
@@ -60,7 +75,7 @@ export default class App extends React.PureComponent {
 
 App.propTypes = {
   loaderService: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired,
   authenticated: PropTypes.bool.isRequired,
   user: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };

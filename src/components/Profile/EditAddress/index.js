@@ -1,21 +1,24 @@
+import {
+  addAddressAction,
+  deleteAddressById,
+  getAllAddressAction,
+  updateAddressById,
+} from '@/redux/user/userAction';
+import { colors } from '@/styles';
+import { checkEmpty, equalityChecker } from '@/utils/commonFunctions';
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { Alert, SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { Card, Dialog, Divider, IconButton, Portal } from 'react-native-paper';
 import { loaderStartAction } from '../../../redux/loaderService/LoaderAction';
-import {
-  getAllAddressAction,
-  updateAddressById,
-  getUserDataAction,
-} from '../../../redux/user/userAction';
-import { checkEmpty, equalityChecker } from '../../../utils/commonFunctions';
 import { Button } from '../../../utils/reusableComponents';
 import { styles } from '../styles';
 import { RenderAddressEditForm } from './RenderAddressEditForm';
+import { RenderNewAddressForm } from './RenderNewAddressForm';
 
 export default class EditAddress extends PureComponent {
   constructor(props) {
-    super(props);
+    super();
     this.state = {
       visible: false,
       buildingName: null,
@@ -24,88 +27,151 @@ export default class EditAddress extends PureComponent {
       state: null,
       street: null,
       addressId: null,
-      isPrimary: null,
+      addressType: 'Home',
+      showNewAddressForm: false,
     };
-    this.fetchAddress();
+    this.fetchAddress(props);
   }
 
   componentDidUpdate(prevProps) {
-    const { updateAddress, updateAddressError } = this.props;
-    if (!equalityChecker(updateAddress, prevProps.updateAddress) && updateAddress?.status) {
+    const { addAddress, updateAddress, addressDeleteStatus } = this.props;
+    if (!equalityChecker(addAddress, prevProps.addAddress) && addAddress?.status) {
+      this.fetchAddress(this.props);
+      Alert.alert('Success', 'Address added successfully!');
       this.hideDialog();
-      Alert.alert('Success', 'Address updated successfully!');
-      this.fetchAddress();
     }
-
-    if (!equalityChecker(updateAddressError, prevProps.updateAddressError)) {
-      Alert.alert('Error', 'Address update failed!');
+    if (!equalityChecker(updateAddress, prevProps.updateAddress) && updateAddress?.status) {
+      this.fetchAddress(this.props);
+      Alert.alert('Success', 'Address updated successfully!');
+      this.hideDialog();
+    }
+    if (
+      !equalityChecker(addressDeleteStatus, prevProps.addressDeleteStatus) &&
+      addressDeleteStatus?.status
+    ) {
+      this.fetchAddress(this.props);
+      Alert.alert('Success', 'Address deleted successfully!');
       this.hideDialog();
     }
   }
 
-  fetchAddress = () => {
-    const { dispatch } = this.props;
+  fetchAddress = (props) => {
+    const { dispatch, user } = props;
     dispatch(loaderStartAction());
-    dispatch(getUserDataAction());
-    dispatch(getAllAddressAction());
+    dispatch(getAllAddressAction(user?.phoneNumber));
   };
 
-  deleteAddress = () => {};
+  deleteAddress = (data) => {
+    const { dispatch, user } = this.props;
+    dispatch(loaderStartAction());
+    dispatch(deleteAddressById(data?.addressId, user?.phoneNumber));
+  };
 
-  editAddress = ({ addressId, buildingName, city, postalCode, state, street, isPrimary }) => {
+  editAddress = ({ addressId, buildingName, city, postalCode, state, street, addressType }) => {
     this.setState({
       visible: true,
       addressId,
       buildingName,
       city,
-      postalCode: postalCode.toString(),
+      postalCode,
       state,
       street,
-      isPrimary
+      addressType,
     });
   };
 
   hideDialog = () => {
     this.setState({
       visible: false,
+      showNewAddressForm: false,
     });
     this.forceUpdate();
   };
 
   handleUserInput = (name, value) => {
+    console.log(name, value);
     this.setState({
       [name]: value,
     });
   };
 
+  addNewAddress = () => {
+    this.setState({
+      showNewAddressForm: true,
+    });
+  };
+
   updateAddress = () => {
-    const { addressId, buildingName, city, postalCode, state, street, isPrimary } = this.state;
-    const { dispatch } = this.props;
-    const updatePayload = { addressId, buildingName, city, postalCode, state, street, isPrimary };
+    const { addressId, buildingName, city, postalCode, state, street, addressType } = this.state;
+    const { dispatch, user } = this.props;
+    const updatePayload = { addressId, buildingName, city, postalCode, state, street, addressType };
     dispatch(loaderStartAction());
-    dispatch(updateAddressById(addressId, updatePayload));
+    dispatch(updateAddressById(addressId, user?.phoneNumber, updatePayload));
+  };
+
+  saveNewAddress = () => {
+    const { dispatch, addressData, user } = this.props;
+    const { buildingName, city, postalCode, state, street, addressType } = this.state;
+    const payload = {
+      addressId: !checkEmpty(addressData) ? addressData.length + 1 : 1,
+      buildingName,
+      city,
+      postalCode,
+      state,
+      street,
+      addressType,
+    };
+    console.log(payload);
+    if (buildingName && city && postalCode && state && street && addressType) {
+      dispatch(loaderStartAction());
+      dispatch(addAddressAction(payload, user?.phoneNumber));
+    } else {
+      Alert.alert('Error', 'Please fill all the fields.!');
+    }
   };
 
   render() {
-    console.log(this.props);
     const { addressData } = this.props;
-    const { visible, buildingName, city, postalCode, state, street, isPrimary } = this.state;
+    const {
+      visible,
+      buildingName,
+      city,
+      postalCode,
+      state,
+      street,
+      showNewAddressForm,
+      addressType,
+    } = this.state;
     return (
       <SafeAreaView style={styles.addressEditContainer}>
         <ScrollView contentContainerStyle={styles.scrollView}>
+          <View style={styles.newAddressView}>
+            <Button
+              bordered
+              bgColor={colors.blue}
+              caption="Add new address"
+              onPress={this.addNewAddress}
+            />
+          </View>
           <View style={styles.addressCardContainer}>
             {!checkEmpty(addressData) ? (
-              addressData.map((item, index) => {
+              addressData.map((item) => {
                 return (
                   <Card style={styles.addressCard} key={item?.addressId}>
                     <Card.Title
-                      title={`Address ${index + 1}`}
-                      style={styles.cardTitle}
+                      titleStyle={styles.cardTitle}
+                      title={item?.addressType}
                       right={(props) => (
                         <View style={styles.addressActionIcon}>
-                          <IconButton {...props} icon="delete" onPress={this.deleteAddress} />
                           <IconButton
                             {...props}
+                            icon="delete"
+                            onPress={() => this.deleteAddress(item)}
+                            color="#000"
+                          />
+                          <IconButton
+                            {...props}
+                            color="#000"
                             icon="square-edit-outline"
                             onPress={() => this.editAddress(item)}
                           />
@@ -134,10 +200,6 @@ export default class EditAddress extends PureComponent {
                         <Text style={styles.label}>Street:</Text>
                         <Text style={styles.textContent}>{item?.street || 'N/A'}</Text>
                       </View>
-                      <View style={styles.addressInfo}>
-                        <Text style={styles.label}>Primary:</Text>
-                        <Text style={styles.textContent}>{item?.isPrimary ? 'Yes' : 'No'}</Text>
-                      </View>
                     </Card.Content>
                   </Card>
                 );
@@ -153,18 +215,30 @@ export default class EditAddress extends PureComponent {
           </View>
         </ScrollView>
         <Portal>
-          <Dialog visible={visible} dismissable={false}>
-            <Dialog.Title>Edit Address</Dialog.Title>
+          <Dialog visible={visible || showNewAddressForm} dismissable={false}>
+            <Dialog.Title>{visible ? 'Edit Address' : 'Add New Address'}</Dialog.Title>
             <Dialog.Content>
-              <RenderAddressEditForm
-                buildingName={buildingName}
-                city={city}
-                postalCode={postalCode}
-                state={state}
-                street={street}
-                isPrimary={isPrimary}
-                onChange={this.handleUserInput}
-              />
+              {visible ? (
+                <RenderAddressEditForm
+                  buildingName={buildingName}
+                  city={city}
+                  postalCode={postalCode}
+                  state={state}
+                  street={street}
+                  addressType={addressType}
+                  onChange={this.handleUserInput}
+                />
+              ) : (
+                <RenderNewAddressForm
+                  buildingName={buildingName}
+                  city={city}
+                  postalCode={postalCode}
+                  state={state}
+                  street={street}
+                  addressType={addressType}
+                  onChange={this.handleUserInput}
+                />
+              )}
             </Dialog.Content>
             <Dialog.Actions>
               <Button
@@ -176,7 +250,7 @@ export default class EditAddress extends PureComponent {
               <Button
                 rounded
                 style={styles.editProfileButton}
-                onPress={this.updateAddress}
+                onPress={visible ? this.updateAddress : this.saveNewAddress}
                 caption="Done"
               />
             </Dialog.Actions>
@@ -189,4 +263,9 @@ export default class EditAddress extends PureComponent {
 
 EditAddress.propTypes = {
   addressData: PropTypes.oneOfType([PropTypes.array]).isRequired,
+  addAddress: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  updateAddress: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  addressDeleteStatus: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  user: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
