@@ -1,4 +1,4 @@
-package com.pariso.android.mygroceryshop;
+package com.pariso.android.mygroceryshop_admin;
 
 import android.content.Context;
 

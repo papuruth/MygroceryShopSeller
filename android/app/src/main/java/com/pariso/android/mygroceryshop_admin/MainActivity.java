@@ -1,4 +1,4 @@
-package com.pariso.android.mygroceryshop;
+package com.pariso.android.mygroceryshop_admin;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "MyGroceryShop";
+        return "MyGroceryShop-Admin";
     }
 }
