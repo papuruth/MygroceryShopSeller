@@ -54,7 +54,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.pariso.android.mygroceryshop"
+        applicationId "com.pariso.android.mygroceryshop_admin"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
