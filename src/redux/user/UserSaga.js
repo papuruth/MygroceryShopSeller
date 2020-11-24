@@ -80,7 +80,6 @@ export function* addAddressWatcherSaga() {
 
 const getAllAddressService = async (id) => {
   try {
-    console.log(id);
     const responseSnapshot = await firestore()
       .collection('Address')
       .doc(id)

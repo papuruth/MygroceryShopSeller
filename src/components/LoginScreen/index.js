@@ -47,7 +47,6 @@ export default class LoginScreen extends React.PureComponent {
       IMAGES: { background, parisoLogo },
     } = APP_CONSTANTS;
     const { phone } = this.state;
-    console.log(this.props);
     return (
       <StyledContainer source={background}>
         <AuthLogoView>

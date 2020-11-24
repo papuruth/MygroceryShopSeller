@@ -89,7 +89,6 @@ export default class EditAddress extends PureComponent {
   };
 
   handleUserInput = (name, value) => {
-    console.log(name, value);
     this.setState({
       [name]: value,
     });
@@ -121,7 +120,6 @@ export default class EditAddress extends PureComponent {
       street,
       addressType,
     };
-    console.log(payload);
     if (buildingName && city && postalCode && state && street && addressType) {
       dispatch(loaderStartAction());
       dispatch(addAddressAction(payload, user?.phoneNumber));

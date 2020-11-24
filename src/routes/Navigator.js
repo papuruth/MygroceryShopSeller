@@ -2,6 +2,7 @@
 import NavigatorView from '@/containers/NavigatorView';
 import { checkEmpty } from '@/utils/commonFunctions';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -25,14 +26,26 @@ export default class App extends React.PureComponent {
 
   onAuthStateChanged = async (user) => {
     if (!checkEmpty(user) && !checkEmpty(user._user)) {
-      await sessionService.saveSession(user._user);
-      await sessionService.saveUser(user._user);
+      const storedUser = await firestore()
+        .collection('users')
+        .doc(user?._user?.uid)
+        .get();
+      if (storedUser?.data() && storedUser?.data()?.user_type) {
+        await sessionService.saveSession(storedUser?.data());
+        await sessionService.saveUser(storedUser?.data());
+      } else {
+        await firestore()
+          .collection('users')
+          .doc(user?._user.uid)
+          .set({ ...user?._user, user_type: 1 });
+        await sessionService.saveSession({ ...user?._user, user_type: 1 });
+        await sessionService.saveUser({ ...user?._user, user_type: 1 });
+      }
     }
   };
 
   render() {
     const { loaderService, authenticated, user, dispatch } = this.props;
-    console.log(authenticated);
     return (
       <>
         <Spinner
