@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { checkEmpty } from '@/utils/commonFunctions';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -53,7 +54,6 @@ export default class EditProfile extends Component {
       transferred: 0,
     });
     try {
-      console.log(image, fileName);
       const task = storage()
         .ref(fileName)
         .putFile(image);
@@ -85,7 +85,7 @@ export default class EditProfile extends Component {
   saveProfile = async () => {
     const { section } = this.props;
     try {
-      const { displayName, phoneNumber, photoURL, rawImage } = this.state;
+      const { displayName, phoneNumber, rawImage } = this.state;
       if (section === 'Basic Details') {
         let imgUrl;
         if (rawImage) {
@@ -93,12 +93,16 @@ export default class EditProfile extends Component {
         }
         await auth().currentUser.updateProfile({
           displayName,
-          photoURL: imgUrl || photoURL,
+          photoURL: imgUrl || null,
         });
         const user = auth().currentUser;
         if (!checkEmpty(user) && !checkEmpty(user._user)) {
           await sessionService.saveSession(user._user);
           await sessionService.saveUser(user._user);
+          await firestore()
+            .collection('users')
+            .doc(user?._user.uid)
+            .set({ ...user?._user, user_type: 1 });
         }
         Alert.alert('Success', 'Basic details updated successfully!');
         this.hideDialog();

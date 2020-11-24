@@ -11,7 +11,6 @@ import APP_CONSTANTS from '../utils/appConstants/AppConstants';
 
 const Stack = createStackNavigator();
 const NotifIcon = WithBadge(4)(Icon);
-const CartIcon = WithBadge(1)(Icon);
 
 const styles = StyleSheet.create({
   headerImage: {
@@ -80,15 +79,6 @@ export default class AppNavigator extends PureComponent {
           }}
         >
           <NotifIcon name="bell" color="white" size={20} containerStyle={styles.padRight} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('cart')}
-          style={{
-            paddingLeft: 10,
-            marginRight: 10,
-          }}
-        >
-          <CartIcon name="cart-plus" color="white" size={20} containerStyle={styles.padRight} />
         </TouchableOpacity>
       </SafeAreaView>
     );

@@ -1,11 +1,8 @@
-import { colors } from '@/styles';
-import { checkEmpty } from '@/utils/commonFunctions';
-import { Text } from '@/utils/reusableComponents/StyledText';
 import { createStackNavigator } from '@react-navigation/stack';
+import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import 'react-native-gesture-handler';
-import PropTypes from 'prop-types';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import APP_CONSTANTS from '../utils/appConstants/AppConstants';
@@ -14,7 +11,6 @@ import StackNavigationData from './StackNavigationData';
 
 const Stack = createStackNavigator();
 const NotifIcon = WithBadge(4)(Icon);
-const CartIcon = WithBadge(1)(Icon);
 
 const styles = StyleSheet.create({
   headerImage: {
@@ -35,19 +31,6 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     margin: 10,
-  },
-  chooseLocation: {
-    width: '100%',
-    maxWidth: 200,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  mapTextStyle: {
-    fontSize: 17,
-    fontWeight: '600',
-    textDecorationLine: 'underline',
-    color: colors.white,
   },
 });
 
@@ -80,27 +63,8 @@ export default class NavigatorView extends PureComponent {
 
   headerRightComponent = () => {
     const { navigation } = this.props;
-    let isMapScrenRoute = null;
-    console.log(this.props);
-    if (this.props) {
-      const { route } = this.props;
-      const { state } = !checkEmpty(route) ? route : {};
-      const { routes } = state || {};
-      isMapScrenRoute = !checkEmpty(routes)
-        ? routes[routes.length - 1].name === 'map-screen'
-        : false;
-    }
     return (
       <SafeAreaView style={styles.headerRightContainer}>
-        {!isMapScrenRoute ? (
-          <TouchableOpacity
-            onPress={() => navigation.navigate('map-screen')}
-            style={styles.chooseLocation}
-          >
-            <Icon name="map-marker-alt" color="white" size={20} style={styles.padRight} />
-            <Text style={styles.mapTextStyle}>Choose Location</Text>
-          </TouchableOpacity>
-        ) : null}
         <TouchableOpacity
           onPress={() => navigation.navigate('search')}
           style={{
@@ -118,15 +82,6 @@ export default class NavigatorView extends PureComponent {
           }}
         >
           <NotifIcon name="bell" color="white" size={20} containerStyle={styles.padRight} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('cart')}
-          style={{
-            paddingLeft: 10,
-            marginRight: 10,
-          }}
-        >
-          <CartIcon name="cart-plus" color="white" size={20} containerStyle={styles.padRight} />
         </TouchableOpacity>
       </SafeAreaView>
     );
@@ -186,6 +141,5 @@ export default class NavigatorView extends PureComponent {
 
 NavigatorView.propTypes = {
   navigation: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  route: PropTypes.oneOfType([PropTypes.object]).isRequired,
   authenticated: PropTypes.bool.isRequired,
 };

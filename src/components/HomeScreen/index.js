@@ -1,32 +1,47 @@
+import ProductScreen from '@/containers/ProductScreen';
+import PropTypes from 'prop-types';
 import React from 'react';
-import { ImageBackground, Text, View } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { ImageBackground } from 'react-native';
+import { ButtonGroup } from 'react-native-elements';
 import APP_CONSTANTS from '../../utils/appConstants/AppConstants';
-import { styles } from './styles';
+import CategoriesScreen from '../CategoriesScreen';
+import { ComponentContainer, HomeContainer, styles, TabsContainer } from './styles';
 
 export default class HomeScreen extends React.PureComponent {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      selectedIndex: 0,
+    };
   }
 
   render() {
+    const { user } = this.props;
     const {
       IMAGES: { background },
     } = APP_CONSTANTS;
+    const { selectedIndex } = this.state;
+    const components = ['Add New Categories', 'Add New Products'];
     return (
       <ImageBackground source={background} style={styles.container}>
-        <Icon
-          name="gears"
-          type="font-awesome"
-          size={150}
-          color="#00000666"
-          style={{ marginTop: 50 }}
-        />
-        <View style={styles.textContainer}>
-          <Text style={styles.availableText}>Home Screen</Text>
-        </View>
+        <HomeContainer>
+          <TabsContainer>
+            <ButtonGroup
+              buttons={components}
+              selectedIndex={selectedIndex}
+              onPress={(index) => this.setState({ selectedIndex: index })}
+              containerStyle={{ height: 50 }}
+            />
+          </TabsContainer>
+          <ComponentContainer style={styles.textContainer}>
+            {selectedIndex === 0 ? <CategoriesScreen user={user} /> : <ProductScreen user={user} />}
+          </ComponentContainer>
+        </HomeContainer>
       </ImageBackground>
     );
   }
 }
+
+HomeScreen.propTypes = {
+  user: PropTypes.oneOfType([PropTypes.object]).isRequired,
+};

@@ -37,7 +37,7 @@ HeaderLeftComponent.propTypes = {
 
 const StackNavigationData = [
   {
-    name: 'Pariso Foods',
+    name: 'MyGroceryShop',
     path: 'home',
     component: HomeScreen,
     headerLeft: null,
