@@ -8,7 +8,7 @@ import {
   Modal,
   StyleSheet,
   Text,
-  TouchableHighlight,
+  Pressable,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
@@ -55,32 +55,31 @@ export default class ModalDropdown extends Component {
     super();
     this.button = null;
     this.buttonFrame = null;
-    this.nextValue = null;
-    this.nextIndex = null;
-
     this.state = {
       loading: !props.options,
       showDropdown: false,
       buttonText: props.defaultValue,
       selectedIndex: props.defaultIndex,
+      nextValue: null,
+      nextIndex: null,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
-    let { buttonText, selectedIndex } = state;
+    let { buttonText, selectedIndex, nextIndex, nextValue } = state;
     const { defaultIndex, defaultValue, options } = props;
     const stateObj = {};
-    buttonText = this.nextValue == null ? buttonText : this.nextValue;
-    selectedIndex = this.nextIndex == null ? selectedIndex : this.nextIndex;
+    buttonText = !nextValue ? buttonText : state.nextValue;
+    selectedIndex = !nextIndex ? selectedIndex : state.nextIndex;
     if (selectedIndex < 0 && buttonText !== defaultValue && selectedIndex !== defaultIndex) {
       Object.assign(stateObj, { selectedIndex: defaultIndex, buttonText: defaultValue });
     }
-    this.nextValue = null;
-    this.nextIndex = null;
+    nextIndex = null;
+    nextValue = null;
+    Object.assign(stateObj, { nextValue, nextIndex });
     if (state.loading !== options) {
       Object.assign(stateObj, { loading: !options });
     }
-
     return stateObj;
   }
 
@@ -120,12 +119,11 @@ export default class ModalDropdown extends Component {
       value = renderButtonText ? renderButtonText(options[index]) : options[index].toString();
     }
 
-    this.nextValue = value;
-    this.nextIndex = index;
-
     this.setState({
       buttonText: value,
       selectedIndex: index,
+      nextIndex: index,
+      nextValue: value,
     });
   };
 
@@ -302,21 +300,19 @@ export default class ModalDropdown extends Component {
     props.key = key;
     props.onPress = () => this.onRowPress(rowData, rowID);
     const { children } = row.props;
-    return <TouchableHighlight {...props}>{children}</TouchableHighlight>;
+    return <Pressable {...props}>{children}</Pressable>;
   };
 
   onRowPress = (rowData, rowID) => {
-    console.log('hello');
-    console.log(rowID, rowData);
     const { onSelect, renderButtonText, onDropdownWillHide } = this.props;
     if (!onSelect || onSelect(rowID, rowData) !== false) {
       // highlightRow(sectionID, rowID);
       const value = (renderButtonText && renderButtonText(rowData)) || rowData.toString();
-      this.nextValue = value;
-      this.nextIndex = rowID;
       this.setState({
         buttonText: value,
         selectedIndex: rowID,
+        nextValue: value,
+        nextIndex: rowID,
       });
     }
     if (!onDropdownWillHide || onDropdownWillHide() !== false) {

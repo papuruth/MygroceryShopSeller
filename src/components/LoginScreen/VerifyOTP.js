@@ -10,6 +10,7 @@ import { Pressable } from 'react-native';
 import PropTypes from 'prop-types';
 import { sessionService } from 'redux-react-native-session';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import {
   AuthFormFields,
   AuthFormView,
@@ -67,8 +68,23 @@ export default class VerifyOTP extends React.PureComponent {
     const { dispatch } = this.props;
     if (!checkEmpty(user) && !checkEmpty(user._user)) {
       dispatch(loaderStartAction());
-      await sessionService.saveSession(user._user);
-      await sessionService.saveUser(user._user);
+      console.log(user._user);
+      const storedUser = await firestore()
+        .collection('users')
+        .doc(user?._user?.uid)
+        .get();
+      console.log(storedUser.data());
+      if (storedUser?.data() && storedUser?.data()?.user_type) {
+        await sessionService.saveSession(storedUser?.data());
+        await sessionService.saveUser(storedUser?.data());
+      } else {
+        await firestore()
+          .collection('users')
+          .doc(user?._user.uid)
+          .set({ ...user?._user, user_type: 1 });
+        await sessionService.saveSession({ ...user?._user, user_type: 1 });
+        await sessionService.saveUser({ ...user?._user, user_type: 1 });
+      }
       dispatch(loaderStopAction());
     }
   };

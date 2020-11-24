@@ -1,5 +1,6 @@
 import { all } from 'redux-saga/effects';
 import { loaderStartWatcherSaga, loaderStopWatcherSaga } from '../loaderService/LoaderSaga';
+import { fetchAllCategoriesWatcherSaga } from '../products/ProductSaga';
 import {
   addAddressWatcherSaga,
   deleteAddressByIdWatcherSaga,
@@ -19,5 +20,6 @@ export default function* rootSaga() {
     getAllAddressWatcherSaga(),
     updateAddressByIdWatcherSaga(),
     deleteAddressByIdWatcherSaga(),
+    fetchAllCategoriesWatcherSaga(),
   ]);
 }

@@ -1,11 +1,13 @@
 import { StyleSheet } from 'react-native';
-import { colors, fonts } from '../../styles';
+import styled from 'styled-components/native';
+import { colors, fonts, metrics } from '../../styles';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.white,
     paddingTop: 0,
+    height: metrics.screenHeight,
   },
   bgImage: {
     flex: 1,
@@ -33,10 +35,11 @@ export const styles = StyleSheet.create({
   itemImage: {
     height: 35,
   },
-  availableText: {
+  homeScreenHeading: {
     color: colors.white,
     fontFamily: fonts.primaryRegular,
     fontSize: 20,
+    textDecorationLine: 'underline',
     marginVertical: 3,
   },
   textContainer: {
@@ -75,3 +78,26 @@ export const styles = StyleSheet.create({
     padding: 10,
   },
 });
+
+export const ProductsContainer = styled.View``;
+
+export const HomeContainer = styled.SafeAreaView`
+  width: 100%;
+`;
+
+export const TabsContainer = styled.View`
+  width: 100%;
+  margin: 10px 0;
+  align-items: center;
+`;
+
+export const ComponentContainer = styled.View`
+  width: 100%;
+  padding: 0px 10px;
+  align-items: center;
+`;
+export const NewProductForm = styled.View``;
+
+export const ProductImage = `
+
+`;
