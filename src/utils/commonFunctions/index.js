@@ -13,7 +13,7 @@ export const dateTimeFormater = (date, format) => moment(date).format(format);
 const options = {
   noData: true,
   maxWidth: 300,
-  maxHeight: 200,
+  maxHeight: 300,
 };
 
 /**
@@ -24,7 +24,7 @@ export const imageSelector = () => {
   return new Promise((resolve, reject) => {
     ImagePicker.launchImageLibrary(options, (response) => {
       if (response.didCancel) {
-        resolve('User cancelled image picker');
+        resolve(false);
       } else if (response.error) {
         reject(response.error);
       } else {

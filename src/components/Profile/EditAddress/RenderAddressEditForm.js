@@ -1,8 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import PropTypes from 'prop-types';
-import { RadioButton, TextInput } from 'react-native-paper';
-import { Caption, Text } from '../../../utils/reusableComponents/StyledText';
+import { RadioButton, TextInput, Caption, Text } from 'react-native-paper';
 import { styles } from '../styles';
 
 export const RenderAddressEditForm = ({

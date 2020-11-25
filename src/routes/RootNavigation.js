@@ -66,15 +66,6 @@ export default class NavigatorView extends PureComponent {
     return (
       <SafeAreaView style={styles.headerRightContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('search')}
-          style={{
-            paddingLeft: 10,
-            marginRight: 10,
-          }}
-        >
-          <Icon name="search" color="white" size={20} containerStyle={styles.padRight} />
-        </TouchableOpacity>
-        <TouchableOpacity
           onPress={() => navigation.navigate('notification')}
           style={{
             paddingLeft: 10,

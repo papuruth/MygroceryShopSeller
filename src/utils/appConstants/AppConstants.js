@@ -22,6 +22,8 @@ const APP_CONSTANTS = {
     EMP_WELCOME: 'Welcome to your dashboard. No recent bookings found!',
     WEB_SERVICE_ERR_MESSAGE: 'No network connection could be found',
     NODOCUMENTSMESSAGE: 'No Documents Found',
+    PRODUCT_DISCLAIMER:
+      'Image shown is a representation and may slightly vary from the actual product. Every effort is made to maintain accuracy of all information displayed.',
   },
   IMAGES: {
     parisoLogo: require('../../assets/icons/pariso_trans_logo.png'),

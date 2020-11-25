@@ -1,4 +1,4 @@
-import ProductScreen from '@/containers/ProductScreen';
+import AddProductScreen from '@/containers/AddProductScreen';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { ImageBackground } from 'react-native';
@@ -34,7 +34,11 @@ export default class HomeScreen extends React.PureComponent {
             />
           </TabsContainer>
           <ComponentContainer style={styles.textContainer}>
-            {selectedIndex === 0 ? <CategoriesScreen user={user} /> : <ProductScreen user={user} />}
+            {selectedIndex === 0 ? (
+              <CategoriesScreen user={user} />
+            ) : (
+              <AddProductScreen user={user} />
+            )}
           </ComponentContainer>
         </HomeContainer>
       </ImageBackground>

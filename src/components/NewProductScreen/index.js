@@ -1,5 +1,6 @@
 import { loaderStartAction, loaderStopAction } from '@/redux/loaderService/LoaderAction';
 import { fetchAllCategoriesAction } from '@/redux/products/ProductsAction';
+import APP_CONSTANTS from '@/utils/appConstants/AppConstants';
 import { checkEmpty, imageSelector } from '@/utils/commonFunctions';
 import { Button } from '@/utils/reusableComponents';
 import DropDown from '@/utils/reusableComponents/Dropdown';
@@ -120,6 +121,9 @@ export default class NewProductScreen extends React.PureComponent {
         totalItems,
         productImage,
       } = this.state;
+      const {
+        APP_MESSAGES: { PRODUCT_DISCLAIMER },
+      } = APP_CONSTANTS;
       const formValid = this.validateForm();
       if (formValid) {
         const categoryOptions = !checkEmpty(categories)
@@ -129,7 +133,14 @@ export default class NewProductScreen extends React.PureComponent {
           productImage,
           `${product}_${categoryOptions}_${Date.now()}.png`,
         );
+        dispatch(loaderStartAction());
+        const docRef = firestore()
+          .collection('products')
+          .doc(user?.uid)
+          .collection('product')
+          .doc();
         const productData = {
+          _id: docRef.id,
           product,
           category: categoryOptions[selectedCategoryIndex],
           quantity,
@@ -137,14 +148,26 @@ export default class NewProductScreen extends React.PureComponent {
           unit: this.unitOptions[selectedUnitIndex],
           total: totalItems,
           image: productImageURL,
+          features: [
+            {
+              key: 'Description',
+              value: '',
+            },
+            {
+              key: 'Key Features',
+              value: '',
+            },
+            {
+              key: 'Disclaimer',
+              value: PRODUCT_DISCLAIMER,
+            },
+            {
+              key: 'Seller',
+              value: 'Pariso',
+            },
+          ],
         };
-        dispatch(loaderStartAction());
-        const res = await firestore()
-          .collection('products')
-          .doc(user?.uid)
-          .collection('product')
-          .doc()
-          .set(productData);
+        const res = await docRef.set(productData);
         if (!res) {
           Alert.alert('Success', 'Product added successfully.');
           this.setState(this.initialState);
@@ -171,13 +194,19 @@ export default class NewProductScreen extends React.PureComponent {
   };
 
   selectPhoto = async () => {
-    const res = await imageSelector();
-    this.setState(
-      {
-        productImage: res,
-      },
-      () => this.productRef.focus(),
-    );
+    try {
+      const res = await imageSelector();
+      if (res) {
+        this.setState(
+          {
+            productImage: res,
+          },
+          () => this.productRef.focus(),
+        );
+      }
+    } catch (e) {
+      Alert.alert('Failure', e?.message);
+    }
   };
 
   render() {
@@ -222,10 +251,10 @@ export default class NewProductScreen extends React.PureComponent {
                     onPress={this.selectPhoto}
                     android_ripple={{ color: '#000', radius: 360 }}
                   >
-                    <StyledProductAvatar icon="image" size={100} />
+                    <StyledProductAvatar icon="image" size={150} />
                   </Pressable>
                 ) : (
-                  <Avatar.Image source={{ uri: productImage }} size={100} />
+                  <Avatar.Image source={{ uri: productImage }} size={150} />
                 )}
               </ProductImageContainer>
               <StyledTextInput

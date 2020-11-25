@@ -18,6 +18,7 @@ export const StyledTitle = styled.Text`
 
 export const StyledTextInput = styled(TextInput)`
   margin: 25px 0px;
+  background-color: transparent;
 `;
 
 export const CategoryForm = styled.View`

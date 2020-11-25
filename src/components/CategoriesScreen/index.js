@@ -10,6 +10,7 @@ export default class CategoriesScreen extends React.PureComponent {
     super();
     this.state = {
       category: '',
+      formError: false,
     };
   }
 
@@ -28,10 +29,15 @@ export default class CategoriesScreen extends React.PureComponent {
           Alert.alert('Success', 'Category added successfully.');
           this.setState({
             category: '',
+            formError: false,
           });
         } else {
           throw Error();
         }
+      } else {
+        this.setState({
+          formError: true,
+        });
       }
     } catch (e) {
       Alert.alert('Error', 'Failed to add new category.');
@@ -39,25 +45,21 @@ export default class CategoriesScreen extends React.PureComponent {
   };
 
   render() {
-    const { category } = this.state;
+    const { category, formError } = this.state;
     return (
       <StyledContainer>
         <CategoryForm>
           <StyledTextInput
-            label="Ex. Fruits &amp; Vegetables"
+            label="Category Name"
             mode="flat"
             onSubmitEditing={() => cityInputRef.focus()}
             blurOnSubmit={false}
             value={category}
+            placeholder="Ex. Fruits &amp; Vegetables"
+            error={formError && !category}
             onChangeText={(text) => this.setState({ category: text })}
           />
-          <Button
-            caption="Add Category"
-            bordered
-            large
-            onPress={this.addNewCategory}
-            isDisabled={!category}
-          />
+          <Button caption="Add Category" bordered large onPress={this.addNewCategory} />
         </CategoryForm>
       </StyledContainer>
     );
