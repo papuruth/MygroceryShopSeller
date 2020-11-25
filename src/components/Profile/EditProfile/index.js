@@ -85,7 +85,7 @@ export default class EditProfile extends Component {
   saveProfile = async () => {
     const { section } = this.props;
     try {
-      const { displayName, phoneNumber, rawImage } = this.state;
+      const { displayName, phoneNumber, rawImage, photoURL } = this.state;
       if (section === 'Basic Details') {
         let imgUrl;
         if (rawImage) {
@@ -93,7 +93,7 @@ export default class EditProfile extends Component {
         }
         await auth().currentUser.updateProfile({
           displayName,
-          photoURL: imgUrl || null,
+          photoURL: imgUrl || photoURL,
         });
         const user = auth().currentUser;
         if (!checkEmpty(user) && !checkEmpty(user._user)) {
@@ -105,7 +105,6 @@ export default class EditProfile extends Component {
             .set({ ...user?._user, user_type: 1 });
         }
         Alert.alert('Success', 'Basic details updated successfully!');
-        this.hideDialog();
         this.resetState();
       }
     } catch (e) {
@@ -115,11 +114,14 @@ export default class EditProfile extends Component {
   };
 
   resetState = () => {
-    this.setState({
-      displayName: null,
-      photoURL: null,
-      rawImage: null,
-    });
+    this.setState(
+      {
+        displayName: null,
+        photoURL: null,
+        rawImage: null,
+      },
+      this.hideDialog,
+    );
   };
 
   setSelectedPhotos = (res, type) => {
@@ -137,12 +139,12 @@ export default class EditProfile extends Component {
   };
 
   render() {
-    const { visible, section } = this.props;
+    const { section } = this.props;
     const { displayName, photoURL, uploading, transferred } = this.state;
     return (
       <SafeAreaView>
         <Portal>
-          <Dialog visible={visible} dismissable={false}>
+          <Dialog visible dismissable={false}>
             <Dialog.Title>{`Edit ${section}`}</Dialog.Title>
             <Dialog.Content>
               {section === 'Basic Details' && (
@@ -182,5 +184,4 @@ EditProfile.propTypes = {
   data: PropTypes.oneOfType([PropTypes.object]).isRequired,
   closeEditProfileHandler: PropTypes.func.isRequired,
   section: PropTypes.string.isRequired,
-  visible: PropTypes.bool.isRequired,
 };

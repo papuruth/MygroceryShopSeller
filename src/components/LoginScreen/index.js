@@ -22,6 +22,7 @@ export default class LoginScreen extends React.PureComponent {
     super();
     this.state = {
       phone: '+91',
+      formError: false,
     };
   }
 
@@ -36,9 +37,16 @@ export default class LoginScreen extends React.PureComponent {
   sendOTP = () => {
     const { phone } = this.state;
     const { dispatch } = this.props;
-    if (phone && phone.length >= 10) {
+    if (phone && phone.length === 13) {
       dispatch(loaderStartAction());
       dispatch(sendOTPAction(phone));
+      this.setState({
+        formError: false,
+      });
+    } else {
+      this.setState({
+        formError: true,
+      });
     }
   };
 
@@ -46,7 +54,7 @@ export default class LoginScreen extends React.PureComponent {
     const {
       IMAGES: { background, parisoLogo },
     } = APP_CONSTANTS;
-    const { phone } = this.state;
+    const { phone, formError } = this.state;
     return (
       <StyledContainer source={background}>
         <AuthLogoView>
@@ -63,6 +71,7 @@ export default class LoginScreen extends React.PureComponent {
             label="Mobile no."
             mode="flat"
             blurOnSubmit
+            error={formError}
             autoCompleteType="tel"
             keyboardType="phone-pad"
             onSubmitEditing={this.sendOTP}

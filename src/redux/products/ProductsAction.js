@@ -5,7 +5,12 @@ export const fetchAllCategoriesAction = (userId) => ({
   payload: userId,
 });
 
-export const addNewProductAction = (productData, userId) => ({
-  type: PRODUCTS_CONSTANTS.ADD_NEW_PRODUCT_REQUEST,
-  payload: { productData, userId },
+export const fetchProductsAction = (userId, category) => ({
+  type: PRODUCTS_CONSTANTS.FETCH_PRODUCTS_REQUEST,
+  payload: { userId, category },
+});
+
+export const fetchProductDetailsAction = (userId, productId) => ({
+  type: PRODUCTS_CONSTANTS.FETCH_PRODUCT_DETAILS_REQUEST,
+  payload: { userId, productId },
 });

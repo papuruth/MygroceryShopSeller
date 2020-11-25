@@ -71,8 +71,8 @@ const drawerData = [
     icon: iconDrawerHome,
   },
   {
-    name: 'My Orders',
-    path: 'orders',
+    name: 'My Products',
+    path: 'products',
     icon: iconTabBooking,
   },
   {

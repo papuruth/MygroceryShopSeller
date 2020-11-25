@@ -1,10 +1,12 @@
-import VerifyOTP from '@/containers/VerifyOTP';
+import MapScreen from '@/components/HomeScreen/MapScreen';
+import ProductDetailsScreen from '@/containers/ProductDetailsScreen';
 import HomeScreen from '@/containers/HomeScreen';
 import LoginScreen from '@/containers/LoginScreen';
+import MyProductsScreen from '@/containers/MyProductsScreen';
+import VerifyOTP from '@/containers/VerifyOTP';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Image, TouchableOpacity } from 'react-native';
-import MapScreen from '@/components/HomeScreen/MapScreen';
 import AvailableInFullVersion from '../components/availableInFullVersion/AvailableInFullVersionViewContainer';
 import EditAddress from '../containers/Address';
 import Profile from '../containers/Profile';
@@ -145,9 +147,21 @@ const StackNavigationData = [
     },
   },
   {
-    name: 'My Orders',
-    path: 'orders',
-    component: AvailableInFullVersion,
+    name: 'My Products',
+    path: 'products',
+    component: MyProductsScreen,
+    headerLeft: HeaderLeftComponent,
+    headerBackground: { source: headerBackground },
+    headerTitleStyle: {
+      fontFamily: fonts.primaryRegular,
+      color: colors.white,
+      fontSize: 18,
+    },
+  },
+  {
+    name: 'Product Details',
+    path: 'product-details',
+    component: ProductDetailsScreen,
     headerLeft: HeaderLeftComponent,
     headerBackground: { source: headerBackground },
     headerTitleStyle: {

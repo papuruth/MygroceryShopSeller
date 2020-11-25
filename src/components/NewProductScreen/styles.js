@@ -24,6 +24,7 @@ export const ProductForm = styled.View`
 
 export const StyledTextInput = styled(TextInput)`
   margin: 10px 0px;
+  background: transparent;
 `;
 
 export const ProductImageContainer = styled.View`
