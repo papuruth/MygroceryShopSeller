@@ -28,15 +28,17 @@ export default class VerifyOTP extends React.PureComponent {
     super();
     this.state = {
       otp: null,
-      resendOTP: false,
-      timer: 30,
-      showTimer: true,
+      showResend: false,
     };
   }
 
   componentDidMount() {
     this.unsubscribe = auth().onAuthStateChanged(this.onAuthStateChanged);
-    this.startResendOtpTimer();
+    setTimeout(() => {
+      this.setState({
+        showResend: true,
+      });
+    }, 30 * 1000);
   }
 
   componentDidUpdate(prevProps) {
@@ -47,33 +49,27 @@ export default class VerifyOTP extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    if (this.subscriber) {
+    if (this.unsubscribe) {
       this.unsubscribe();
     }
   }
 
   updateState = () => {
-    this.setState(
-      {
-        timer: 30,
-        showTimer: true,
-        resendOTP: false,
-        otp: '',
-      },
-      this.startResendOtpTimer,
-    );
+    setTimeout(() => {
+      this.setState({
+        showResend: true,
+      });
+    }, 30 * 1000);
   };
 
   onAuthStateChanged = async (user) => {
     const { dispatch } = this.props;
     if (!checkEmpty(user) && !checkEmpty(user._user)) {
       dispatch(loaderStartAction());
-      console.log(user._user);
       const storedUser = await firestore()
         .collection('users')
         .doc(user?._user?.uid)
         .get();
-      console.log(storedUser.data());
       if (storedUser?.data() && storedUser?.data()?.user_type) {
         await sessionService.saveSession(storedUser?.data());
         await sessionService.saveUser(storedUser?.data());
@@ -89,18 +85,6 @@ export default class VerifyOTP extends React.PureComponent {
     }
   };
 
-  startResendOtpTimer = () => {
-    const { timer } = this.state;
-    if (timer <= 0) {
-      this.setState({ resendOTP: true, showTimer: false });
-    } else {
-      this.setState((state) => {
-        return { timer: state.timer - 1 };
-      });
-      setTimeout(this.startResendOtpTimer, 1500);
-    }
-  };
-
   resendOTP = () => {
     const { dispatch } = this.props;
     const { route } = this.props;
@@ -108,6 +92,9 @@ export default class VerifyOTP extends React.PureComponent {
       const { phone } = route.params;
       dispatch(loaderStartAction());
       dispatch(sendOTPAction(phone));
+      this.setState({
+        showResend: false,
+      });
     }
   };
 
@@ -128,7 +115,7 @@ export default class VerifyOTP extends React.PureComponent {
     const {
       IMAGES: { background, parisoLogo },
     } = APP_CONSTANTS;
-    const { otp, resendOTP, timer, showTimer } = this.state;
+    const { otp, showResend } = this.state;
     const { otpSentStatus, route } = this.props;
     return (
       <StyledContainer source={background}>
@@ -151,7 +138,7 @@ export default class VerifyOTP extends React.PureComponent {
           />
           {otpSentStatus ? (
             <ResendOTPView>
-              {otpSentStatus && resendOTP && !showTimer ? (
+              {otpSentStatus && showResend ? (
                 <Pressable onPress={this.resendOTP} android_ripple={{ color: '#000', radius: 360 }}>
                   <StyledTitle
                     fontSize={14}
@@ -173,7 +160,7 @@ export default class VerifyOTP extends React.PureComponent {
                   decoration="none"
                   dataDetectorType="link"
                 >
-                  Resend OTP in {timer}s
+                  Please wait a moment for auto verification of OTP.
                 </StyledTitle>
               )}
             </ResendOTPView>

@@ -1,6 +1,10 @@
 import { all } from 'redux-saga/effects';
 import { loaderStartWatcherSaga, loaderStopWatcherSaga } from '../loaderService/LoaderSaga';
-import { fetchAllCategoriesWatcherSaga } from '../products/ProductSaga';
+import {
+  fetchAllCategoriesWatcherSaga,
+  fetchProductDetailsWatcherSaga,
+  fetchProductsWatcherSaga,
+} from '../products/ProductSaga';
 import {
   addAddressWatcherSaga,
   deleteAddressByIdWatcherSaga,
@@ -18,8 +22,10 @@ export default function* rootSaga() {
     loaderStartWatcherSaga(),
     addAddressWatcherSaga(),
     getAllAddressWatcherSaga(),
+    fetchProductsWatcherSaga(),
     updateAddressByIdWatcherSaga(),
     deleteAddressByIdWatcherSaga(),
     fetchAllCategoriesWatcherSaga(),
+    fetchProductDetailsWatcherSaga(),
   ]);
 }

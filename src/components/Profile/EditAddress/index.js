@@ -30,6 +30,7 @@ export default class EditAddress extends PureComponent {
       addressType: 'Home',
       showNewAddressForm: false,
     };
+    this.initialState = this.state;
     this.fetchAddress(props);
   }
 
@@ -123,6 +124,7 @@ export default class EditAddress extends PureComponent {
     if (buildingName && city && postalCode && state && street && addressType) {
       dispatch(loaderStartAction());
       dispatch(addAddressAction(payload, user?.phoneNumber));
+      this.setState(this.initialState);
     } else {
       Alert.alert('Error', 'Please fill all the fields.!');
     }
