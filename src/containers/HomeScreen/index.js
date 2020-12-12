@@ -3,8 +3,10 @@ import HomeScreen from '@/components/HomeScreen';
 
 const mapStateToProps = (state) => {
   const { user, authenticated } = state.session;
+  const { serverIsWake } = state.notificationReducer;
   return {
     user,
+    serverIsWake,
     authenticated,
   };
 };

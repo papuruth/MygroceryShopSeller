@@ -100,9 +100,9 @@ export default class EditProfile extends Component {
           await sessionService.saveSession(user._user);
           await sessionService.saveUser(user._user);
           await firestore()
-            .collection('users')
+            .collection('distributors')
             .doc(user?._user.uid)
-            .set({ ...user?._user, user_type: 1 });
+            .update({ ...user?._user });
         }
         Alert.alert('Success', 'Basic details updated successfully!');
         this.resetState();

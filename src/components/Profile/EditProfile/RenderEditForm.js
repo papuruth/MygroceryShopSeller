@@ -1,9 +1,10 @@
 import { colors } from '@/styles';
+import TextInput from '@/utils/reusableComponents/TextInput';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Pressable, View } from 'react-native';
-import { Avatar, TextInput } from 'react-native-paper';
+import { Avatar } from 'react-native-paper';
 import * as Progress from 'react-native-progress';
-import PropTypes from 'prop-types';
 import { imageSelector } from '../../../utils/commonFunctions';
 import { styles } from '../styles';
 
@@ -67,9 +68,10 @@ export const RenderBasicDetailsForm = ({
 
 RenderBasicDetailsForm.defaultProps = {
   photoURL: undefined,
+  displayName: undefined,
 };
 RenderBasicDetailsForm.propTypes = {
-  displayName: PropTypes.string.isRequired,
+  displayName: PropTypes.string,
   photoURL: PropTypes.string,
   uploading: PropTypes.bool.isRequired,
   transferred: PropTypes.number.isRequired,

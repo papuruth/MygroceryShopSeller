@@ -1,5 +1,6 @@
 import { loaderStartAction, loaderStopAction } from '@/redux/loaderService/LoaderAction';
 import { fetchAllCategoriesAction } from '@/redux/products/ProductsAction';
+import { colors } from '@/styles';
 import APP_CONSTANTS from '@/utils/appConstants/AppConstants';
 import { checkEmpty, imageSelector } from '@/utils/commonFunctions';
 import { Button } from '@/utils/reusableComponents';
@@ -136,15 +137,19 @@ export default class NewProductScreen extends React.PureComponent {
         dispatch(loaderStartAction());
         const docRef = firestore()
           .collection('products')
-          .doc(user?.uid)
-          .collection('product')
           .doc();
         const productData = {
           _id: docRef.id,
+          userId: user?.uid,
           product,
           category: categoryOptions[selectedCategoryIndex],
           quantity,
           price,
+          ratings: {
+            data: [],
+            totalRatings: 0,
+            averageRatings: 0,
+          },
           unit: this.unitOptions[selectedUnitIndex],
           total: totalItems,
           image: productImageURL,
@@ -242,7 +247,11 @@ export default class NewProductScreen extends React.PureComponent {
               outerColor="#fff"
               color="#000"
             />
-          ) : null}
+          ) : (
+            <StyledTitle bgColor="transparent" color={colors.white}>
+              Please add categories to start adding products.
+            </StyledTitle>
+          )}
           {selectedCategoryIndex > -1 ? (
             <>
               <ProductImageContainer>
@@ -316,14 +325,16 @@ export default class NewProductScreen extends React.PureComponent {
             </>
           ) : null}
           {formError ? (
-            <StyledTitle style={{ color: 'red' }}>*Please fill all the fields.</StyledTitle>
+            <StyledTitle style={{ color: colors.ERROR }}>*Please fill all the fields.</StyledTitle>
           ) : null}
           {uploading && (
             <ProgressBarContainer>
               <Progress.Bar progress={transferred} width={null} />
             </ProgressBarContainer>
           )}
-          <Button caption="Add Product" bordered large onPress={this.addNewProduct} />
+          {selectedCategoryIndex > -1 ? (
+            <Button caption="Add Product" bordered large onPress={this.addNewProduct} />
+          ) : null}
         </ProductForm>
       </StyledContainer>
     );

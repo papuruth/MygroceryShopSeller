@@ -53,6 +53,7 @@ class DropDown extends React.Component {
       color,
       onSelect,
       style,
+      isDisabled,
       borderColor,
       height,
       selectedIndex,
@@ -63,6 +64,7 @@ class DropDown extends React.Component {
     return (
       <ModalDropdown
         options={items}
+        disabled={isDisabled}
         onDropdownWillShow={this.openModal}
         onDropdownWillHide={this.closeModal}
         style={style}
@@ -106,6 +108,7 @@ DropDown.defaultProps = {
   height: undefined,
   outerColor: '#fff',
   style: {},
+  isDisabled: false,
 };
 
 DropDown.propTypes = {
@@ -115,6 +118,7 @@ DropDown.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object]),
   borderColor: PropTypes.string,
   height: PropTypes.number,
+  isDisabled: PropTypes.bool,
   selectedIndex: PropTypes.number,
   placeholder: PropTypes.string,
   outerColor: PropTypes.string,

@@ -1,19 +1,18 @@
-import { colors } from '@/styles';
+import { colors, metrics } from '@/styles';
 import { Caption } from '@/utils/reusableComponents/StyledText';
 import { ImageBackground, StyleSheet } from 'react-native';
 import styled from 'styled-components/native';
 
 export const styles = StyleSheet.create({
   editBasicProfileContainer: {
-    display: 'flex',
     flexDirection: 'column',
+    height: metrics.screenWidth > 400 ? 'auto' : 350,
   },
   editImageContainer: {
     display: 'flex',
     alignItems: 'center',
   },
   inputFiledsContainer: {
-    display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
   },

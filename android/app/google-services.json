@@ -8,55 +8,26 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:738194151653:android:30869ef49695d93c879c0c",
+        "mobilesdk_app_id": "1:738194151653:android:ee97db0f150ede8c879c0c",
         "android_client_info": {
-          "package_name": "com.pariso.android.mygroceryshop"
+          "package_name": "com.pariso.android.mygroceryshop.seller"
         }
       },
       "oauth_client": [
         {
-          "client_id": "738194151653-5lfd0eum6iu9b1cff9lrfs4m31052gp0.apps.googleusercontent.com",
+          "client_id": "738194151653-9n7hicj8a0dhbc5uoiit7qk2jllbku6o.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.pariso.android.mygroceryshop",
+            "package_name": "com.pariso.android.mygroceryshop.seller",
             "certificate_hash": "63232105b864b69c4abc47248f1aacb269d40216"
           }
         },
         {
-          "client_id": "738194151653-cne0fblg7gfbgoi2h7cndkvisruariel.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAJ3bIFoFID3R4etDQ2jCjv9nQA-JPypVM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "738194151653-cne0fblg7gfbgoi2h7cndkvisruariel.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:738194151653:android:ebebae7d638f05de879c0c",
-        "android_client_info": {
-          "package_name": "com.pariso.android.mygroceryshop_admin"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "738194151653-qvs91u03r250qtj18udlk5848n476jfp.apps.googleusercontent.com",
+          "client_id": "738194151653-mvj5hats9vjkbvs5jv92gunsotoddi16.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.pariso.android.mygroceryshop_admin",
-            "certificate_hash": "63232105b864b69c4abc47248f1aacb269d40216"
+            "package_name": "com.pariso.android.mygroceryshop.seller",
+            "certificate_hash": "0d452f3e525ea71a789a42e6208dfc6b35d00401"
           }
         },
         {

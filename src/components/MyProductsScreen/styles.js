@@ -4,15 +4,15 @@ import styled from 'styled-components/native';
 
 export const StyledContainer = styled(ImageBackground)`
   align-items: center;
-  color: ${colors.primary};
+  color: ${colors.white};
   height: 100%;
   padding: 10px;
   width: 100%;
 `;
 
 export const StyledTitle = styled.Text`
-  color: ${colors.lightGray};
-  font-size: 24px;
+  color: ${colors.white};
+  font-size: 18px;
 `;
 
 export const CategoriesContainer = styled.View`
