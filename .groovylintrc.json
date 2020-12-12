@@ -1,0 +1,8 @@
+{
+  "extends": "recommended",
+  "rules": {
+    "UnnecessaryGString": {
+      "enabled": false
+    }
+  }
+}

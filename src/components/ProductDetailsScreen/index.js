@@ -4,11 +4,12 @@ import { colors } from '@/styles';
 import APP_CONSTANTS from '@/utils/appConstants/AppConstants';
 import { checkEmpty } from '@/utils/commonFunctions';
 import { Button } from '@/utils/reusableComponents';
+import Rating from '@/utils/reusableComponents/Ratings';
 import firestore from '@react-native-firebase/firestore';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Alert, View } from 'react-native';
-import { Avatar, ButtonGroup, Divider, Rating } from 'react-native-elements';
+import { Avatar, ButtonGroup, Divider } from 'react-native-elements';
 import { Dialog, IconButton, List, Portal } from 'react-native-paper';
 import RenderProductEditForm from './RenderProductEditForm';
 import {
@@ -111,7 +112,6 @@ export default class ProductDetailsScreen extends React.PureComponent {
         dispatch(fetchProductsAction(user?.uid, category));
         navigation.navigate('products');
       }
-      console.log(res);
     } catch (e) {
       Alert.alert('Failure', e?.message);
     }
@@ -329,11 +329,11 @@ export default class ProductDetailsScreen extends React.PureComponent {
               </ProductDetailsLeft>
               <ProductDetailsRight>
                 <Rating
-                  type="custom"
-                  startingValue={ratings || 0}
-                  imageSize={40}
+                  startingValue={ratings.averageRatings || 0}
+                  totalRating={ratings.totalRatings}
                   showRating
-                  readonly
+                  isDisabled
+                  starSize={25}
                 />
               </ProductDetailsRight>
             </ProductDetailsContent>
@@ -366,10 +366,19 @@ export default class ProductDetailsScreen extends React.PureComponent {
           </ScrollContainer>
         </ProductDetailsContainer>
         <Portal>
-          <Dialog visible={editFormActive} dismissable={false}>
+          <Dialog
+            visible={editFormActive}
+            dismissable={false}
+            style={{ justifyContent: 'flex-end' }}
+          >
             <StyledContainer
               source={background}
-              style={{ width: '100%', alignItems: 'flex-start', height: 'auto' }}
+              style={{
+                width: '100%',
+                alignItems: 'flex-start',
+                height: 'auto',
+                justifyContent: 'center',
+              }}
             >
               <Dialog.Title>Edit Product</Dialog.Title>
               <Dialog.Content style={{ width: '100%' }}>

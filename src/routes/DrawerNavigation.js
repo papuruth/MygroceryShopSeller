@@ -3,6 +3,7 @@ import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Alert, Image, Pressable, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { Avatar } from 'react-native-paper';
 import { sessionService } from 'redux-react-native-session';
 import { userLogout } from '../redux/user/userAction';
@@ -12,7 +13,7 @@ import { Button } from '../utils/reusableComponents';
 import Storage from '../utils/Storage';
 
 const {
-  IMAGES: { iconDrawerHome, iconTabBooking, iconWallet },
+  IMAGES: { iconDrawerHome, iconTabBooking },
 } = APP_CONSTANTS;
 
 const styles = StyleSheet.create({
@@ -73,12 +74,12 @@ const drawerData = [
   {
     name: 'My Products',
     path: 'products',
-    icon: iconTabBooking,
+    icon: <Icon name="apps" type="material-community" color={colors.white} size={20} />,
   },
   {
-    name: 'Address Book',
-    path: 'edit-address',
-    icon: iconWallet,
+    name: 'Orders',
+    path: 'orders',
+    icon: iconTabBooking,
   },
 ];
 
@@ -142,7 +143,11 @@ export default function RenderDrawer(props) {
           key={`drawer_item-${idx + 1}`}
           label={() => (
             <View style={styles.menuLabelFlex}>
-              <Image style={{ width: 20, height: 20 }} source={item.icon} />
+              {typeof item?.icon === 'object' ? (
+                item?.icon
+              ) : (
+                <Image style={{ width: 20, height: 20 }} source={item.icon} />
+              )}
               <Text style={styles.menuTitle}>{item.name}</Text>
             </View>
           )}

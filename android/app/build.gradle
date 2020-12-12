@@ -8,6 +8,13 @@ project.ext.react = [
     enableHermes: true,
 ]
 
+project.ext.envConfigFiles = [
+        debug: '.env',
+        release: '.env.production',
+]
+
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+
 apply from: "../../node_modules/react-native/react.gradle"
 
 /**
@@ -54,11 +61,11 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.pariso.android.mygroceryshop_admin"
+        applicationId "com.pariso.android.mygroceryshop.seller"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.0"
         missingDimensionStrategy 'react-native-camera', 'general'
         multiDexEnabled true
 
@@ -72,9 +79,9 @@ android {
         }
         release {
           storeFile file('release.keystore')
-          storePassword 'pariso'
-          keyAlias 'pariso'
-          keyPassword 'pariso'
+          storePassword 'mygroceryshop@1996'
+          keyAlias 'mygroceryshoprelease'
+          keyPassword 'mygroceryshop@1996'
         }
     }
     splits {

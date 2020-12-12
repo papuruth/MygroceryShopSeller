@@ -1,9 +1,14 @@
+import { imageSelector } from '@/utils/commonFunctions';
 import { Button } from '@/utils/reusableComponents';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Alert } from 'react-native';
-import { CategoryForm, StyledContainer, StyledTextInput } from './styles';
+import { Alert, Pressable } from 'react-native';
+import { Avatar } from 'react-native-paper';
+import * as Progress from 'react-native-progress';
+import { ProgressBarContainer } from '../NewProductScreen/styles';
+import { CategoryForm, CategoryImageContainer, StyledContainer, StyledTextInput } from './styles';
 
 export default class CategoriesScreen extends React.PureComponent {
   constructor() {
@@ -11,30 +16,73 @@ export default class CategoriesScreen extends React.PureComponent {
     this.state = {
       category: '',
       formError: false,
+      categoryImage: '',
+      uploading: false,
+      transferred: 0,
     };
+    this.initialState = this.state;
   }
+
+  uploadImage = async (image, fileName) => {
+    this.setState({
+      uploading: true,
+      transferred: 0,
+    });
+    try {
+      const task = storage()
+        .ref(fileName)
+        .putFile(image);
+      // set progress state
+      task.on('state_changed', (snapshot) => {
+        this.setState({
+          transferred: Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000,
+        });
+      });
+      await task;
+      const res = await storage()
+        .ref(fileName)
+        .getDownloadURL();
+      this.setState({
+        uploading: false,
+        transferred: 0,
+      });
+      return res;
+    } catch (e) {
+      console.error(e);
+      this.setState({
+        uploading: false,
+        transferred: 0,
+      });
+    }
+    return false;
+  };
 
   addNewCategory = async () => {
     try {
-      const { category } = this.state;
+      const { category, categoryImage } = this.state;
       const { user } = this.props;
-      if (category) {
-        const res = await firestore()
+      const photoURL = categoryImage
+        ? await this.uploadImage(categoryImage, `${category}.png`)
+        : null;
+      if (category && photoURL) {
+        const docRef = firestore()
           .collection('categories')
-          .doc(user?.uid)
-          .collection('category')
-          .doc(category)
-          .set({ category });
+          .doc();
+        const categoryPayload = {
+          _id: docRef.id,
+          userId: user?.uid,
+          image: photoURL,
+          category,
+        };
+        const res = await docRef.set(categoryPayload);
         if (!res) {
           Alert.alert('Success', 'Category added successfully.');
-          this.setState({
-            category: '',
-            formError: false,
-          });
+          this.setState(this.initialState);
         } else {
           throw Error();
         }
       } else {
+        Alert.alert('Info', 'Please select a photo for category.');
         this.setState({
           formError: true,
         });
@@ -44,22 +92,61 @@ export default class CategoriesScreen extends React.PureComponent {
     }
   };
 
+  selectPhoto = async () => {
+    try {
+      const res = await imageSelector();
+      if (res) {
+        this.setState(
+          {
+            categoryImage: res,
+          },
+          () => this.categoryRef.focus(),
+        );
+      }
+    } catch (e) {
+      Alert.alert('Failure', e?.message);
+    }
+  };
+
   render() {
-    const { category, formError } = this.state;
+    const { category, formError, categoryImage, uploading, transferred } = this.state;
     return (
       <StyledContainer>
         <CategoryForm>
+          <CategoryImageContainer>
+            {!categoryImage ? (
+              <Pressable onPress={this.selectPhoto} android_ripple={{ color: '#000', radius: 360 }}>
+                <Avatar.Icon icon="image" size={150} />
+              </Pressable>
+            ) : (
+              <Avatar.Image source={{ uri: categoryImage }} size={150} />
+            )}
+          </CategoryImageContainer>
           <StyledTextInput
             label="Category Name"
             mode="flat"
-            onSubmitEditing={() => cityInputRef.focus()}
-            blurOnSubmit={false}
+            onSubmitEditing={() => this.addNewCategory()}
+            blurOnSubmit
             value={category}
-            placeholder="Ex. Fruits &amp; Vegetables"
+            placeholder="Ex. Fruits &amp; Vegetables, Personal Care etc."
+            ref={(catRef) => {
+              this.categoryRef = catRef;
+            }}
             error={formError && !category}
             onChangeText={(text) => this.setState({ category: text })}
           />
-          <Button caption="Add Category" bordered large onPress={this.addNewCategory} />
+          {uploading && (
+            <ProgressBarContainer>
+              <Progress.Bar progress={transferred} width={null} />
+            </ProgressBarContainer>
+          )}
+          <Button
+            caption="Add Category"
+            bordered
+            large
+            onPress={this.addNewCategory}
+            loading={uploading}
+          />
         </CategoryForm>
       </StyledContainer>
     );

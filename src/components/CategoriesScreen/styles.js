@@ -4,16 +4,17 @@ import { TextInput } from 'react-native-paper';
 
 export const StyledContainer = styled.View`
   align-items: center;
-  color: ${colors.primary};
-  justify-content: center;
-  margin-top: 10px;
-  height: auto;
   width: 100%;
+  height: 100%;
 `;
 
 export const StyledTitle = styled.Text`
   color: ${colors.primaryLight};
   font-size: 24px;
+`;
+
+export const CategoryImageContainer = styled.View`
+  align-items: center;
 `;
 
 export const StyledTextInput = styled(TextInput)`
@@ -23,4 +24,9 @@ export const StyledTextInput = styled(TextInput)`
 
 export const CategoryForm = styled.View`
   width: 100%;
+  height: 100%;
+`;
+
+export const ProgressBarContainer = styled.View`
+  margin: 10px 0px;
 `;
