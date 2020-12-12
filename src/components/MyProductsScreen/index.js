@@ -131,6 +131,9 @@ export default class MyProductsScreen extends React.PureComponent {
             </StyledTitle>
           )
         )}
+        {checkEmpty(categoryOptions) && checkEmpty(products) ? (
+          <StyledTitle>No Data Found</StyledTitle>
+        ) : null}
       </StyledContainer>
     );
   }

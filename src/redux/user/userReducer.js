@@ -10,8 +10,10 @@ const initialState = {
   updateAddressError: {},
   addressData: [],
   addressDataError: {},
-  addressDeleteStatus: false,
+  addressDeleteStatus: {},
   addressDeleteError: {},
+  myOrders: [],
+  myOrdersError: {},
 };
 
 export default function userReducer(state = initialState, action) {
@@ -85,7 +87,7 @@ export default function userReducer(state = initialState, action) {
     case USER_CONSTANTS.DELETE_ADDRESS_REQUEST:
       return {
         ...state,
-        addressDeleteStatus: false,
+        addressDeleteStatus: {},
         addressDeleteError: {},
       };
     case USER_CONSTANTS.DELETE_ADDRESS_SUCCESS:
@@ -97,8 +99,19 @@ export default function userReducer(state = initialState, action) {
     case USER_CONSTANTS.DELETE_ADDRESS_FAILURE:
       return {
         ...state,
-        addressDeleteStatus: false,
+        addressDeleteStatus: {},
         addressDeleteError: action.error,
+      };
+    case USER_CONSTANTS.GET_MY_ORDERS_SUCCESS:
+      return {
+        ...state,
+        myOrders: action.payload.data,
+        myOrdersError: {},
+      };
+    case USER_CONSTANTS.GET_MY_ORDERS_FAILURE:
+      return {
+        ...state,
+        myOrdersError: action.error,
       };
     default:
       return { ...state };

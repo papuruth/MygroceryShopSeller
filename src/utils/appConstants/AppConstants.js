@@ -3,17 +3,7 @@ import ENV from './Environment';
 
 const APP_CONSTANTS = {
   URLS: {
-    signUp: `${ENV.API_HOST}/signup`,
-    login: `${ENV.API_HOST}/signin`,
-    location: `${ENV.API_HOST}/location/getall`,
-    userDetails: `${ENV.API_HOST}/user/getbyusername`,
-    updateUserProfile: `${ENV.API_HOST}/user/updatebyusername`,
-    addAddress: `${ENV.API_HOST}/address/addadressbyusername`,
-    updateAddress: `${ENV.API_HOST}/address/updatebyid`,
-    bookingDetails: `${ENV.API_HOST}/booking/getbyusername`,
-    updateProfessionalDetails: `${ENV.API_HOST}/user/updateuserprofessionaldetails`,
-    getAllAddress: `${ENV.API_HOST}/address/getbyusername`,
-    getOccupation: `${ENV.API_HOST}/occupation/getall`,
+    sendNotification: `${ENV.API_HOST}/notification/send`,
   },
   APP_MESSAGES: {
     NOINTERNET: 'You are disconnected! Please connect to Internet',

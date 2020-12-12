@@ -172,3 +172,35 @@ function* deleteAddressByIdSaga(action) {
 export function* deleteAddressByIdWatcherSaga() {
   yield takeEvery(USER_CONSTANTS.DELETE_ADDRESS_REQUEST, deleteAddressByIdSaga);
 }
+
+const getAllMyOrdersService = async ({ userId }) => {
+  try {
+    const docSnap = await firestore()
+      .collection('orders')
+      .get();
+    const { docs } = docSnap;
+    const data = docs.map((item) => item.data()).filter((item) => item?.distributorId === userId);
+
+    if (!checkEmpty(data)) {
+      return { response: { data, status: true, message: 'success' } };
+    }
+    return { response: { data: [], status: true, message: 'success' } };
+  } catch (error) {
+    return { error };
+  }
+};
+
+function* getAllMyOrdersSaga(action) {
+  const { response, error } = yield call(getAllMyOrdersService, action.payload);
+  if (response && response?.status) {
+    yield put(yield call(success, USER_CONSTANTS.GET_MY_ORDERS_SUCCESS, response));
+    yield put({ type: LOADER_CONSTANTS.LOADER_STOP_REQUEST });
+  } else {
+    yield put(yield call(failure, USER_CONSTANTS.GET_MY_ORDERS_FAILURE, error));
+    yield put({ type: LOADER_CONSTANTS.LOADER_STOP_REQUEST });
+  }
+}
+
+export function* getAllMyOrdersWatcherSaga() {
+  yield takeEvery(USER_CONSTANTS.GET_MY_ORDERS_REQUEST, getAllMyOrdersSaga);
+}

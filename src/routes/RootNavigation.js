@@ -1,16 +1,14 @@
+import messaging from '@react-native-firebase/messaging';
 import { createStackNavigator } from '@react-navigation/stack';
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Icon } from 'react-native-elements';
 import 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import APP_CONSTANTS from '../utils/appConstants/AppConstants';
-import WithBadge from '../utils/reusableComponents/WithBadge';
 import StackNavigationData from './StackNavigationData';
 
 const Stack = createStackNavigator();
-const NotifIcon = WithBadge(4)(Icon);
 
 const styles = StyleSheet.create({
   headerImage: {
@@ -19,60 +17,60 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    width: `${100}%`,
+    width: `100%`,
     height: 57,
   },
-  padRight: {
-    marginRight: 12,
-  },
-  headerRightContainer: {
-    display: 'flex',
+  headerLeftContainer: {
     flexDirection: 'row',
     alignContent: 'center',
     justifyContent: 'center',
-    margin: 10,
+  },
+  menuIcon: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingLeft: 10,
   },
 });
 
-const {
-  IMAGES: { iconMenu },
-} = APP_CONSTANTS;
-
 export default class NavigatorView extends PureComponent {
+  constructor() {
+    super();
+    this.state = {
+      initialRoute: '',
+    };
+  }
+
+  componentDidMount() {
+    const { navigation, authenticated } = this.props;
+    if (authenticated) {
+      messaging().onNotificationOpenedApp((remoteMessage) => {
+        navigation.navigate(remoteMessage?.data?.route);
+      });
+
+      // Check whether an initial notification is available
+      messaging()
+        .getInitialNotification()
+        .then((remoteMessage) => {
+          if (remoteMessage) {
+            this.setState(
+              {
+                initialRoute: remoteMessage?.data?.route,
+              },
+              () => navigation.navigate(remoteMessage?.data?.route),
+            );
+          }
+        });
+    }
+  }
+
   headerLeftComponentMenu = () => {
     const { navigation } = this.props;
     return (
-      <SafeAreaView>
-        <TouchableOpacity
-          onPress={() => navigation.toggleDrawer()}
-          style={{
-            paddingLeft: 10,
-          }}
-        >
-          <Image
-            source={iconMenu}
-            resizeMode="contain"
-            style={{
-              height: 20,
-            }}
-          />
-        </TouchableOpacity>
-      </SafeAreaView>
-    );
-  };
-
-  headerRightComponent = () => {
-    const { navigation } = this.props;
-    return (
-      <SafeAreaView style={styles.headerRightContainer}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('notification')}
-          style={{
-            paddingLeft: 10,
-            marginRight: 10,
-          }}
-        >
-          <NotifIcon name="bell" color="white" size={20} containerStyle={styles.padRight} />
+      <SafeAreaView style={styles.headerLeftContainer}>
+        <TouchableOpacity onPress={() => navigation.toggleDrawer()} style={styles.menuIcon}>
+          <Icon name="menu" type="material-community" color="white" size={30} />
         </TouchableOpacity>
       </SafeAreaView>
     );
@@ -80,11 +78,13 @@ export default class NavigatorView extends PureComponent {
 
   render() {
     const { authenticated } = this.props;
+    const { initialRoute } = this.state;
     return (
       <Stack.Navigator
         screenOptions={{
           headerShown: authenticated,
         }}
+        initialRouteName={initialRoute}
       >
         {StackNavigationData.map((item) => {
           if (authenticated && item.path !== 'login' && item.path !== 'verify-otp') {
@@ -95,7 +95,7 @@ export default class NavigatorView extends PureComponent {
                 component={item.component}
                 options={{
                   headerLeft: item.headerLeft || this.headerLeftComponentMenu,
-                  headerRight: this.headerRightComponent,
+                  headerRight: null,
                   headerBackground: () => (
                     <Image style={styles.headerImage} source={item.headerBackground.source} />
                   ),
@@ -113,7 +113,7 @@ export default class NavigatorView extends PureComponent {
                 component={item.component}
                 options={{
                   headerLeft: item.headerLeft || this.headerLeftComponentMenu,
-                  headerRight: this.headerRightComponent,
+                  headerRight: null,
                   headerBackground: () => (
                     <Image style={styles.headerImage} source={item.headerBackground.source} />
                   ),

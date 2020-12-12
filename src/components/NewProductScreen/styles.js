@@ -1,25 +1,24 @@
 import { colors } from '@/styles';
-import styled from 'styled-components/native';
 import { Avatar, TextInput } from 'react-native-paper';
+import styled from 'styled-components/native';
 
 export const StyledContainer = styled.View`
   align-items: center;
-  color: ${colors.primary};
-  justify-content: center;
-  height: auto;
   width: 100%;
+  height: 100%;
 `;
 
 export const StyledTitle = styled.Text`
-  color: ${colors.primaryLight};
+  color: ${(props) => (props?.color ? props?.color : colors.white)};
   font-size: 20px;
-  background: #000;
+  background: ${(props) => (props?.bgColor ? props?.bgColor : '#000')};
   text-align: center;
   margin-bottom: 10px;
 `;
 
 export const ProductForm = styled.View`
   width: 100%;
+  height: 100%;
 `;
 
 export const StyledTextInput = styled(TextInput)`

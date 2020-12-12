@@ -19,13 +19,15 @@ const fetchAllCategoriesService = async (userId) => {
   try {
     const response = await firestore()
       .collection('categories')
-      .doc(userId)
-      .collection('category')
       .get();
     const docSnapShot = response.docs;
+    const allCategories = docSnapShot.map((doc) => doc.data());
+    const myCategories = !checkEmpty(allCategories)
+      ? allCategories.filter((item) => item.userId === userId)
+      : [];
     return {
       response: {
-        data: docSnapShot.map((doc) => doc.data()) || [],
+        data: myCategories,
         status: true,
         message: 'success',
       },
@@ -61,13 +63,11 @@ const fetchProductsService = async ({ userId, category }) => {
   try {
     const response = await firestore()
       .collection('products')
-      .doc(userId)
-      .collection('product')
       .get();
     const docSnapShot = response.docs;
     const allProducts = docSnapShot.map((doc) => doc.data());
     const filteredProducts = !checkEmpty(allProducts)
-      ? allProducts.filter((item) => item?.category === category)
+      ? allProducts.filter((item) => item?.category === category && item.userId === userId)
       : [];
     return {
       response: {
