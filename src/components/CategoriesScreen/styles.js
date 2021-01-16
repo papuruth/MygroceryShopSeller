@@ -24,6 +24,7 @@ export const StyledTextInput = styled(TextInput)`
 
 export const CategoryForm = styled.View`
   width: 100%;
+  margin-top: 20px;
   height: 100%;
 `;
 

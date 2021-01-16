@@ -40,7 +40,7 @@ export default class OrderDetailsScreen extends PureComponent {
     });
   }
 
-  keyExtractor = ({ _id }) => _id;
+  keyExtractor = ({ productId }) => productId;
 
   renderOrderItems = ({ item }) => (
     <ListItem
@@ -143,7 +143,7 @@ export default class OrderDetailsScreen extends PureComponent {
                   title: 'Order Status Updated',
                 },
                 data: {
-                  route: 'orders',
+                  route: 'my-orders',
                 },
                 android: {
                   priority: 'HIGH',

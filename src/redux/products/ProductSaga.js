@@ -59,19 +59,39 @@ export function* fetchAllCategoriesWatcherSaga() {
   yield takeEvery(PRODUCTS_CONSTANTS.FETCH_CATEGORIES_REQUEST, fetchAllCategoriesSaga);
 }
 
-const fetchProductsService = async ({ userId, category }) => {
+const fetchProductsService = async ({ userId, category, lastVisible }) => {
   try {
-    const response = await firestore()
+    if (!lastVisible) {
+      const first = firestore()
+        .collection('products')
+        .limit(10);
+      const docSnapShot = await first.get();
+      const last = docSnapShot.docs[docSnapShot.docs.length - 1];
+      const allProducts = docSnapShot.docs.map((doc) => doc.data());
+      const filteredProducts = !checkEmpty(allProducts)
+        ? allProducts.filter((item) => item?.category === category && item.userId === userId)
+        : [];
+      return {
+        response: {
+          data: { products: filteredProducts, lastVisible: last },
+          status: true,
+          message: 'success',
+        },
+      };
+    }
+    const next = firestore()
       .collection('products')
-      .get();
-    const docSnapShot = response.docs;
-    const allProducts = docSnapShot.map((doc) => doc.data());
+      .startAfter(lastVisible)
+      .limit(10);
+    const docSnapShot = await next.get();
+    const last = docSnapShot.docs[docSnapShot.docs.length - 1];
+    const allProducts = docSnapShot.docs.map((doc) => doc.data());
     const filteredProducts = !checkEmpty(allProducts)
       ? allProducts.filter((item) => item?.category === category && item.userId === userId)
       : [];
     return {
       response: {
-        data: filteredProducts,
+        data: { products: filteredProducts, lastVisible: last },
         status: true,
         message: 'success',
       },
@@ -103,12 +123,10 @@ export function* fetchProductsWatcherSaga() {
   yield takeEvery(PRODUCTS_CONSTANTS.FETCH_PRODUCTS_REQUEST, fetchProductsSaga);
 }
 
-const fetchProductDetailsService = async ({ userId, productId }) => {
+const fetchProductDetailsService = async ({ productId }) => {
   try {
     const response = await firestore()
       .collection('products')
-      .doc(userId)
-      .collection('product')
       .doc(productId.trim())
       .get({ source: 'server' });
     return {

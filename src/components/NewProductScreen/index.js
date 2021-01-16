@@ -23,7 +23,7 @@ import {
 } from './styles';
 
 export default class NewProductScreen extends React.PureComponent {
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       product: '',
@@ -38,8 +38,11 @@ export default class NewProductScreen extends React.PureComponent {
       transferred: 0,
     };
     this.initialState = this.state;
-    this.fetchCategories(props);
     this.unitOptions = ['kg', 'g', 'L', 'mL', 'units'];
+  }
+
+  componentDidMount() {
+    this.fetchCategories(this.props);
   }
 
   fetchCategories = (props) => {
@@ -168,7 +171,7 @@ export default class NewProductScreen extends React.PureComponent {
             },
             {
               key: 'Seller',
-              value: 'Pariso',
+              value: user?.businessName || user?.displayName || 'Pariso',
             },
           ],
         };

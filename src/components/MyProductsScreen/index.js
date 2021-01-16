@@ -16,12 +16,15 @@ import {
 } from './styles';
 
 export default class MyProductsScreen extends React.PureComponent {
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       selectedCategoryIndex: -1,
     };
-    this.fetchCategories(props);
+  }
+
+  componentDidMount() {
+    this.fetchCategories(this.props);
   }
 
   fetchCategories = (props) => {
@@ -89,6 +92,17 @@ export default class MyProductsScreen extends React.PureComponent {
     </ListItem>
   );
 
+  fetchMoreData = () => {
+    const { categories, user, dispatch, lastVisible, products } = this.props;
+    const { selectedCategoryIndex } = this.state;
+    const categoryOptions = !checkEmpty(categories) ? categories.map((item) => item?.category) : [];
+    const category = !checkEmpty(categoryOptions) ? categoryOptions[selectedCategoryIndex] : null;
+    if (category && products?.length >= 10) {
+      dispatch(loaderStartAction());
+      dispatch(fetchProductsAction(user?.uid, category, lastVisible));
+    }
+  };
+
   render() {
     const {
       IMAGES: { background },
@@ -122,6 +136,8 @@ export default class MyProductsScreen extends React.PureComponent {
               keyExtractor={this.keyExtractor}
               data={products}
               renderItem={this.renderItem}
+              onEndReached={this.fetchMoreData}
+              initialNumToRender={10}
             />
           </ProductsContainer>
         ) : (
@@ -145,4 +161,5 @@ MyProductsScreen.propTypes = {
   dispatch: PropTypes.func.isRequired,
   categories: PropTypes.oneOfType([PropTypes.array]).isRequired,
   products: PropTypes.oneOfType([PropTypes.array]).isRequired,
+  lastVisible: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };

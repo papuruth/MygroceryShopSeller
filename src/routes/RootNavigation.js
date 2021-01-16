@@ -1,4 +1,5 @@
 import messaging from '@react-native-firebase/messaging';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
@@ -46,7 +47,7 @@ export default class NavigatorView extends PureComponent {
     const { navigation, authenticated } = this.props;
     if (authenticated) {
       messaging().onNotificationOpenedApp((remoteMessage) => {
-        navigation.navigate(remoteMessage?.data?.route);
+        navigation.navigate('root', { screen: remoteMessage?.data?.route });
       });
 
       // Check whether an initial notification is available
@@ -58,7 +59,7 @@ export default class NavigatorView extends PureComponent {
               {
                 initialRoute: remoteMessage?.data?.route,
               },
-              () => navigation.navigate(remoteMessage?.data?.route),
+              () => navigation.navigate('root', { screen: remoteMessage?.data?.route }),
             );
           }
         });
@@ -77,12 +78,14 @@ export default class NavigatorView extends PureComponent {
   };
 
   render() {
-    const { authenticated } = this.props;
+    const { authenticated, route } = this.props;
     const { initialRoute } = this.state;
+    const routeName = getFocusedRouteNameFromRoute(route) ?? '';
+    const authRoutes = routeName === 'login' || routeName === 'verify-otp';
     return (
       <Stack.Navigator
         screenOptions={{
-          headerShown: authenticated,
+          headerShown: (routeName && !authRoutes) || authenticated,
         }}
         initialRouteName={initialRoute}
       >
@@ -105,7 +108,13 @@ export default class NavigatorView extends PureComponent {
               />
             );
           }
-          if (!authenticated && (item.path === 'login' || item.path === 'verify-otp')) {
+          if (
+            !authenticated &&
+            (item.path === 'login' ||
+              item.path === 'verify-otp' ||
+              item.path === 'privacy-policy' ||
+              item.path === 'tos')
+          ) {
             return (
               <Stack.Screen
                 key={`stack_item-${item.path}`}
@@ -132,5 +141,6 @@ export default class NavigatorView extends PureComponent {
 
 NavigatorView.propTypes = {
   navigation: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  route: PropTypes.oneOfType([PropTypes.object]).isRequired,
   authenticated: PropTypes.bool.isRequired,
 };

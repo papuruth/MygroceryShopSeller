@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
     borderRadius: 100,
   },
   personalInfoContainer: {
-    display: 'flex',
+    flexWrap: 'wrap',
     flexDirection: 'row',
     alignItems: 'center',
   },

@@ -8,7 +8,8 @@ import Rating from '@/utils/reusableComponents/Ratings';
 import firestore from '@react-native-firebase/firestore';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Alert, View } from 'react-native';
+import { ScrollView, Alert, View } from 'react-native';
+
 import { Avatar, ButtonGroup, Divider } from 'react-native-elements';
 import { Dialog, IconButton, List, Portal } from 'react-native-paper';
 import RenderProductEditForm from './RenderProductEditForm';
@@ -29,7 +30,7 @@ import {
 } from './styles';
 
 export default class ProductDetailsScreen extends React.PureComponent {
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       tabsSelected: 0,
@@ -40,15 +41,18 @@ export default class ProductDetailsScreen extends React.PureComponent {
       productData: {},
       newImage: '',
     };
-    this.fetchProductDetails(props);
+  }
+
+  componentDidMount() {
+    this.fetchProductDetails(this.props);
   }
 
   fetchProductDetails = (props) => {
-    const { route, dispatch, user } = props;
+    const { route, dispatch } = props;
     const { params } = route || {};
     const { productId } = params || {};
     dispatch(loaderStartAction());
-    dispatch(fetchProductDetailsAction(user?.uid, productId));
+    dispatch(fetchProductDetailsAction(productId));
   };
 
   handleUserInput = (name, value) => {
@@ -281,6 +285,8 @@ export default class ProductDetailsScreen extends React.PureComponent {
       transferred,
     } = this.state;
     const { image, _id, product, price, quantity, unit, features, ratings } = productDetails || {};
+    // Render blank page while product details is being etched
+    if (checkEmpty(productDetails)) return null;
     const {
       IMAGES: { background },
     } = APP_CONSTANTS;
@@ -329,11 +335,12 @@ export default class ProductDetailsScreen extends React.PureComponent {
               </ProductDetailsLeft>
               <ProductDetailsRight>
                 <Rating
-                  startingValue={ratings.averageRatings || 0}
+                  startingValue={5}
                   totalRating={ratings.totalRatings}
                   showRating
                   isDisabled
-                  starSize={25}
+                  starSize={20}
+                  onFinishRating={() => {}}
                 />
               </ProductDetailsRight>
             </ProductDetailsContent>
@@ -371,13 +378,10 @@ export default class ProductDetailsScreen extends React.PureComponent {
             dismissable={false}
             style={{ justifyContent: 'flex-end' }}
           >
-            <StyledContainer
-              source={background}
+            <ScrollView
               style={{
                 width: '100%',
-                alignItems: 'flex-start',
                 height: 'auto',
-                justifyContent: 'center',
               }}
             >
               <Dialog.Title>Edit Product</Dialog.Title>
@@ -404,7 +408,7 @@ export default class ProductDetailsScreen extends React.PureComponent {
                   caption="Done"
                 />
               </Dialog.Actions>
-            </StyledContainer>
+            </ScrollView>
           </Dialog>
         </Portal>
       </StyledContainer>

@@ -61,27 +61,26 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.pariso.android.mygroceryshop.seller"
+        applicationId "com.pariso.android.mygrocerymarket.seller"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
+        versionCode 4
         versionName "1.0.0"
-        missingDimensionStrategy 'react-native-camera', 'general'
         multiDexEnabled true
 
     }
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+          storeFile file('appsigning.keystore')
+          storePassword 'mygrocerymarket@1996'
+          keyAlias 'appsignkeys'
+          keyPassword 'mygrocerymarket@1996'
         }
         release {
-          storeFile file('release.keystore')
-          storePassword 'mygroceryshop@1996'
-          keyAlias 'mygroceryshoprelease'
-          keyPassword 'mygroceryshop@1996'
+          storeFile file('appsigning.keystore')
+          storePassword 'mygrocerymarket@1996'
+          keyAlias 'appsignkeys'
+          keyPassword 'mygrocerymarket@1996'
         }
     }
     splits {
@@ -121,6 +120,7 @@ android {
 
 dependencies {
   implementation "com.facebook.react:react-native:+"
+  implementation "androidx.browser:browser:1.2.0"
   implementation 'androidx.appcompat:appcompat:1.2.0'
   implementation 'androidx.constraintlayout:constraintlayout:2.0.0'// From node_modules
     def multidex_version = "2.0.1"

@@ -26,7 +26,15 @@ export default class App extends React.PureComponent {
       }
     }
 
-    messaging().setBackgroundMessageHandler(async () => {});
+    this.fcmListener = messaging().onMessage(async (remoteMessage) => {
+      console.log('New FCM message received', remoteMessage);
+    });
+  }
+
+  componentWillUnmount() {
+    if (this.fcmListener) {
+      this.fcmListener();
+    }
   }
 
   render() {

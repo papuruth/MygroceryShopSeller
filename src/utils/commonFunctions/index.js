@@ -4,7 +4,7 @@ import cc from 'currency-formatter';
 import _ from 'lodash';
 import moment from 'moment';
 import { Alert } from 'react-native';
-import ImagePicker from 'react-native-image-picker';
+import * as ImagePicker from 'react-native-image-picker';
 import { sessionService } from 'redux-react-native-session';
 import Storage from '../Storage';
 
@@ -17,9 +17,10 @@ export const equalityChecker = (param1, param2) => _.isEqual(param1, param2);
 export const dateTimeFormater = (date, format) => moment(date).format(format);
 
 const options = {
-  noData: true,
+  mediaType: 'photo',
   maxWidth: 300,
   maxHeight: 300,
+  quality: 1,
 };
 
 /**

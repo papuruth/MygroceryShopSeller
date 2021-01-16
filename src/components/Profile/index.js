@@ -34,8 +34,10 @@ export default class Profile extends React.PureComponent {
 
   render() {
     const { showEditProfile, section } = this.state;
-    const { user } = this.props;
-    const { photoURL, displayName, phoneNumber } = !checkEmpty(user) ? user : {};
+    const { user, dispatch } = this.props;
+    const { photoURL, displayName, phoneNumber, businessName, city } = !checkEmpty(user)
+      ? user
+      : {};
     const {
       IMAGES: { background },
     } = APP_CONSTANTS;
@@ -52,14 +54,30 @@ export default class Profile extends React.PureComponent {
                 )}
               </View>
               <View style={styles.personalInfoContainer}>
-                <View style={styles.personalInfo}>
-                  <Icon name="account" size={20} color="#fff" />
-                  <Text style={styles.personalInfoText}>{displayName}</Text>
-                </View>
-                <View style={styles.personalInfo}>
-                  <Icon name="phone" size={20} color="#fff" />
-                  <Text style={styles.personalInfoText}>{phoneNumber}</Text>
-                </View>
+                {displayName ? (
+                  <View style={styles.personalInfo}>
+                    <Icon name="account" size={20} color="#fff" />
+                    <Text style={styles.personalInfoText}>{displayName}</Text>
+                  </View>
+                ) : null}
+                {phoneNumber ? (
+                  <View style={styles.personalInfo}>
+                    <Icon name="phone" size={20} color="#fff" />
+                    <Text style={styles.personalInfoText}>{phoneNumber}</Text>
+                  </View>
+                ) : null}
+                {city ? (
+                  <View style={styles.personalInfo}>
+                    <Icon name="city" size={20} color="#fff" />
+                    <Text style={styles.personalInfoText}>{city}</Text>
+                  </View>
+                ) : null}
+                {businessName ? (
+                  <View style={styles.personalInfo}>
+                    <Icon name="briefcase" size={20} color="#fff" />
+                    <Text style={styles.personalInfoText}>{businessName}</Text>
+                  </View>
+                ) : null}
               </View>
             </View>
             <View style={styles.profileActions}>
@@ -73,6 +91,7 @@ export default class Profile extends React.PureComponent {
           {showEditProfile ? (
             <EditProfile
               visible={showEditProfile}
+              dispatch={dispatch}
               section={section}
               data={user}
               closeEditProfileHandler={this.closeEditProfileHandler}
@@ -86,4 +105,5 @@ export default class Profile extends React.PureComponent {
 
 Profile.propTypes = {
   user: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };

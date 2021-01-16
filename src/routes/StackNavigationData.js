@@ -1,3 +1,5 @@
+import PrivacyPolicyScreen from '@/components/LoginScreen/PrivacyPolicyScreen';
+import TOSScreen from '@/components/LoginScreen/TOSScreen';
 import HomeScreen from '@/containers/HomeScreen';
 import LoginScreen from '@/containers/LoginScreen';
 import MyProductsScreen from '@/containers/MyProductsScreen';
@@ -156,6 +158,30 @@ const StackNavigationData = [
     name: 'Orders Details',
     path: 'order-details',
     component: OrderDetailsScreen,
+    headerLeft: HeaderLeftComponent,
+    headerBackground: { source: headerBackground },
+    headerTitleStyle: {
+      fontFamily: fonts.primaryRegular,
+      color: colors.white,
+      fontSize: 18,
+    },
+  },
+  {
+    name: 'Terms of Service',
+    path: 'tos',
+    component: TOSScreen,
+    headerLeft: HeaderLeftComponent,
+    headerBackground: { source: headerBackground },
+    headerTitleStyle: {
+      fontFamily: fonts.primaryRegular,
+      color: colors.white,
+      fontSize: 18,
+    },
+  },
+  {
+    name: 'Privacy Policy',
+    path: 'privacy-policy',
+    component: PrivacyPolicyScreen,
     headerLeft: HeaderLeftComponent,
     headerBackground: { source: headerBackground },
     headerTitleStyle: {

@@ -10,12 +10,8 @@ import {
   fetchProductsWatcherSaga,
 } from '../products/ProductSaga';
 import {
-  addAddressWatcherSaga,
-  deleteAddressByIdWatcherSaga,
-  getAllAddressWatcherSaga,
   getAllMyOrdersWatcherSaga,
   sendOTPWatcherSaga,
-  updateAddressByIdWatcherSaga,
   userLogoutWatcherSaga,
 } from '../user/UserSaga';
 
@@ -25,12 +21,8 @@ export default function* rootSaga() {
     loaderStopWatcherSaga(),
     userLogoutWatcherSaga(),
     loaderStartWatcherSaga(),
-    addAddressWatcherSaga(),
-    getAllAddressWatcherSaga(),
     fetchProductsWatcherSaga(),
     getAllMyOrdersWatcherSaga(),
-    updateAddressByIdWatcherSaga(),
-    deleteAddressByIdWatcherSaga(),
     fetchAllCategoriesWatcherSaga(),
     fetchProductDetailsWatcherSaga(),
     wakeNotificationServerWatcherSaga(),

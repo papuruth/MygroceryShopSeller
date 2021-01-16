@@ -19,8 +19,9 @@ const styles = StyleSheet.create({
   },
   starContainer: {
     flexDirection: 'row',
+    paddingRight: 20,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
 });
 

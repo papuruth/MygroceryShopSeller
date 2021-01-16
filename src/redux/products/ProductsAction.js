@@ -5,12 +5,12 @@ export const fetchAllCategoriesAction = (userId) => ({
   payload: userId,
 });
 
-export const fetchProductsAction = (userId, category) => ({
+export const fetchProductsAction = (userId, category, lastVisible) => ({
   type: PRODUCTS_CONSTANTS.FETCH_PRODUCTS_REQUEST,
-  payload: { userId, category },
+  payload: { userId, category, lastVisible },
 });
 
-export const fetchProductDetailsAction = (userId, productId) => ({
+export const fetchProductDetailsAction = (productId) => ({
   type: PRODUCTS_CONSTANTS.FETCH_PRODUCT_DETAILS_REQUEST,
-  payload: { userId, productId },
+  payload: { productId },
 });

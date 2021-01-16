@@ -28,6 +28,7 @@ export const StyledTextInput = styled(TextInput)`
 
 export const ProductImageContainer = styled.View`
   align-items: center;
+  margin-top: 20px;
 `;
 export const StyledProductAvatar = styled(Avatar.Icon)``;
 

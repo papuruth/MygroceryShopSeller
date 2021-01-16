@@ -9,12 +9,15 @@ import CategoriesScreen from '../CategoriesScreen';
 import { ComponentContainer, HomeContainer, TabsContainer } from './styles';
 
 export default class HomeScreen extends React.PureComponent {
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       selectedIndex: 0,
     };
-    const { dispatch, serverIsWake } = props;
+  }
+
+  componentDidMount() {
+    const { dispatch, serverIsWake } = this.props;
     if (!serverIsWake) dispatch(wakeNotificationServerAction());
   }
 
@@ -26,7 +29,7 @@ export default class HomeScreen extends React.PureComponent {
     const { selectedIndex } = this.state;
     const components = ['Add New Categories', 'Add New Products'];
     return (
-      <HomeContainer source={background} style={{ flex: 1 }}>
+      <HomeContainer source={background}>
         <TabsContainer>
           <ButtonGroup
             buttons={components}
@@ -35,15 +38,15 @@ export default class HomeScreen extends React.PureComponent {
             containerStyle={{ height: 50 }}
           />
         </TabsContainer>
-        <ComponentContainer style={{ flex: 1 }}>
-          <ScrollView style={{ height: 'auto', width: '100%', marginBottom: 10 }}>
+        <ScrollView style={{ height: '100%', width: '100%', marginBottom: 10 }}>
+          <ComponentContainer>
             {selectedIndex === 0 ? (
               <CategoriesScreen user={user} />
             ) : (
               <AddProductScreen user={user} />
             )}
-          </ScrollView>
-        </ComponentContainer>
+          </ComponentContainer>
+        </ScrollView>
       </HomeContainer>
     );
   }

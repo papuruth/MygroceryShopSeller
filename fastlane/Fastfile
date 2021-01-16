@@ -10,7 +10,6 @@ platform :android do
     puts "ENVFILE: #{ENV['ENVFILE']}"
 
     gradle_file = "./android/app/build.gradle"
-
     android_set_version_name(
       version_name: "1.0.0",
       gradle_file: gradle_file

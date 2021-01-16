@@ -68,19 +68,20 @@ export const StyledImage = styled.Image`
 
 export const ProductDetailsContent = styled(CommonContainer)`
   flex-direction: row;
-  align-items: center;
+  align-items: flex-end;
   margin-bottom: 10px;
   padding: 10px 0px;
+  width: 100%;
   justify-content: space-between;
 `;
 
 export const ProductDetailsRight = styled.View`
-  height: 100px;
-  justify-content: space-evenly;
+  align-items: flex-start;
+  justify-content: flex-end;
 `;
 export const ProductDetailsLeft = styled.View`
   justify-content: space-evenly;
-  height: 100px;
+  align-items: flex-start;
 `;
 
 export const ProductExtraDetails = styled(CommonContainer)`

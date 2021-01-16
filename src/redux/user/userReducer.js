@@ -4,14 +4,6 @@ const initialState = {
   otpSentStatus: false,
   otpConfirm: {},
   otpSentError: {},
-  addAddress: {},
-  addAddressError: {},
-  updateAddress: {},
-  updateAddressError: {},
-  addressData: [],
-  addressDataError: {},
-  addressDeleteStatus: {},
-  addressDeleteError: {},
   myOrders: [],
   myOrdersError: {},
 };
@@ -42,65 +34,10 @@ export default function userReducer(state = initialState, action) {
         otpConfirm: {},
         otpSentError: {},
       };
-    case USER_CONSTANTS.ADD_ADDRESS_REQUEST:
+    case USER_CONSTANTS.GET_MY_ORDERS_REQUEST:
       return {
         ...state,
-        addAddressError: {},
-        addAddress: {},
-      };
-    case USER_CONSTANTS.ADD_ADDRESS_SUCCESS:
-      return {
-        ...state,
-        addAddress: action.payload,
-      };
-    case USER_CONSTANTS.ADD_ADDRESS_FAILURE:
-      return {
-        ...state,
-        addAddressError: action.error || {},
-      };
-    case USER_CONSTANTS.UPDATE_ADDRESS_REQUEST:
-      return {
-        ...state,
-        updateAddress: {},
-        updateAddressError: {},
-      };
-    case USER_CONSTANTS.UPDATE_ADDRESS_SUCCESS:
-      return {
-        ...state,
-        updateAddress: action.payload,
-      };
-    case USER_CONSTANTS.UPDATE_ADDRESS_FAILURE:
-      return {
-        ...state,
-        updateAddressError: action.error || {},
-      };
-    case USER_CONSTANTS.GET_ALL_ADDRESS_SUCCESS:
-      return {
-        ...state,
-        addressData: action.payload,
-      };
-    case USER_CONSTANTS.GET_ALL_ADDRESS_FAILURE:
-      return {
-        ...state,
-        addressDataError: action.error,
-      };
-    case USER_CONSTANTS.DELETE_ADDRESS_REQUEST:
-      return {
-        ...state,
-        addressDeleteStatus: {},
-        addressDeleteError: {},
-      };
-    case USER_CONSTANTS.DELETE_ADDRESS_SUCCESS:
-      return {
-        ...state,
-        addressDeleteStatus: action.payload,
-        addressDeleteError: {},
-      };
-    case USER_CONSTANTS.DELETE_ADDRESS_FAILURE:
-      return {
-        ...state,
-        addressDeleteStatus: {},
-        addressDeleteError: action.error,
+        myOrdersError: {},
       };
     case USER_CONSTANTS.GET_MY_ORDERS_SUCCESS:
       return {

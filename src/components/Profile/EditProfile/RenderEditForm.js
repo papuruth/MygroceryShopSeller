@@ -13,6 +13,8 @@ export const RenderBasicDetailsForm = ({
   photoURL,
   uploading,
   transferred,
+  city,
+  businessName,
   onChange,
   setPhotos,
 }) => {
@@ -50,9 +52,26 @@ export const RenderBasicDetailsForm = ({
           style={styles.inputFields}
           label="Fullname"
           placeholderTextColor={colors.black}
+          autoCompleteType="name"
           mode="outlined"
           value={displayName}
           onChangeText={(text) => onChange('displayName', text)}
+        />
+        <TextInput
+          style={styles.inputFields}
+          label="Business Name"
+          placeholderTextColor={colors.black}
+          mode="outlined"
+          value={businessName}
+          onChangeText={(text) => onChange('businessName', text)}
+        />
+        <TextInput
+          style={styles.inputFields}
+          label="City"
+          placeholderTextColor={colors.black}
+          mode="outlined"
+          value={city}
+          onChangeText={(text) => onChange('city', text)}
         />
       </View>
       <View>
@@ -69,6 +88,8 @@ export const RenderBasicDetailsForm = ({
 RenderBasicDetailsForm.defaultProps = {
   photoURL: undefined,
   displayName: undefined,
+  city: undefined,
+  businessName: undefined,
 };
 RenderBasicDetailsForm.propTypes = {
   displayName: PropTypes.string,
@@ -77,4 +98,6 @@ RenderBasicDetailsForm.propTypes = {
   transferred: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
   setPhotos: PropTypes.func.isRequired,
+  city: PropTypes.string,
+  businessName: PropTypes.string,
 };

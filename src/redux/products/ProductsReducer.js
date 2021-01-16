@@ -4,6 +4,7 @@ const initialState = {
   categories: [],
   categoriesError: {},
   products: [],
+  lastVisible: {},
   productsError: {},
   productDetails: {},
 };
@@ -31,17 +32,20 @@ export default function productReducer(state = initialState, action) {
       return {
         ...state,
         products: [],
+        lastVisible: {},
         productsError: {},
       };
     case PRODUCTS_CONSTANTS.FETCH_PRODUCTS_SUCCESS:
       return {
         ...state,
-        products: action.payload.data,
+        products: action.payload.data.products,
+        lastVisible: action.payload.data.lastVisible,
       };
     case PRODUCTS_CONSTANTS.FETCH_PRODUCTS_FAILURE:
       return {
         ...state,
         products: [],
+        lastVisible: {},
         productsError: action.error,
       };
     case PRODUCTS_CONSTANTS.FETCH_PRODUCT_DETAILS_SUCCESS:

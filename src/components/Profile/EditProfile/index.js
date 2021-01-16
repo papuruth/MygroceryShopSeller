@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+import { loaderStartAction, loaderStopAction } from '@/redux/loaderService/LoaderAction';
 import { checkEmpty } from '@/utils/commonFunctions';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -16,23 +17,28 @@ export default class EditProfile extends Component {
   constructor() {
     super();
     this.state = {
-      displayName: null,
-      phoneNumber: null,
-      photoURL: null,
-      rawImage: null,
+      displayName: '',
+      phoneNumber: '',
+      photoURL: '',
+      city: '',
+      businessName: '',
+      rawImage: '',
       uploading: false,
       transferred: 0,
     };
+    this.initialState = this.state;
   }
 
   componentDidMount() {
     const { data } = this.props;
     if (!checkEmpty(data)) {
-      const { displayName, phoneNumber, photoURL } = data;
+      const { displayName, phoneNumber, photoURL, city, businessName } = data;
       this.setState({
         displayName,
         phoneNumber,
         photoURL,
+        city,
+        businessName,
       });
     }
   }
@@ -83,10 +89,16 @@ export default class EditProfile extends Component {
   };
 
   saveProfile = async () => {
-    const { section } = this.props;
+    const { section, dispatch } = this.props;
     try {
-      const { displayName, phoneNumber, rawImage, photoURL } = this.state;
+      const { displayName, phoneNumber, rawImage, photoURL, city, businessName } = this.state;
       if (section === 'Basic Details') {
+        if (!displayName || !phoneNumber || !photoURL || !city || !businessName) {
+          Alert.alert('Info', 'Please fill all the fields.');
+          return false;
+        }
+        dispatch(loaderStartAction());
+
         let imgUrl;
         if (rawImage) {
           imgUrl = await this.uploadImage(rawImage, `${phoneNumber}-userAvatar.jpg`);
@@ -95,33 +107,28 @@ export default class EditProfile extends Component {
           displayName,
           photoURL: imgUrl || photoURL,
         });
-        const user = auth().currentUser;
-        if (!checkEmpty(user) && !checkEmpty(user._user)) {
-          await sessionService.saveSession(user._user);
-          await sessionService.saveUser(user._user);
+        const user = auth().currentUser.toJSON();
+        if (!checkEmpty(user)) {
           await firestore()
             .collection('distributors')
-            .doc(user?._user.uid)
-            .update({ ...user?._user });
+            .doc(user?.uid)
+            .update({ ...user, city, businessName });
+          Object.assign(user, { city, businessName });
+          await sessionService.saveSession(user);
+          await sessionService.saveUser(user);
         }
-        Alert.alert('Success', 'Basic details updated successfully!');
+        Alert.alert('Success', 'Profile updated successfully!');
         this.resetState();
       }
     } catch (e) {
       console.log('error', e?.message);
     }
+    dispatch(loaderStopAction());
     return false;
   };
 
   resetState = () => {
-    this.setState(
-      {
-        displayName: null,
-        photoURL: null,
-        rawImage: null,
-      },
-      this.hideDialog,
-    );
+    this.setState(this.initialState, this.hideDialog);
   };
 
   setSelectedPhotos = (res, type) => {
@@ -140,7 +147,7 @@ export default class EditProfile extends Component {
 
   render() {
     const { section } = this.props;
-    const { displayName, photoURL, uploading, transferred } = this.state;
+    const { displayName, photoURL, uploading, transferred, city, businessName } = this.state;
     return (
       <SafeAreaView>
         <Portal>
@@ -152,6 +159,8 @@ export default class EditProfile extends Component {
                   displayName={displayName}
                   uploading={uploading}
                   photoURL={photoURL}
+                  city={city}
+                  businessName={businessName}
                   transferred={transferred}
                   setPhotos={this.setSelectedPhotos}
                   onChange={this.handleUserInput}
@@ -184,4 +193,5 @@ EditProfile.propTypes = {
   data: PropTypes.oneOfType([PropTypes.object]).isRequired,
   closeEditProfileHandler: PropTypes.func.isRequired,
   section: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };

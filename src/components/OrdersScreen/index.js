@@ -31,12 +31,15 @@ import {
 } from './styles';
 
 export default class OrdersScreen extends PureComponent {
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       selectedIndex: 0,
     };
-    this.fetchAllOrders(props);
+  }
+
+  componentDidMount() {
+    this.fetchAllOrders(this.props);
   }
 
   fetchAllOrders = (props) => {
@@ -69,7 +72,7 @@ export default class OrdersScreen extends PureComponent {
             <DeliveryInfo>
               <Icon name="basket" size={18} style={{ paddingRight: 8 }} color={colors.ERROR} />
               <StyledTitle size={14} bold>
-                Delivered by MyGroceryShop
+                Delivered by MyGroceryMarket
               </StyledTitle>
             </DeliveryInfo>
             <StyledItemDetailsContaner>
@@ -87,7 +90,7 @@ export default class OrdersScreen extends PureComponent {
               </ItemIconContainer>
               <ItemDetailsContainer>
                 <StyledTitle size={18} bold>
-                  {item?.distributorDetails?.name}
+                  {item?.distributorDetails?.business || item?.distributorDetails?.name}
                 </StyledTitle>
                 <StyledTitle size={18}>Delivery charges</StyledTitle>
                 <StyledTitle size={18}>Order ID: {item?.orderId}</StyledTitle>

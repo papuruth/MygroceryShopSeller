@@ -61,6 +61,14 @@ export default class CategoriesScreen extends React.PureComponent {
     try {
       const { category, categoryImage } = this.state;
       const { user } = this.props;
+      if (!categoryImage) {
+        Alert.alert('Info', 'Please select an image for the category.');
+        return false;
+      }
+      if (!category) {
+        Alert.alert('Info', 'Category name cannot be empty.');
+        return false;
+      }
       const photoURL = categoryImage
         ? await this.uploadImage(categoryImage, `${category}.png`)
         : null;
@@ -82,13 +90,15 @@ export default class CategoriesScreen extends React.PureComponent {
           throw Error();
         }
       } else {
-        Alert.alert('Info', 'Please select a photo for category.');
+        Alert.alert('Info', 'Please select an image for the category.');
         this.setState({
           formError: true,
         });
       }
+      return false;
     } catch (e) {
       Alert.alert('Error', 'Failed to add new category.');
+      return false;
     }
   };
 

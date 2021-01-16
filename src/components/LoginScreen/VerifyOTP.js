@@ -11,14 +11,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Alert, Pressable } from 'react-native';
 import { sessionService } from 'redux-react-native-session';
+import Privacy from './Privacy';
 import {
   AuthFormFields,
   AuthFormView,
   AuthLogo,
   AuthLogoView,
-  AuthPrivacyContainer,
-  AuthPrivacyLink,
-  AuthPrivacyView,
   LoginFormContainer,
   ResendOTPView,
   StyledContainer,
@@ -36,7 +34,7 @@ export default class VerifyOTP extends React.PureComponent {
 
   componentDidMount() {
     this.unsubscribe = auth().onAuthStateChanged(this.onAuthStateChanged);
-    setTimeout(() => {
+    this.resendTimer = setTimeout(() => {
       this.setState({
         showResend: true,
       });
@@ -54,10 +52,15 @@ export default class VerifyOTP extends React.PureComponent {
     if (this.unsubscribe) {
       this.unsubscribe();
     }
+
+    if (this.resendTimer || this.resendTimer2) {
+      clearTimeout(this.resendTimer);
+      clearTimeout(this.resendTimer2);
+    }
   }
 
   updateState = () => {
-    setTimeout(() => {
+    this.resendTimer2 = setTimeout(() => {
       this.setState({
         showResend: true,
       });
@@ -125,10 +128,10 @@ export default class VerifyOTP extends React.PureComponent {
 
   render() {
     const {
-      IMAGES: { background, parisoLogo },
+      IMAGES: { background, appLogo },
     } = APP_CONSTANTS;
     const { otp, showResend, parentHeight } = this.state;
-    const { otpSentStatus, route } = this.props;
+    const { otpSentStatus, route, navigation } = this.props;
     return (
       <StyledContainer
         source={background}
@@ -140,7 +143,7 @@ export default class VerifyOTP extends React.PureComponent {
       >
         <LoginFormContainer>
           <AuthLogoView>
-            <AuthLogo source={parisoLogo} />
+            <AuthLogo source={appLogo} />
             <StyledTitle fontSize={13} color={colors.grey}>
               OTP has been sent to {route?.params?.phone}.
             </StyledTitle>
@@ -196,42 +199,7 @@ export default class VerifyOTP extends React.PureComponent {
             />
           </AuthFormView>
         </LoginFormContainer>
-        <AuthPrivacyContainer>
-          <AuthPrivacyView>
-            <StyledTitle fontSize={14} color={colors.white}>
-              By continuing, you agree to our
-            </StyledTitle>
-            <AuthPrivacyLink>
-              <StyledTitle
-                fontSize={14}
-                color={colors.darkGray}
-                accessibilityRole="link"
-                decoration="underline"
-                dataDetectorType="link"
-              >
-                Terms of Service
-              </StyledTitle>
-              <StyledTitle
-                fontSize={14}
-                color={colors.darkGray}
-                accessibilityRole="link"
-                decoration="underline"
-                dataDetectorType="link"
-              >
-                Privacy Policy
-              </StyledTitle>
-              <StyledTitle
-                fontSize={14}
-                color={colors.darkGray}
-                accessibilityRole="link"
-                decoration="underline"
-                dataDetectorType="link"
-              >
-                Content Policy
-              </StyledTitle>
-            </AuthPrivacyLink>
-          </AuthPrivacyView>
-        </AuthPrivacyContainer>
+        <Privacy navigation={navigation} />
       </StyledContainer>
     );
   }
@@ -242,4 +210,5 @@ VerifyOTP.propTypes = {
   dispatch: PropTypes.func.isRequired,
   route: PropTypes.oneOfType([PropTypes.object]).isRequired,
   otpConfirm: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  navigation: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };

@@ -8,26 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:738194151653:android:ee97db0f150ede8c879c0c",
+        "mobilesdk_app_id": "1:738194151653:android:337f203ebf42bd1b879c0c",
         "android_client_info": {
-          "package_name": "com.pariso.android.mygroceryshop.seller"
+          "package_name": "com.pariso.android.mygrocerymarket.seller"
         }
       },
       "oauth_client": [
         {
-          "client_id": "738194151653-9n7hicj8a0dhbc5uoiit7qk2jllbku6o.apps.googleusercontent.com",
+          "client_id": "738194151653-ojfo8ag5uqhoo7ma2vcacbtfhm3lo0a0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.pariso.android.mygroceryshop.seller",
-            "certificate_hash": "63232105b864b69c4abc47248f1aacb269d40216"
-          }
-        },
-        {
-          "client_id": "738194151653-mvj5hats9vjkbvs5jv92gunsotoddi16.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.pariso.android.mygroceryshop.seller",
-            "certificate_hash": "0d452f3e525ea71a789a42e6208dfc6b35d00401"
+            "package_name": "com.pariso.android.mygrocerymarket.seller",
+            "certificate_hash": "5a32da4fb7e49d1c011056b3c024dd068f00a81e"
           }
         },
         {
